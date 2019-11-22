@@ -231,6 +231,6 @@ sitemap:
 # branch: master
 deploy:
   type: git
-  repository: https://github.com/huweihuang/hexo-theme-huweihuang
-  branch: gh-pages
-  message: Update CNAME
+  repository: https://github.com/qoosuperman/qoosuperman.github.io.git
+  branch: master
+  message: Update Blog
