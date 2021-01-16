@@ -1,38 +1,22 @@
 ---
 layout: "about"
 title: "About"
-date: 2017-10-03 10:48:33
-description: "走在成为极客的路上"
-header-img: "/img/header_img/about.jpg"
-aplayer: true
+date: 2019-11-22 13:58:33
+description: ""
+header-img: "https://images.unsplash.com/photo-1472392036208-33c459d5c8b9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2089&q=80"
+aplayer: false
 fixed: false
 ---
 
-### 一句话
+# About me
+![](https://i.imgur.com/XK2P4Zc.png)  
 
->Just do it !    (翻译：我只是个搞 IT的！哭笑脸)
+大家好，我的名字叫做趙志偉，你也可以叫我安東尼，目前正在努力朝成為網頁設計工程師的方向前進！
 
-### 关于我
+興趣是彈吉他，下廚，旅遊，打電動，調酒等等，歡迎有共同喜好的人來當個朋友！
 
->一个莫名其妙的，喜欢敲代码，喜欢研究技术的，表面上高冷、不苟言笑的，
->
->偶尔又嬉皮笑脸，偶尔又特立独行的，双重性格的技术爱好者！
+## 經歷
 
-### 兴趣方向
-
-> 容器云（Docker、Kubernetes等）相关生态技术研究。
-
-### 参与社区
-
- > CSDN博客:http://blog.csdn.net/huwh_
- >
- > Github:https://github.com/huweihuang
- >
- > 阿里云栖社区:https://yq.aliyun.com/u/huweihuang
- >
- > DockOne社区:http://dockone.io/people/胡伟煌
-
-### 联系我
-
->Email: huweihuang@foxmail.com
-
+* Bachelor of Science in Chemical Engineering, 2009 - 2013
+* Master of Science in Chemical Engineering, 2013 - 2015 
+* Process Enginner of Taiwan Semiconductor Manufacture Company, 2015 - 2019

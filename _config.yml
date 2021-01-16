@@ -3,15 +3,15 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 趙志偉
-subtitle: qoospuperman
-author: 趙志偉
+title: Anthony Chao
+subtitle: Pseudo Worker not allowed
+author: Anthony Chao
 language: 
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://anthonychao.site/       # Note: don't forget to modify the CNAME file to your url
+url: https://qoosuperman.github.io/       # Note: don't forget to modify the CNAME file to your url
 root: /
 #permalink: :year/:month/:day/:title/
 permalink: :category/:title/
@@ -21,11 +21,11 @@ permalink_defaults:
 #Custom Setting Start
 
 # Site settings
-SEOTitle: 趙志偉 | Blog
+SEOTitle: Anthony Chao | Blog
 email: qoosuperman@gmail.com
 description: ""
 keyword: ""
-header-img: /img/header_img/home.jpg
+header-img: "https://images.unsplash.com/photo-1446488547543-78c11468449a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1949&q=80"
 article-img: /img/article_header/article_bg.jpg
 404-img: /img/header_img/404.png
 signature: false #show signature
@@ -51,14 +51,14 @@ anchorjs: true                          # if you want to customize anchor. check
 # Duoshuo settings
 # duoshuo_username: kaijun
 # Share component is depend on Comment so we can NOT use share only.
-#duoshuo_share: true                     # set to false if you want to use Comment without Sharing
+duoshuo_share: false                     # set to false if you want to use Comment without Sharing
 
 
 # Analytics settings
 #Baidu Analytics
 ba_track_id: xxx
 # Google Analytics
-ga_track_id: 'UA-XXXXXXXX-X'          # Format: UA-xxxxxx-xx
+ga_track_id: 'UA-153986590-1'          # Format: UA-xxxxxx-xx
 ga_domain: yoursite
 
 
@@ -76,7 +76,7 @@ widgets:
 
 # widget behavior
 ## Archive
-archives-img: /img/header_img/archives-widget.jpg
+archives-img: "https://images.unsplash.com/photo-1472738805989-ede1a5b9a821?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"
 archive_type: 'monthly'
 show_count: true
 
@@ -89,16 +89,16 @@ featured-condition-size: 0              # A tag will be featured if the size of 
 ## Friends
 friends: [
     {
-        title: "CSDN Blog 胡伟煌",
-        href: "http://blog.csdn.net/huwh_"
+        title: "小菜",
+        href: "https://riverye.com"
     },
     {
-        title: "DockOne 胡伟煌",
-        href: "http://dockone.io/people/胡伟煌"
+        title: "柴柴",
+        href: "https://chaichai.site"
     },
     {
-        title: "阿里云栖社区 胡伟煌",
-        href: "https://yq.aliyun.com/u/huweihuang"
+        title: "Louis",
+        href: "https://louiswuyj.site"
     }
 ]
 
@@ -115,7 +115,7 @@ archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render:
+skip_render: googlef1f4f15c1e72b476.html
 
 # Writing
 new_post_name: :title.md # File name of new posts
@@ -211,7 +211,7 @@ alipay: alipay_url
 
 # Share
 # Reference: https://github.com/overtrue/share.js
-share: true
+share: false
 
 # Reference: https://github.com/YuyingWu/hexo-generator-index-plus
 index_generator_plus:
