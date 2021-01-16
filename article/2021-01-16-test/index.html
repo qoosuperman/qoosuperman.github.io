@@ -15,11 +15,11 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <title>
         
-          Anthony Chao | Blog
+          Test - Anthony Chao | Blog
         
     </title>
 
-    <link rel="canonical" href="https://qoosuperman.github.io/page/7/">
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2021-01-16-test/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -72,8 +72,8 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('https://images.unsplash.com/photo-1446488547543-78c11468449a?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1949&amp;q=80') 
-            /*config*/
+            background-image: url('https://images.unsplash.com/photo-1577003990392-a5f0f10e30d5?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1950&amp;q=80')
+            /*post*/
         
     }
     
@@ -86,10 +86,18 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
-                    <div class="site-heading">
-                        <h1>Anthony Chao</h1>
-                        <!--<hr class="small">-->
-                        <span class="subheading">Pseudo Worker not allowed</span>
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Ruby" title="Ruby">Ruby</a>
+                            
+                        </div>
+                        <h1>Test</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Anthony Chao on
+                            2021-01-16
+                        </span>
                     </div>
                 
 
@@ -192,321 +200,199 @@
 
 
     <!-- Main Content -->
-    <!-- Main Content -->
-<div class="container">
-    <div class="row">
-        
+    <!-- Modify by Yu-Hsuan Yen -->
 
-<!-- USE SIDEBAR -->
-    <!-- Post Container -->
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
             <div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
-            
-                <!-- Main Content -->
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
 
+                <p><code>try</code> 是 rails 的一個方法，<code>try!</code> 是他的另一個版本</p>
+<p><code>&amp;.</code> (safe navigation operator) 是 ruby 的一個運算子</p>
+<p>其中 <code>try!</code> 跟 <code>&amp;.</code> 的結果很相似，他們 跟 <code>try</code> 比起來比較嚴謹，會去 check receiver 是否為 <code>nil</code>，如果都用只用 <code>try</code>，反而會導致都回傳 <code>nil</code> 而發生錯誤時也不知道在哪</p>
+<h2><span id="try">try()</span></h2>
+<p>比方說我們想要呼叫一個物件的方法，當物件是 nil 的時候 Rails 會給 method_missing 的例外</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> current_user.is_admin?</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    <span class="comment"># 這時候如果 current_user 是 nil 會跑出 method_missing 的例外</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>使用 <code>try</code> 就可以避免這種問題，不管 receiver 是 nil 還是 receiver 沒有這個方法都會回傳 nil</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> current_user.try(<span class="symbol">:is_admin?</span>)</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    <span class="comment"># 這時候如果 current_user 是 nil 就不會呼叫後面的 is_admin? 方法</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h2><span id="try">try!()</span></h2>
+<p>如果 <code>try!</code> 的 receiver 是 nil 的話，不會去執行後面的方法，但不是 nil 的話，這個 receiver 沒有 <code>try!</code> 參數內的方法的話會給出 No method error 而不是 nil</p>
+<h2><span id="amp">&amp;.</span></h2>
+<p><code>&amp;.</code> 的結果跟 <code>try!</code> 很像，但語意上不太相同</p>
+<p>如果今天使用下面這樣的表示</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> current_user&amp;.(is_admin?)</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這邊的 <code>current_user&amp;.(is_admin?)</code> 代表 <code>current_user &amp;&amp; current_user.is_admin?</code></p>
+<p>也就是 current_user 存在的話再做後面的那件事情，但 <code>try!</code> 的語意會比較偏向試試看能不能執行的感覺</p>
+<p>我原本覺得 <code>try!</code> 跟 <code>&amp;.</code> 應該是一樣的東西，跟同事討論之後得出以上的結論，如果大家有意見歡迎討論</p>
+<p>參考資料：</p>
+<p><a href="https://ihower.tw/rails/activesupport.html" target="_blank" rel="noopener">ihower</a></p>
+<p><a href="%5Bhttps://medium.com/@pk60905/rails-try-try-%E5%92%8C-safe-navigation-operator-8503ad9b958a%5D(https://medium.com/@pk60905/rails-try-try-%E5%92%8C-safe-navigation-operator-8503ad9b958a)">try、try! 和 &amp;.</a></p>
+<p><a href="https://mgleon08.github.io/blog/2019/02/15/ruby-the-safe-navigation-operator/" target="_blank" rel="noopener">Leon’s Blog</a></p>
 
-<div class="post-preview">
+                
 
-    <a href="/article/2019-09-05-day4/">
-        <h2 class="post-title">
-                                 
-            Active Record 介紹
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            上一個章節的內容大部分其實都隱藏在 rails guide 其他的文章中，所以一些專有名詞介紹完之後我們今天來到下一單元:Active Record Basics
-光是 Active Record 這個名詞本身就不太能讓人理解了，所以這邊來嘗試介紹一下~
-rails guide 中提到 Active Record 是一種 ORM 的框架，那什麼是 ORM 呢？
-ORM (Object Rel......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Anthony Chao on
-            2019-09-05
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Rails" title="Rails">Rails</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/article/2019-09-04-day3/">
-        <h2 class="post-title">
-                                 
-            Strong parameters
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            今天來到 5.6 的章節，提到了關鍵字： strong parameters
-如果在看 rails 網頁畫面看到這個 error 那你就是遇到今天要講的主題了
-
-strong parameters 是 rails 的眾多防護機制之一
-想像某種情境：今天你做出一個表單讓使用者填，但有心人士可能會把一些你不想要的資訊也透過這個表單傳送到你的資料庫，讓你的應用程式崩壞甚至更糟，而strong pa......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Anthony Chao on
-            2019-09-04
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Rails" title="Rails">Rails</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/article/2019-09-03-day2/">
-        <h2 class="post-title">
-                                 
-            DRY & CoC 是啥
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            今天要來看的是 Getting Started with Rails 這一篇
-這篇其實是很概括的東西居多，但有些地方值得一提，比方說第二章這邊講的是 rails 哲學的兩個大概念 DRY 跟 CoC
-DRY
-DRY 的全名是 Don’t repeat yourself，也就是重複的東西不要一直寫一直寫，讓這個系統好維護，好延伸，也比較少 bug，其實對於公司本身來說， code 比較少通常表......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Anthony Chao on
-            2019-09-03
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Rails" title="Rails">Rails</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/article/2019-09-02-day1/">
-        <h2 class="post-title">
-                                 
-            參賽宣言
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            總算是克服心魔要參加這個比賽了
-參賽原因：
-
-其實一直想要好好看一下 rails guide，但找不到動力
-挑戰自己
-雖然覺得自己已經有點忙了，但在這段沒有工作的空窗期，如果連每天發個文章都不行，感覺以後也會幫自己找藉口不做 side project ，所以這算是一種預習
-
-
-主題緣起：
-其實想主題也想了很久，本來想要把自己學習過程中遇到一些觀念澄清的部分寫出來，但又覺得這樣子實在太沒有主題......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Anthony Chao on
-            2019-09-02
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Rails" title="Rails">Rails</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-
-
-<!-- Pager -->
-
-<ul class="pager">
-    
-        <li class="previous">
-            <a href="/page/6/">&larr; Newer Posts</a>
-        </li>
-    
-    
-</ul>
-
-
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/article/2019-12-22-try/" data-toggle="tooltip" data-placement="top" title="Rails 的 try(), try! 跟 Ruby 的 &.">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
 
                 <br>
 
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
                 <!-- require APlayer -->
                 
 
-                <!-- 如果开启评论功能 -->
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="try">try()</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><span id="try">try!()</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><span id="amp">&amp;.</span></span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Ruby" title="Ruby">Ruby</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+                    
+                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+                    
+                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+                    
+                </ul>
                 
             </div>
-
-          <!-- Sidebar Container -->
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
-    
-        <!-- Featured Tags -->
-
-<section>
-    <!-- no hr -->
-    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-    <div class="tags">
-        
-            
-            <a href="/tags/#Rails" title="Rails" rel="31">Rails</a>
-            
-        
-            
-            <a href="/tags/#Javascript" title="Javascript" rel="29">Javascript</a>
-            
-        
-            
-            <a href="/tags/#Life" title="Life" rel="1">Life</a>
-            
-        
-            
-            <a href="/tags/#Ruby" title="Ruby" rel="3">Ruby</a>
-            
-        
+        </div>
     </div>
-</section>
+</article>
 
-        <hr>
-    
-        <!-- Short About -->
-<section class="visible-md visible-lg">
-    <h5><a href="/about/">ABOUT ME</a></h5>
-    <div class="short-about">
 
-        
-            <img id = "avatar_pic" src="https://i.imgur.com/XK2P4Zc.png" />
-        
 
-        
-            <p>喜歡彈吉他，打電動，看漫畫，調酒，煮菜，算是個多方位宅男</p>
-        
 
-        <!-- SNS Link -->
-        <ul class="list-inline">
-            
-            
-            
 
-            
 
-            
 
-            
-                <li>
-                    <a target="_blank"  href="https://github.com/qoosuperman">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-            
-            
-            
-            
-        </ul>
-    </div>
-</section>
 
-        <hr>
-    
-        
-  <h5>RECENT POSTS</h3>
-  <div class="widget">
-    <ul>
-      
-        <li>
-          <a href="/article/2021-01-16-test/">Test</a>
-        </li>
-      
-        <li>
-          <a href="/article/2019-12-22-try/">Rails 的 try(), try! 跟 Ruby 的 &amp;.</a>
-        </li>
-      
-        <li>
-          <a href="/article/2019-12-09-ruby_rails_codingstyle/">Ruby &amp; Rails Coding style(只記錄部分)</a>
-        </li>
-      
-        <li>
-          <a href="/article/2019-12-05-let_const_var/">Javascript(JS) let, const 跟 var 的比較跟應用</a>
-        </li>
-      
-        <li>
-          <a href="/article/2019-12-04-get_job/">總算轉職成功</a>
-        </li>
-      
-    </ul>
-  </div>
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
 
-        <hr>
-    
-        <!-- Friends Blog -->
 
-<h5>FRIENDS</h5>
-<ul class="list-inline">
-
-    
-        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
-    
-        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
-    
-        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
-    
-</ul>
-
-        <hr>
-    
-        
-    <h5>ARCHIVES</h5>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">26</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">24</span></li></ul>
-    </div>
-
-        <hr>
-    
-</div>
-
-        
-    </div>
-</div>
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
 
 
     <!-- Footer -->
