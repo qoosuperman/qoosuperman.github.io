@@ -15,11 +15,11 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <title>
         
-          Test - Anthony Chao | Blog
+          Retrospect And Prospect of 2021 - Anthony Chao | Blog
         
     </title>
 
-    <link rel="canonical" href="https://qoosuperman.github.io/article/2021-01-16-test/">
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2021-01-17-retrospect_and_prospect_of_2021/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -72,7 +72,7 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('https://images.unsplash.com/photo-1577003990392-a5f0f10e30d5?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1950&amp;q=80')
+            background-image: url('https://images.unsplash.com/photo-1610120563075-05bceb1c81a1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=2850&amp;q=80')
             /*post*/
         
     }
@@ -89,14 +89,14 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#Ruby" title="Ruby">Ruby</a>
+                              <a class="tag" href="/tags/#Life" title="Life">Life</a>
                             
                         </div>
-                        <h1>Test</h1>
+                        <h1>Retrospect And Prospect of 2021</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by Anthony Chao on
-                            2021-01-16
+                            2021-01-17
                         </span>
                     </div>
                 
@@ -213,27 +213,83 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p><code>try</code> 是 rails 的一個方法，<code>try!</code> 是他的另一個版本</p>
-<p><code>&amp;.</code> (safe navigation operator) 是 ruby 的一個運算子</p>
-<p>其中 <code>try!</code> 跟 <code>&amp;.</code> 的結果很相似，他們 跟 <code>try</code> 比起來比較嚴謹，會去 check receiver 是否為 <code>nil</code>，如果都用只用 <code>try</code>，反而會導致都回傳 <code>nil</code> 而發生錯誤時也不知道在哪</p>
-<h2><span id="try">try()</span></h2>
-<p>比方說我們想要呼叫一個物件的方法，當物件是 nil 的時候 Rails 會給 method_missing 的例外</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> current_user.is_admin?</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    <span class="comment"># 這時候如果 current_user 是 nil 會跑出 method_missing 的例外</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>使用 <code>try</code> 就可以避免這種問題，不管 receiver 是 nil 還是 receiver 沒有這個方法都會回傳 nil</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> current_user.try(<span class="symbol">:is_admin?</span>)</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    <span class="comment"># 這時候如果 current_user 是 nil 就不會呼叫後面的 is_admin? 方法</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<h2><span id="try">try!()</span></h2>
-<p>如果 <code>try!</code> 的 receiver 是 nil 的話，不會去執行後面的方法，但不是 nil 的話，這個 receiver 沒有 <code>try!</code> 參數內的方法的話會給出 No method error 而不是 nil</p>
-<h2><span id="amp">&amp;.</span></h2>
-<p><code>&amp;.</code> 的結果跟 <code>try!</code> 很像，但語意上不太相同</p>
-<p>如果今天使用下面這樣的表示</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> current_user&amp;.(is_admin?)</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>這邊的 <code>current_user&amp;.(is_admin?)</code> 代表 <code>current_user &amp;&amp; current_user.is_admin?</code></p>
-<p>也就是 current_user 存在的話再做後面的那件事情，但 <code>try!</code> 的語意會比較偏向試試看能不能執行的感覺</p>
-<p>我原本覺得 <code>try!</code> 跟 <code>&amp;.</code> 應該是一樣的東西，跟同事討論之後得出以上的結論，如果大家有意見歡迎討論</p>
-<p>參考資料：</p>
-<p><a href="https://ihower.tw/rails/activesupport.html" target="_blank" rel="noopener">ihower</a></p>
-<p><a href="%5Bhttps://medium.com/@pk60905/rails-try-try-%E5%92%8C-safe-navigation-operator-8503ad9b958a%5D(https://medium.com/@pk60905/rails-try-try-%E5%92%8C-safe-navigation-operator-8503ad9b958a)">try、try! 和 &amp;.</a></p>
-<p><a href="https://mgleon08.github.io/blog/2019/02/15/ruby-the-safe-navigation-operator/" target="_blank" rel="noopener">Leon’s Blog</a></p>
+                <p>2020 對我來說是個轉變非常大的一年，在這裏寫下這一年的進步跟需要改進的地方，讓之後可以做參考跟激勵自己</p>
+<h2><span id="課程與書籍">課程與書籍</span></h2>
+<p>- Linux Shell Scripting:<br>
+今年上的第一堂線上課程，當時上班遇到超多 shell script 可是都看不懂，這堂課程對我幫助非常多，包含了許多 scripting 的基礎知識<br>
+連結：<a href="https://www.udemy.com/course/linux-shell-scripting-projects/" target="_blank" rel="noopener">https://www.udemy.com/course/linux-shell-scripting-projects/</a></p>
+<ul>
+<li>
+<p>Learning Docker:<br>
+工作上用到非常多容器化的服務，這本電子書只是碰巧看到有人分享電子書看到的，之前對於 docker 只有模糊的印象，但在看完這本書之後有比較具體了解，只是對於 network 那塊還是需要再深入了解一下 @@</p>
+</li>
+<li>
+<p>Ultimate AWS Certified Developer Associate 2021:<br>
+今年上的第二堂線上課程，介紹超多 aws 提供的服務，幫助我了解很多 cloud service 的知識，有時候還會順便學到一些相對應有關的知識，像是可以從 dynamodb 這章節學到一些 NOSQL 的相關基礎，從 elastic beanstalk 學到一些不同的部署流程</p>
+</li>
+<li>
+<p>Practical Object-Oriented Design in Ruby:<br>
+這本實體書讓我更理解 ruby 裡面使用物件導向的概念</p>
+</li>
+<li>
+<p>OAuth 2.0 in action:<br>
+這本書啃了差不多兩個月，除了講解 spec 之外，還有一個 repo 可以拿來參考如果用 javascript 來寫實際上會怎麼實作，裡面甚至會講到一些 extension，包括怎麼使用 JWT，或者 PKCE 等等</p>
+</li>
+</ul>
+<h2><span id="技術">技術</span></h2>
+<ul>
+<li>
+<p>AWS services:<br>
+公司裡面基本上都是使用 aws service，因此了解了很多這個生態的服務，包括 EC2 / RDS / ECS / ECR 等等，覺得最開眼界的可能是 cloudformation 這個服務，也才讓自己開始建立 IoC(Infrastricture as code) 的 mindset</p>
+</li>
+<li>
+<p>scripting:<br>
+不管是 shell script 還是 ruby 寫的 script，自己終於開始有能力去看懂並改寫原本的一些 scripting，但其實這也跟上面的服務息息相關，因為大部分 scripting 也都跟部屬相關</p>
+</li>
+<li>
+<p>fluentd:<br>
+之前對於 log 轉傳的概念一直不是很清楚，深入研究這個 service 如何在公司的產品裡面運作，並自己實作一個簡單的 service 讓我受益很多, repo <a href="#https://github.com/qoosuperman/fluentd_demo">在這裏</a></p>
+</li>
+<li>
+<p>SQL:<br>
+其實我不知道這算不算是技術 XD 但我深深了解到要對 sql 很熟悉才有辦法處理好 devops 的大部分事情，不管是危及處理的時候要快速產出 sql query 還是怎麼使用 sql client，越熟悉越能減少你做雜事的時間，但越熟悉也表示你可能做過的雜事越多</p>
+</li>
+</ul>
+<h2><span id="games">Games</span></h2>
+<p>我覺得遊戲也是我生活中重要的一塊，因此需要紀錄一下XD</p>
+<ol>
+<li>秘境探險</li>
+<li>P5</li>
+<li>P5R</li>
+<li>戰神四</li>
+<li>FF7 re</li>
+<li>變人</li>
+<li>Inside(PC)</li>
+</ol>
+<h2><span id="career">Career</span></h2>
+<p>其實在準備轉職的時候完全沒想到自己會到遊戲公司上班，也沒想到會以 Devops 的工作開始軟體職涯</p>
+<p>在台積電上班可能到處都是外部給你的壓力，但在這裡上班可能別人不會特別給你壓力，但自己要注意本身的工作效率，有時候覺得到處撞壁的時候壓力也是非常大</p>
+<p>在這裡上班不太會有主管在管你的感覺，這也要特別感謝我的 leader，都只是盡量從旁給予協助，還會詢問我對哪一塊比較有興趣，看可不可以安排我做那一塊的工作，對於這些幫助我真的非常感激</p>
+<h2><span id="做得不錯的">做得不錯的</span></h2>
+<ul>
+<li>持續學習</li>
+<li>life work balance</li>
+<li>找人組成了一個分享會，加速學習</li>
+<li>與朋友的持續聚會</li>
+</ul>
+<h2><span id="沒做好的">沒做好的</span></h2>
+<ul>
+<li>多多參與家事</li>
+<li>工作上的產出速度自己覺得還有進步空間</li>
+</ul>
+<h2><span id="2021-的目標">2021 的目標</span></h2>
+<ul>
+<li>保持學習熱忱</li>
+<li>培養自動化習慣</li>
+<li>讓身體健康一點，先從多喝水 &amp; 持續運動開始</li>
+<li>更 enjoy 生活跟工作</li>
+<li>往真正稱職的 devops engineer 邁進</li>
+</ul>
 
                 
 
@@ -288,7 +344,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="try">try()</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><span id="try">try!()</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><span id="amp">&amp;.</span></span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="&#x8AB2;&#x7A0B;&#x8207;&#x66F8;&#x7C4D;">&#x8AB2;&#x7A0B;&#x8207;&#x66F8;&#x7C4D;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><span id="&#x6280;&#x8853;">&#x6280;&#x8853;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><span id="games">Games</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.</span> <span class="toc-nav-text"><span id="career">Career</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">5.</span> <span class="toc-nav-text"><span id="&#x505A;&#x5F97;&#x4E0D;&#x932F;&#x7684;">&#x505A;&#x5F97;&#x4E0D;&#x932F;&#x7684;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">6.</span> <span class="toc-nav-text"><span id="&#x6C92;&#x505A;&#x597D;&#x7684;">&#x6C92;&#x505A;&#x597D;&#x7684;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">7.</span> <span class="toc-nav-text"><span id="2021-&#x7684;&#x76EE;&#x6A19;">2021 &#x7684;&#x76EE;&#x6A19;</span></span></a></li></ol>
         
         </div>
       </aside>
@@ -308,7 +364,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#Ruby" title="Ruby">Ruby</a>
+                          <a class="tag" href="/tags/#Life" title="Life">Life</a>
                         
                     </div>
                 </section>
