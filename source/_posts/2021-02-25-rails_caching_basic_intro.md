@@ -134,7 +134,7 @@ end
 
 ### cache lru
 
-是個在 cache 比較常見的簡寫，全名為 least-frequently-used，表示把最近沒用的優先 drop
+是個在 cache 比較常見的簡寫，全名為 least-recently-used，表示把最近沒用的優先 drop
 
 
 ### 參考資料：
