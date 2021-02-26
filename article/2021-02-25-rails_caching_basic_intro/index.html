@@ -293,7 +293,7 @@ process 掛掉重開就還是有資料，讓 process 真的變成 stateless</p>
 <p>除此之外， Rails 還有提供把 Redis 當作 cache 來用的選項，詳細操作可以看 <a href="https://rails.ruby.tw/caching_with_rails.html" target="_blank" rel="noopener">Rails Guide</a></p>
 <p>註：Redis 是 memory-based 的 NoSQL 資料庫，所以他可以支援存很多種格式的東西，像是圖片 / 文件 / 搜尋等等， key-value pair 只是其中一種格式，除此之外也有很多資料庫才有的特性，但 memcache 就只是鍵值對而已，不過也就因為單純所以速度更快</p>
 <h3><span id="cache-lru">cache lru</span></h3>
-<p>是個在 cache 比較常見的簡寫，全名為 least-frequently-used，表示把最近沒用的優先 drop</p>
+<p>是個在 cache 比較常見的簡寫，全名為 least-recently-used，表示把最近沒用的優先 drop</p>
 <h3><span id="參考資料">參考資料：</span></h3>
 <p><a href="https://rails.ruby.tw/caching_with_rails.html" target="_blank" rel="noopener">Rails Guide - Caching with Rails: An overview</a></p>
 <p><a href="https://ihower.tw/rails/caching.html" target="_blank" rel="noopener">ihower 前輩的介紹</a></p>
