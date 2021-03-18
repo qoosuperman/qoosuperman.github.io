@@ -212,6 +212,46 @@
 
 <div class="post-preview">
 
+    <a href="/article/2019-10-05-day29/">
+        <h2 class="post-title">
+                                 
+            Active Record Query Interface part2
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            今天繼續來看看昨天沒看完的部分！
+Active Record 搜尋的條件
+
+純字串
+
+我們在搜尋時，可以直接在條件使用字串
+1Client.where("orders_count = '2'")
+這個例子會抓出 order_count 是 2 的所有 customer 集合
+
+Array Conditions (字串搜尋多條件)
+
+除了使用字串之外，可以使用陣列的方式，陣列的第一個值放字串，......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Anthony Chao on
+            2019-10-05
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Rails" title="Rails">Rails</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/article/2019-10-04-day28/">
         <h2 class="post-title">
                                  
@@ -521,41 +561,6 @@ Create table
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/article/2019-09-25-day19/">
-        <h2 class="post-title">
-                                 
-            什麼是 migration 檔案?
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            為什麼需要 migration?
-今天又來到一篇新的文章囉!
-這篇的主題叫做 Active Record Migrations
-那這是什麼呢？
-簡單來說就是資料庫改變的歷史紀錄
-在過去，資料庫的改變是無跡可循的，今天要更改資料庫結構就是直接進去 SQL 介面操作，之後的人完全不知道這個表以前曾經有過什麼欄位被移除，或者什麼欄位是後來新增的
-有了這個 migration 檔案之後，我們就可以根......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Anthony Chao on
-            2019-09-25
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Rails" title="Rails">Rails</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -617,11 +622,11 @@ Create table
             
         
             
-            <a href="/tags/#Devops" title="Devops" rel="3">Devops</a>
+            <a href="/tags/#Devops" title="Devops" rel="4">Devops</a>
             
         
             
-            <a href="/tags/#Docker" title="Docker" rel="2">Docker</a>
+            <a href="/tags/#Docker" title="Docker" rel="3">Docker</a>
             
         
             
@@ -634,6 +639,10 @@ Create table
         
             
             <a href="/tags/#Jenkins" title="Jenkins" rel="1">Jenkins</a>
+            
+        
+            
+            <a href="/tags/#AWS" title="AWS" rel="1">AWS</a>
             
         
     </div>
@@ -689,6 +698,10 @@ Create table
     <ul>
       
         <li>
+          <a href="/article/2021-03-18-Dynamic_port_setting_on_ECS/">Dynamic Port Setting on ECS</a>
+        </li>
+      
+        <li>
           <a href="/article/2021-03-01-Synopsis_of_Continous_Delivery_With_Docker_and_Jenkins/">Synopsis of Continous Delivery With Docker and Jenkins</a>
         </li>
       
@@ -702,10 +715,6 @@ Create table
       
         <li>
           <a href="/article/2021-01-22-hexo_cicd/">CICD Intergration on Hexo Blog</a>
-        </li>
-      
-        <li>
-          <a href="/article/2021-01-17-retrospect_and_prospect_of_2021/">Retrospect And Prospect of 2021</a>
         </li>
       
     </ul>
@@ -732,7 +741,7 @@ Create table
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">26</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">24</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">26</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">24</span></li></ul>
     </div>
 
         <hr>
