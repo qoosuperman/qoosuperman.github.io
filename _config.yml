@@ -33,7 +33,7 @@ signature-img: img/signature/BeanTechSign-white.png
 
 
 # SNS settings
-# RSS: false
+RSS: true
 # weibo_username:     Demonbaneen
 # zhihu_username:     Demonbane
 github_username:    qoosuperman
