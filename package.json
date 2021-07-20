@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "hexo": {
-    "version": "3.4.3"
+    "version": "3.9.0"
   },
   "dependencies": {
     "aplayer": "^1.10.1",
-    "hexo": "^3.2.0",
+    "chokidar": "^3.5.2",
+    "hexo": "^3.9.0",
     "hexo-deployer-git": "^0.1.0",
     "hexo-generator-archive": "^0.1.4",
     "hexo-generator-category": "^0.1.3",
