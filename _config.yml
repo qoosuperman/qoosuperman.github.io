@@ -231,6 +231,6 @@ sitemap:
 # branch: master
 deploy:
   type: git
-  repository: https://github.com/qoosuperman/qoosuperman.github.io.git
+  repository: git@github.com:qoosuperman/qoosuperman.github.io.git
   branch: gh-pages
   message: Update Blog
