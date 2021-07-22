@@ -23,7 +23,7 @@ permalink_defaults:
 # Site settings
 SEOTitle: Anthony Chao | Blog
 email: qoosuperman@gmail.com
-description: ""
+description: "Anthony's Blog, about Ruby / Rails / Devops"
 keyword: ""
 header-img: "https://images.unsplash.com/photo-1446488547543-78c11468449a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1949&q=80"
 article-img: /img/article_header/article_bg.jpg
