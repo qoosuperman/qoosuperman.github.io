@@ -25,16 +25,16 @@ description: Basic things for Elixir
 希望之後如果多學到了什麼會再補充(每次都這樣講，但後來都沒時間補)
 
 ## Concept
-在 functional programming 裡面，module 就是包著很多的 method 的集合，沒有 instance variable 的概念
+在 functional programming 裡面，module 就是包著很多的 function 的集合，沒有 instance variable 的概念
 
-在 elixir 裡面可以有多個同名的 method，但有不同的參數數量，在 elixir 裡面會認為是不同的 method, Cards.shuffle/0 跟 Cards.shuffle/1 是不同的 methods
+在 elixir 裡面可以有多個同名的 function，但有不同的參數數量，在 elixir 裡面會認為是不同的 function, Cards.shuffle/0 跟 Cards.shuffle/1 是不同的 functions
 
 在 elixir 裡面如果定義一個有 default 值的 function，其實總共一次做了兩個 function，他們接的參數數量不同
 
 所以如果 looping 產生 atom 就會 memory leak
 
 ### pattern matching
-因為非物件導向，所以在 elixir 裡面很多取值的行為都要透過 pattern matching 的方式實現
+在 elixir 裡面很多取值的行為都要透過 pattern matching 的方式實現，這點對於習慣物件導向的人(像是我)可能比較不好適應
 
 在等號左右邊，只要資料結構相同(ex. tuple 對上 tuple)，而且資料的數目相同，那就可以做 pattern matching，又或者說，其實每次在使用等號都在做 pattern matching
 
@@ -101,8 +101,15 @@ end
 ```
 
 ### 跟 Erlang 的關係
-Elixir 跟 Erlang 的關係可以看下面的圖，其實 Elixir 就像是提供一個比較容易操作的介面讓我們操作 Erlang，最後都還是會轉成 Erlang 執行，有一些 Elixir 沒有的 library 可能需要靠 Erlang 的協助，像是畫圖就可以用 erlang 的 egd module
+其實 Elixir 就像是提供一個比較容易操作的介面讓我們操作 Erlang
+
+Elixir 跟 Erlang 之間的關係，比較初階的概念圖可以看下面這張圖，但其實沒有很精確
 ![erlang and elixir](https://i.imgur.com/C7BO0th.png)
+
+實際上 Elixir 會 transpile 變成 Erlang Abstract format 最後變成 beam file，然後由 BEAM(Erlang virtual machine) 去執行，有興趣的可以看看我找到的一篇 [討論](https://elixirforum.com/t/getting-each-stage-of-elixirs-compilation-all-the-way-to-the-beam-bytecode/1873?fbclid=IwAR3qrkVSMgS5iIQekig4fjAon6zbmjtCdOU-GQzOO24HK1zKf5W0P4gQYnw)
+
+
+也因為這樣，有一些 Elixir 沒有的 library 可能需要靠 Erlang 的協助，像是畫圖就可以用 Erlang 的 egd module
 
 下面這是另一個例子：
 ```
@@ -397,7 +404,7 @@ mix 像是 ruby 的 bundler / Rspec / Rake 的集合體
 ### Mix file
 有個檔案檔名是 `mix.exs`
 
-小知識： exs 代表 compile 玩繼續留在記憶體，ex compile 完之後就變成 .beam 的副檔名
+小知識: 帶有 `.ex` 副檔名的檔案會先 compile 成 `.beam` 檔案再去執行，而帶有 `.exs` 的檔案代表 compile 完直接在記憶體裡面執行
 
 這裡面 deps 的地方專門拿來放第三方套件
 
@@ -415,10 +422,10 @@ xdoc 是專門做文件用的套件, 我們只要在想要加上文件的 module
 ```elixir
 defmodule Cards do
   @moduledoc """
-    Provides methods for creating and handling a deck of cards
+    Provides functions for creating and handling a deck of cards
   """
 ```
-如果是要做 method 的文件，則改用 `@doc 關鍵字`，然後如果要加上 code 的話，格式需要非常注意
+如果是要做 function 的文件，則改用 `@doc 關鍵字`，然後如果要加上 code 的話，格式需要非常注意
 ```elixir
   @doc """
     Divides a deck into a hand.
