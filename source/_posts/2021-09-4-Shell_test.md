@@ -13,19 +13,18 @@ updateDate: 2021-09-4 22:26:24
 # top: 1
 description: Shell test
 ---
-# Shell Script Test(判斷式)
+# Shell Script test(判斷式)
 在 Shell Script 中非常容易使用到判斷式，偏偏代號非常的難記，所以想說整理一下
 
 ## Outline
-- [使用方法](#使用方法)
-- [判斷式代號](#判斷式代號)
-- [多個判斷串連](#多個判斷串連)
-- [`[]` 或者 `[[]]` 規則：](#`[]`-或者-`[[]]`-規則：)
-- [`=` 跟 `==`](#`=`-跟-`==`)
-- [補充](#補充)
-- [參考資料](#參考資料)
+- [Basics](#basics)
+- [Options in brackets](#options-in-brackets)
+- [Multiple tests](#multiple-tests)
+- [Basic Concepts ](#basic-concepts)
+- [Supplements](#supplements)
+- [References](#references)
 
-## 使用方法
+## Basics
 ```bash
 if [ 條件判斷式 ]; then
 	...
@@ -61,7 +60,7 @@ echo "I don't know what your choice is" && exit 0
 if [[ ! -d "${ARCHIVE_DIR}" ]]
 # 如果資料夾不存在的話...
 ```
-## 判斷式代號
+## Options in brackets
 | symbol | meaning                            | 白話文  |
 |--------|------------------------------------|---|
 | -f     | 如果這個檔案存在，而且是一個 file，則為真 |有這個檔案存在的話就...   |
@@ -86,7 +85,7 @@ if [[ ! -d "${ARCHIVE_DIR}" ]]
 | -le     | 小於等於       |   |
 
 
-## 多個判斷串連
+## Multiple tests
 這部分其實前面的例子就有寫到
 
 | symbol | meaning                            |   |
@@ -107,7 +106,7 @@ fi
 [ "$APP_TYPE" = cs ] && export REPO_NAME="MySecondApp"
 ```
 
-## `[]` 或者 `[[]]` 規則：
+## Basic Concepts 
 1. 因為中括號用在很多地方，要注意如果是用在判斷式的話，括號兩端需要有空白
 2. 中括號裡面每個元件都要有空白來分隔
 3. 在中括號內的變數，最好都以雙引號括號起來
@@ -115,11 +114,10 @@ fi
 5. 兩個中括號是 bash 有的用法，有的 shell 可能不支援，但最原始就有一個中括號的用法
 6. 如果去查 `[[` 的用法他會說跟 `test` 的用法依樣，使用 `help test` 可以查到一些判斷的方法，像是 `eq` `ne`
 
-## `=` 跟 `==`
+## Supplements
+
+### `=` 跟 `==`
 在判斷式裡面，`=` 跟 `==` 的意思不同， `==` 會套用 pattern 的比較，但是 `=` 必須要完全相同
-
-
-## 補充
 
 ### `-t`
 下面這段的意思是，如果用 interactive shell 的方式跑 bash，會改成執行 zsh
@@ -129,7 +127,7 @@ if [ -t 1 ]; then
 fi
 ```
 
-## 參考資料
+## References
 - [Bash Guide for Beginners](https://tldp.org/LDP/Bash-Beginners-Guide/html/)
 - [常見用法整理](https://blog.csdn.net/shenhuxi_yu/article/details/53047012)
 - [-t 是什麼意思](https://unix.stackexchange.com/questions/389495/what-does-t-1-check)

@@ -27,11 +27,10 @@ description: Ssh Tunnel
 - [Intro](#intro)
 - [Local Port Forwarding](#local-port-forwarding)
 - [Remote Port Forwarding](#remote-port-forwarding)
-- [常用選項](#常用選項)
+- [Often used options](#often-used-options)
 - [Examples](#examples)
 - [Note](#note)
 - [References](#references)
-
 
 ## Intro
 Tunneling 指的是將網路上的 A、B 兩個端點用某種方式連接起來，形成一個「隧道」，讓兩端的通訊能夠穿透某些限制（例如防火牆），或是能將通訊內容加密避免洩漏
@@ -105,7 +104,7 @@ ssh -R 0.0.0.0:9090:192.168.1.100:8080 johnliu@external-server
 這個 192.169.1.100 是相對於你的電腦這台主機的 host
 ![](https://i.imgur.com/WbnoSoW.png)
 
-## 常用選項
+## Often used options
 - `-N`
 
 不要執行任何遠端指令。沒有加這個參數時，建立 Port Forwarding 的同時也會開啟 Remote Shell，讓你可以對 SSH Server 下指令，而這個參數可以讓 Remote Shell 不要打開。
