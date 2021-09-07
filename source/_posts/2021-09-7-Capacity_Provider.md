@@ -2,7 +2,7 @@
 title: "Capacity Provider"
 catalog: true
 toc_nav_num: true
-date: 2021-09-4 22:26:24
+date: 2021-09-7 22:26:24
 subtitle: ""
 header-img: "https://images.unsplash.com/photo-1630872146677-5a4cefb1afce?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80"
 tags:
@@ -10,7 +10,7 @@ tags:
 - Devops
 catagories:
 - Devops
-updateDate: 2021-09-4 22:26:24
+updateDate: 2021-09-7 22:26:24
 # top: 1
 description: capacity provider
 ---
