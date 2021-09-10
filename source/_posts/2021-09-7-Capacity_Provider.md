@@ -1,5 +1,5 @@
 ---
-title: "Capacity Provider"
+title: "AWS Capacity Provider"
 catalog: true
 toc_nav_num: true
 date: 2021-09-7 22:26:24
@@ -12,10 +12,14 @@ catagories:
 - Devops
 updateDate: 2021-09-7 22:26:24
 # top: 1
-description: capacity provider
+description: aws capacity provider
 ---
 # Capacity Provider
 工作上剛好用到 capacity provider，看了很多文件，覺得不做個紀錄一定又會忘記
+
+### Updates:
+- 2021/9/10 更新：多一點 ECS 的介紹
+- 2021/9/9 更新：補上 service 跟 strategy 的關聯
 
 ## Outline
 - [Intro of ECS system](#intro-of-ecs-system)
@@ -25,22 +29,29 @@ description: capacity provider
 - [Note](#note)
 
 ## Intro of ECS system
-要介紹 capacity provider，最好先知道為什麼需要它存在
+要介紹 capacity provider，最好先知道為什麼需要它存在，因此先介紹一下 ECS 這個叢集管理系統
+
+基礎的介紹可能 google 一下就會有很多，這邊從他的架構上來做介紹，基本上跟 K8S 有些相像，只是 K8S 的 cluster 裡面 master node 需要自己管理，而 AWS 的 cluster 運作機制全權交給 AWS 負責，所以少了很多瑣碎的設定，當然也少了很多可以客製化的部分
 
 一個 ECS 系統可以分成 container 的一邊跟 EC2 instance 的一邊
 
+### Container side
 ![container side](https://i.imgur.com/Wi9tp8s.png)
 
 在 container 這邊，我們把打包好的 image 放到 ECR，把他寫在 task definition 來定義 task，task 是 ECS 裡面操作的最小單位，就像是 K8S 的 pod
 
 我們可以由定義好的 task definition 執行 task，如果想維持 task 一直在運行的狀態，可以用 service 把 task 包起來，然後放進去 ECS cluster，cluster 會負責維持這些 service 在想要的狀態，像是如果 service 裡面的 task 掛掉，就會重新跑一個起來取代
 
+### Instance side
 ![instance side](https://i.imgur.com/auGdyFd.png)
 
 在 instance 這邊，我們用 auto scaling group(ASG) 控制 EC2 instance 的數量，所以會在 ASG 身上定義 launch condition，像是 EC2 的 AMI 要用哪一個還有 instance type 等等
 
 在 ECS 系統中，有多少個 instance 代表這個 cluster 裡面有多少空間可以拿來放 service 的 tasks
 
+
+
+### Combine both sides
 ![instance with task](https://i.imgur.com/KUsjuZ5.png)
 
 最後的結果會是像上圖這樣，一個 cluster 裡面有多個 container instances，每個 instance 裡面會裝各種 task，一個 service 裡面包含的多個 task 可能散落在多個 instance(像是途中的灰色 task)
@@ -57,19 +68,20 @@ description: capacity provider
 
 在 instance 這邊，也可以一樣透過 cloudwatch alarm 監控 cpu / memory 來讓 ASG 自動增減 instance 數量
 
-![combine both side](https://i.imgur.com/X30LqoM.png)
+![combine both side](https://i.imgur.com/faVg4UD.png
 
-問題在於要怎麼讓兩邊的 scaling 機制結合起來
+如上圖，問題在於要怎麼讓兩邊的 scaling 機制結合起來(為了簡化圖形跟概念，先把 task 直接稱為 app，並拿掉中間 service 這層虛擬的關聯)
 
-在 scale in 的時候，我們會把 task 關掉，如果 resource 夠，我們希望可以把多餘的 instance 關掉，而且不能關到 instance 上面還有 task 在跑的
+如果要自己實作可能要幾個困難點：
+1. 在 scale in 的時候，我們會把 task 關掉，如果 resource 夠，我們希望可以把多餘的 instance 關掉，而且不能關到 instance 上面還有 task 在跑的
 
-在 scale out 的時候，我們要把 task 開起來，如果 resource 不夠，auto scaling group 要能夠自動開啟新的 instance
+2. 在 scale out 的時候，我們要把 task 開起來，如果 resource 不夠，auto scaling group 要能夠自動開啟新的 instance
 
 這時候就可以使用 capacity provider
 
 ## Intro to capacity provider
 
-![ECS with capacity provider](https://i.imgur.com/Q8OamtO.png)
+![ECS with capacity provider](https://i.imgur.com/c4EmKwT.png)
 
 capacity provider 的概念像是上面這樣，在作出 capacity provider 的時候，會產生一個特殊的 metric 叫做 `CapacityProviderReservation`，主要就是靠這個 metric 來調節 instance 數量
 
@@ -96,6 +108,8 @@ capacity provider 的概念像是上面這樣，在作出 capacity provider 的�
 值得一提的是，如果要一次 scale 大量 instance 的情況下，不一定 metric 預測得準，一樣會先猜測會需要多少個 instance 然後去 provision，但如果猜得不準，仍然有正在 provisioning state 的 task，那就會 trigger 另一個 scaling out 直到沒有 provisioning 的 task
 
 想更了解運作機制的細節可以看[這篇官方的 deep dive](https://aws.amazon.com/tw/blogs/containers/deep-dive-on-amazon-ecs-cluster-auto-scaling/)
+
+最後補充一下，在圖上有在 service 跟 capacity provider 畫上關聯，這是指在 create service 的時候可以指定 capacity provider strategy，如果不指定，他會選擇其中一個 weight > 0 的 strategy
 
 ## Build capacaity provider with cloudformation
 
@@ -166,11 +180,14 @@ capacity provider 跟 auto scaling group 是一對一的關聯
 2. 一開始沒有設定到 cluster 身上的 `DefaultCapacityProviderStrategy`，這時候就算有跟 capacity provider 建立關聯也沒用
 3. service 要重新 create，在 create 的時候如果不指定 `DefaultCapacityProviderStrategy`，他會吃 cluster 的 default strategy
 4. 使用的 auto scaling group(ASG) 需要設定 `NewInstancesProtectedFromScaleIn` 為 true，否則沒辦法成功建立 capacity provider
+5. 如果用 `create-service` 這個 aws cli，要注意不能加上 `--launch-type` 選項，而且 cluster 的 `DefaultCapacityProviderStrategy` 裡面一定要有 weight 大於 0 的 strategy 才會自動選擇，就算只有一個 strategy，但他的 weight 是 0，那還是會跳出 error
 
-[AWS 文件](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-capacityprovider.html)
-[ECS cluster AWS 文件](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-cluster.html)
-[不錯的介紹影片](https://www.youtube.com/watch?v=0j8D-be2J1k)
-[Auto Scaling group capacity providers](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/asg-capacity-providers.html)
-[TargetCapacity 代表什麼](https://stackoverflow.com/questions/64021278/how-target-capacity-is-calculated-in-aws-ecs-capacity-provider)
-[官方 deep dive 文件](https://aws.amazon.com/tw/blogs/containers/deep-dive-on-amazon-ecs-cluster-auto-scaling/)
-[AWS::ECS::ClusterCapacityProviderAssociations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-clustercapacityproviderassociations.html#cfn-ecs-clustercapacityproviderassociations-defaultcapacityproviderstrategy)
+## References
+
+- [AWS 文件](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-capacityprovider.html)
+- [ECS cluster AWS 文件](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-cluster.html)
+- [不錯的介紹影片](https://www.youtube.com/watch?v=0j8D-be2J1k)
+- [Auto Scaling group capacity providers](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/asg-capacity-providers.html)
+- [TargetCapacity 代表什麼](https://stackoverflow.com/questions/64021278/how-target-capacity-is-calculated-in-aws-ecs-capacity-provider)
+- [官方 deep dive 文件](https://aws.amazon.com/tw/blogs/containers/deep-dive-on-amazon-ecs-cluster-auto-scaling/)
+- [AWS::ECS::ClusterCapacityProviderAssociations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-clustercapacityproviderassociations.html#cfn-ecs-clustercapacityproviderassociations-defaultcapacityproviderstrategy)
