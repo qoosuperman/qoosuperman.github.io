@@ -185,7 +185,7 @@ it’s way easier to perform post-mortem analysis and plan if you overcommunicat
 
 通常在 gc 階段的時候，所有使用的 tempfile 物件都應該被自動刪除
 
-最後追到原因竟然是因為 Resque 裡面在執行玩 job 之後用的是 exit! 而不是 exit，exit! 這個 method 是不會去 trigger at_exit 裡面的 callback 的
+最後追到原因竟然是因為 Resque 裡面在執行完 job 之後用的是 exit! 而不是 exit，exit! 這個 method 是不會去 trigger at_exit 裡面的 callback 的
 
 ```ruby
 puts "hooks"
