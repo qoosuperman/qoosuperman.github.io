@@ -26,22 +26,20 @@ description: graphql introduction part1
 ## Intro
 GraphQL 是一種資料查詢 / 修改的語言，透過 Graphql 可以用更彈性的語法拿資料，或者修改資料，在 Graphql 開發出來之前，大部分公司使用 RESTful 的 API
 
-通常要介紹一個東西最好的方式是知道為何有人覺得有需要發明這個東西
-
 打個比方，如果是在部落格的系統下，RESTful 的設計風格通常是將文章跟用戶的 API 分開，如果同一個頁面要有作者跟文章資訊，需要一次 request 去拿用戶資訊，一次去拿文章資訊
 
 但在 Graphql 風格的設計下，通常一個 request 同時可以拿到用戶跟文章資訊
 
 首先開發出來的的公司是 facebook，目前 Github / Shopify 等公司也有使用
 
-但既然這東西這麼好，為什麼沒有大家都開始使用，我這邊 survey 了一些他的優缺點
+但既然這東西這麼好，為什麼沒有大家都開始使用? 為了解答這個問題，我這邊 survey 了一些他的優缺點
 
 ### Pros and Cons
 #### Pros
 1. 對於 client 比較有彈性拉想要的資料，避免過去同一隻 api 拿回來的資料可能少了一點點或者太多的情況
 2. 減少 request 來回次數，其實跟上面有點像，不用因為少了一點點資訊就需要打別的 API
-3. depracate 方便，過往 deprecate 需要整個 API 一起，但 graphql 允許你把這個 query 的某幾個欄位 mutation
-4. 有一些原本的 restful API 比較難支援的功能， 像是subscription
+3. depracate 方便，過往 deprecate 需要整個 API 一起，但 graphql 允許你把這個 query 的某幾個欄位 deprecate
+4. 有一些原本的 restful API 比較難支援的功能， 像是 subscription
 
 #### Cons
 1. 請求一率使用 POST，難藉由 HTTP action 知道目的
@@ -64,7 +62,7 @@ query("query{users(_id:" + req.params.userId + "){_id, name}}")
 另外我覺得當產品還在快速發展中，api 變化迅速，也是另一種情境，因為 graphql 可以根據特定欄位 deprecate，如果是 restful 的情況可能需要迭代很多版本的 api
 
 ## Type
-Graphql 可以想成是一個由各種型別(Type)組合而成的世界，裏面包括了基礎型別(Scalar Type)，跟我們自己定義的一些物件型別(Object Type)，還有一些特殊功能的型別，像是 query / mutation / subscription，還有一些衍伸的 enum / interface ...etc
+Graphql 可以想成是一個由各種型別 (Type) 組合而成的世界，裏面包括了基礎型別 (Scalar Type)，跟我們自己定義的一些物件型別 (Object Type)，還有一些特殊功能的型別，像是 query / mutation / subscription，還有一些衍伸的 enum / interface ...etc
 
 ### Scaler Type
 最基礎會有五種基礎型別：
@@ -242,8 +240,5 @@ fields: [User!]!
 
 
 ### Reference
-裡面還有很多學習資源
 [鐵人賽](https://ithelp.ithome.com.tw/articles/10200678)
-
-shopify 的 schema design 教學
-https://github.com/Shopify/graphql-design-tutorial/blob/master/TUTORIAL.md
+[shopify 的 schema design 教學](https://github.com/Shopify/graphql-design-tutorial/blob/master/TUTORIAL.md)
