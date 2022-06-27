@@ -18,7 +18,7 @@ description: What does counter culture do
 ## Outline
 - [Intro](#intro)
 - [Usage](#usage)
-- [Analysing](#analysing)
+- [Analyzing](#analyzing)
 - [Conclusion](#conclusion)
 
 ## Intro
@@ -53,7 +53,7 @@ end
 ```
 其他更詳細的使用方式就看看 counter_culture 的 [文件](https://github.com/magnusvk/counter_culture) 吧！
 
-## Analysing
+## Analyzing
 ### Entrypoint
 首先要先找到這個 gem 的入口在哪裡，通常會寫在跟 gem 名字很像的檔案上面
 
