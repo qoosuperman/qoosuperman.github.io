@@ -29,6 +29,7 @@ devise 的核心是另一個叫做 warden 的 gem，如果說 devise 是一台�
 - [How Devise Make Use of Warden](#how-devise-make-use-of-warden)
 - [Why](#why)
 - [Conclusion](#conclusion)
+- [References](#references)
 
 ## How To Setup
 
@@ -281,3 +282,7 @@ Warden::Strategies.add(:database_authenticatable, Devise::Strategies::DatabaseAu
 而 warden 利用了 Ruby 動態語言的特性，先把 proxy 裡面的 authenticate! method 包起來，用 env 傳到需要做驗證的那一層，只要在那一層可以成功執行就好
 
 雖然只是一個小巧思，但這是我在看 code 之前沒想到過的答案，真的是有越寫 code 越覺得懂的很少的感覺 Orz
+
+## References
+[Warden](https://github.com/wardencommunity/warden)
+[Devise](https://github.com/heartcombo/devise)
