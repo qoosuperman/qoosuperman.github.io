@@ -15,7 +15,7 @@ updateDate: 2023-03-27 22:26:24
 description: Steps to Upgrade Rails
 ---
 
-前陣子升級了公司專案的 Rails 版本到，寫個文章記錄
+前陣子升級了公司專案的 Rails 版本，寫個文章記錄一下
 
 升級 Rails 的步驟可以參考社群給的 [Guide](https://guides.rubyonrails.org/upgrading_ruby_on_rails.html)
 
