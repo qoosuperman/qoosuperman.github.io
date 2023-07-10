@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="<%= config.description %>">
     <meta name="keyword"  content="<%= config.keyword %>">
+    <meta property="og:image"  content="<%= page.og_image || config.og_image %>">
     <link rel="shortcut icon" href="<%= config.root %>img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
@@ -22,11 +23,11 @@
     <!-- Bootstrap Core CSS -->
     <%- css('css/bootstrap.min.css') %>
 
-    <!-- Custom CSS --> 
+    <!-- Custom CSS -->
     <%- css('css/beantech.min.css')%>
 
     <%- css('css/donate.css')%>
-    
+
     <!-- Pygments Highlight CSS -->
     <%- css('css/highlight') %>
 

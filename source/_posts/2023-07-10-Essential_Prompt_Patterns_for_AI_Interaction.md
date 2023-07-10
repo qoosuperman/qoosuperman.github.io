@@ -10,11 +10,12 @@ tags:
 catagories:
 - AI
 updateDate: 2023-07-10 22:26:24
+og_image: "https://images.unsplash.com/photo-1679083216051-aa510a1a2c0e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2664&q=80"
 # top: 0
 description: Essential Prompt Patterns for AI Interaction
 ---
 ## Introduction
-最近我在 Coursera 上了 "[Prompt Engineering for ChatGPT](https://www.coursera.org/learn/prompt-engineering/home/week/1)" 的課程，並從中學習到了許多知識，因此我想把主要的學習重點整理出來，以便日後參考。
+最近我在 Coursera 上了 "[Prompt Engineering for ChatGPT](https://www.coursera.org/learn/prompt-engineering/home/week/1)" 的課程，並從中學習到了許多知識，因此我想把主要的學習重點整理出來，以便日後參考
 
 在這篇文章中，我將結合課程內容和我自己的觀點，主要的內容將圍繞課程中提到的各種 Prompt Engineering pattern，並且大部分的 pattern 會分享我嘗試的範例。
 
