@@ -7,9 +7,17 @@ require 'cgi'
 file_path = ARGV.first
 
 File.readlines("./#{file_path}").each do |line|
- next unless line =~ /^## /
+  next unless line =~ /^###? /
 
- title = line.match(/^## (.*)/)[1]
- link_title = title.split.map(&:downcase).map { |str| CGI.escape(str) }.join('-')
- puts "- [#{title}](##{link_title})"
+  if line =~ /^## (.*)/
+    title = line.match(/^## (.*)/)[1]
+    puts "- [#{title}](##{link_title(title)})"
+  elsif line =~ /^### (.*)/
+    title = line.match(/^### (.*)/)[1]
+    puts "  - [#{title}](##{link_title(title)})"
+  end
+end
+
+def link_title(title)
+  title.split.map(&:downcase).map { |str| CGI.escape(str) }.join('-')
 end
