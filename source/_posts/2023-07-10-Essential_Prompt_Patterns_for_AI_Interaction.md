@@ -13,14 +13,6 @@ updateDate: 2023-07-10 22:26:24
 # top: 0
 description: Essential Prompt Patterns for AI Interaction
 ---
-
-## Outline
-- [Introduction](#introduction)
-- [什麼是 Prompt](#%E4%BB%80%E9%BA%BC%E6%98%AF-prompt)
-- [Root Prompt](#root-prompt)
-- [Prompt 的強度](#prompt-%E7%9A%84%E5%BC%B7%E5%BA%A6)
-- [Prompt Patterns](#prompt-patterns)
-
 ## Introduction
 最近我在 Coursera 上了 "[Prompt Engineering for ChatGPT](https://www.coursera.org/learn/prompt-engineering/home/week/1)" 的課程，並從中學習到了許多知識，因此我想把主要的學習重點整理出來，以便日後參考。
 
@@ -28,9 +20,35 @@ description: Essential Prompt Patterns for AI Interaction
 
 這是一篇很～長的文章，也許做個書籤，當作工具來使用會比較適合，不建議一次看完。我甚至比較建議直接去上前面提到的 [課程](https://www.coursera.org/learn/prompt-engineering/home/week/1)，此課程雖然免費但我覺得相當有質量！
 
-在介紹 Pattern 之前，首先來介紹一下 Prompt
+## Outline
+- [Introduction](#introduction)
+- [什麼是 Prompt](#%E4%BB%80%E9%BA%BC%E6%98%AF-prompt)
+- [Root Prompt](#root-prompt)
+- [Prompt 的強度](#prompt-%E7%9A%84%E5%BC%B7%E5%BA%A6)
+- [Prompt Patterns](#prompt-patterns)
+  - [Persona Pattern](#persona-pattern)
+  - [Prompt Question Refinement Pattern](#prompt-question-refinement-pattern)
+  - [Cognitive Verifier Pattern](#cognitive-verifier-pattern)
+  - [Audience Persona Pattern](#audience-persona-pattern)
+  - [Prompt Flipped Interaction Pattern](#prompt-flipped-interaction-pattern)
+  - [Few Shot Example Pattern](#few-shot-example-pattern)
+  - [Chain of Thoughts Pattern](#chain-of-thoughts-pattern)
+  - [ReAct Pattern](#react-pattern)
+  - [Gameplay Pattern](#gameplay-pattern)
+  - [Template Pattern](#template-pattern)
+  - [Metalanguage Creation Pattern](#metalanguage-creation-pattern)
+  - [Recipe Pattern](#recipe-pattern)
+  - [Prompt Alternative Approaches Pattern](#prompt-alternative-approaches-pattern)
+  - [Ask for input pattern](#ask-for-input-pattern)
+  - [Prompt Outline Expansion pattern](#prompt-outline-expansion-pattern)
+  - [Menus Actions Pattern](#menus-actions-pattern)
+  - [Fact Check Pattern](#fact-check-pattern)
+  - [Tail Generation Pattern](#tail-generation-pattern)
+  - [Semantic Filter Pattern](#semantic-filter-pattern)
 
 ## 什麼是 Prompt
+
+在介紹 Pattern 之前，首先來介紹一下 Prompt
 
 我直接問 ChatGPT 這個問題，我認為他的回答相當精確：
 
@@ -45,6 +63,7 @@ description: Essential Prompt Patterns for AI Interaction
 如果我們用這種方式來思考，而不是只透過一個問題試圖獲得 ChatGPT 完全正確的答案，可以讓 ChatGPT 展現更大的價值。
 
 > ChatGPT 主要功能是透過回應，讓 prompt 變得完整
+
 <img src="https://hackmd.io/_uploads/BylA5j-Y2.png" alt="" height="50%" width="50%">
 
 ## Root Prompt
@@ -64,8 +83,6 @@ LLM 被設計為具有一定的隨機性，因此，如果我們重複對它提�
 但是，如果今天我們將歌詞改為"兩隻兔子"，我們很快就會得到完全不同的回答。這類 Prompt 的強度就很明顯相對較弱：
 
 <img src="https://hackmd.io/_uploads/By_m3sWY2.png" alt="" height="50%" width="50%">
-
-掌握了這些概念後，接下來我們將介紹一些常見的 prompt pattern：
 
 ## Prompt Patterns
 就我的個人觀點，Prompt Pattern 就像是程式語言中常見的設計模式 Design Pattern。在初期，並沒有這些模式存在，但隨著大家經驗的積累，一些被認為普遍好用的 Pattern 就被大家所接受，並逐漸形成並流傳
