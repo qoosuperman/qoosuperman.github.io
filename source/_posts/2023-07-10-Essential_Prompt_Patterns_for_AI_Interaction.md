@@ -19,7 +19,7 @@ description: Essential Prompt Patterns for AI Interaction
 
 在這篇文章中，我將結合課程內容和我自己的觀點，主要的內容將圍繞課程中提到的各種 Prompt Engineering pattern，並且大部分的 pattern 會分享我嘗試的範例。
 
-這是一篇很～長的文章，也許做個書籤，當作工具來使用會比較適合，不建議一次看完。我甚至比較建議直接去上前面提到的 [課程](https://www.coursera.org/learn/prompt-engineering/home/week/1)，此課程雖然免費但我覺得相當有質量！
+這是一篇很～長的文章，也許做個書籤，當作工具來使用會比較適合，不建議一次看完。我甚至比較建議直接去上前面提到的 [課程](https://www.coursera.org/learn/prompt-engineering/home/week/1)，此課程雖然免費但我覺得相當有品質！
 
 ## Outline
 - [Introduction](#introduction)
@@ -311,3 +311,10 @@ At the end, ask me for what bullet point to expand next. Ask me for what to outl
 ```
 Filter the following information to remove any personally identifying information or information that could potentially be used to re-identify the person.
 ```
+
+## Summary
+完成這堂課之後，讓我對 prompt 有了更深的認識，並且理解到要有效運用 ChatGPT 這類工具，真的會需要一定程度的想像力與大量的練習
+
+在練習的過程中，我比較不習慣的部分是大量的閱讀和打字，尤其在 ChatGPT 使用英文的效果遠勝於中文的情況下，需要大量閱讀英文和輸出英文句子，這讓我無法迅速反應。
+
+目前 Large Language Model 的發展還在初期的階段，我期待它能讓我們的生活更便利。同時，我也希望能追上這股潮流，而不是成為那群無法跟上時代步伐，被取而代之的人。
