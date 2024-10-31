@@ -6,7 +6,7 @@
 title: Anthony Chao
 subtitle: Pseudo Worker not allowed
 author: Anthony Chao
-language: 
+language:
 timezone:
 
 # URL
@@ -29,7 +29,7 @@ header-img: "https://images.unsplash.com/photo-1446488547543-78c11468449a?ixlib=
 article-img: /img/article_header/article_bg.jpg
 404-img: /img/header_img/404.png
 signature: false #show signature
-signature-img: img/signature/BeanTechSign-white.png 
+signature-img: img/signature/BeanTechSign-white.png
 
 
 # SNS settings
@@ -46,7 +46,7 @@ anchorjs: true                          # if you want to customize anchor. check
 
 
 # Disqus settings
-disqus_username: qoosuperman
+# disqus_username: qoosuperman
 
 # Duoshuo settings
 # duoshuo_username: kaijun
@@ -163,7 +163,7 @@ archive_generator:
   yearly: true
   monthly: true
   daily: false
-  
+
 # Markdown-it config
 ## Docs: https://github.com/celsomiranda/hexo-renderer-markdown-it/wiki
 markdown:
@@ -174,7 +174,7 @@ markdown:
     linkify: true
     typographer: true
     quotes: '“”‘’'
-  
+
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 
@@ -197,11 +197,11 @@ markdown:
 # reference: https://github.com/metowolf/MetingJS & https://github.com/MoePlayer/APlayer
 metingjs: false
 data-id: 2423410161
-data-server: netease  
+data-server: netease
 data-type: playlist
 data-fixed: true
   # data-mini:
-  # data-autoplay:    
+  # data-autoplay:
 
 # Reward
 reward: false
