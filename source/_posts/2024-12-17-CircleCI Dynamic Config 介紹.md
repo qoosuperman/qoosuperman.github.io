@@ -23,7 +23,7 @@ description: CircleCI Dynamic Config 介紹
 
 簡單來說，Dynamic Config 是透過 `.circleci/config.yml` 定義的流程（workflows），動態決定接下來的流程，官方稱一開始的設定為 "setup configuration"，而接下來動態產生的設定為 "dynamic configuration"。
 
-下一個流程的配置可以是事先準備好的檔案內容，也可以是動態產生的設定。
+下一個流程的配置（dynamic configuration）可以是事先準備好的檔案內容，也可以是動態產生的設定。
 
 實際上在一開始的流程中，會產生一個 `CIRCLE_CONTINUATION_KEY` 的環境變數，用它來打 [Continue a pipeline API](https://circleci.com/docs/api/v2/index.html#tag/Pipeline/operation/listPipelines) 來繼續下個流程（[ref](https://circleci.com/docs/dynamic-config/#how-dynamic-config-works)），但實際上使用的時候並不用知道這些，只需要知道如何使用他們提供的 orb 來完成這些事情即可。
 
@@ -37,13 +37,13 @@ description: CircleCI Dynamic Config 介紹
 - 所有組件（commands、jobs、workflows）都必須寫在同一個檔案中，導致文件難以閱讀和維護。
 - 當前後端同時存在於一個專案中，無法根據變動的檔案動態選擇要執行的流程。
 
-而這些問題都可以透過 Dynamic Config 來解決，以下是一些來自 ([官方文件](https://circleci.com/docs/using-dynamic-configuration/)) 的範例。
+而這些問題都可以透過 Dynamic Config 來解決，以下是一些來自 [官方文件](https://circleci.com/docs/using-dynamic-configuration/) 的範例。
 
 ## 範例
 
 ### 動態產生下個流程的 YAML 配置檔案
 
-在這個範例中，下一個流程（workflow）所使用的 `generated_config.yml` 是透過腳本動態產生的，而非事先存在的檔案。這表示 Dynamic Config 支援憑空生成的配置檔案作為後續的 workflow 設定。
+在這個範例中，setup configuration 裡面定義的流程會產生 `generated_config.yml` 這個檔案，而下個流程就會根據這個檔案來執行，這表示 Dynamic Config 支援憑空生成的配置檔案作為後續的 workflow 設定。
 
 這裡使用到的 `circleci/continuation@1` 是一個 Dynamic Config 常常會用到的重要 orb（相當於 CircleCI 中的「套件」），透過它可以方便地串接下一個設定檔。
 
@@ -74,7 +74,7 @@ workflows:
 
 ### 根據檔案變動決定要執行的流程
 
-在這個範例中，`.circleci/config.yml` 執行完成後，產生一些參數，根據 `.circleci/continue_config.yml` 啟動並傳遞參數給下一個 workflow。
+在這個範例中，`.circleci/config.yml` 中定義的 workflow 執行完成後，產生一些參數，根據 `.circleci/continue_config.yml` 啟動並傳遞參數給下一個 workflow。
 
 這裡使用了 [circleci/path-filtering](https://circleci.com/developer/orbs/orb/circleci/path-filtering) orb，它能根據檔案變動設置 pipeline 參數，進而動態選擇執行的 workflow。
 
