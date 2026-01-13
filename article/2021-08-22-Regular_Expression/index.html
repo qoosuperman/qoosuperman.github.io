@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
+    <meta name="keyword" content="">
+    <meta property="og:image" content="undefined">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>
+        
+          Regular Expression - Anthony Chao | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2021-08-22-Regular_Expression/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://images.unsplash.com/photo-1629577582606-8ca8a689e4e3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=2850&amp;q=80')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Ruby" title="Ruby">Ruby</a>
+                            
+                              <a class="tag" href="/tags/#Shell" title="Shell">Shell</a>
+                            
+                              <a class="tag" href="/tags/#Regular Expression" title="Regular Expression">Regular Expression</a>
+                            
+                        </div>
+                        <h1>Regular Expression</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Anthony Chao on
+                            2021-08-22
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Anthony Chao</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1>Regular Expression</h1>
+<ul>
+<li><a href="#basic-operation">Basic Operation</a></li>
+<li><a href="#group">Group</a></li>
+<li><a href="#assertions">Assertions</a></li>
+<li><a href="#lookaround">Lookaround</a></li>
+<li><a href="#examples">Examples</a></li>
+<li><a href="#ruby-%E7%9B%B8%E9%97%9C">Ruby 相關</a></li>
+</ul>
+<p>因為單純想要讓自己工作上有比較方便的文件可以參考，所以這篇都以 Ruby 或者 bash 的寫法來作為例子</p>
+<h2>Basic Operation</h2>
+<h3>特殊符號</h3>
+<table>
+<thead>
+<tr>
+<th>代號</th>
+<th>代表</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\w</td>
+<td>[0-9a-zA-Z_] 英文數字或底線</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>\d</td>
+<td>[0-9]</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>\s</td>
+<td>white space (tabs, regular space, newline)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>\W</td>
+<td>not in [0-9a-zA-Z_]</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>\D</td>
+<td>anything that’s not a number</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>\S</td>
+<td>anything that’s not a space</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>其他特殊符號<br>
+<img src="https://i.imgur.com/kLhTZMP.png" alt=""><br>
+這要怎麼用呢？ 比方說我現在要把文件裡面所有用到數字的地方挑出來：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grep -n <span class="string">'[0-9]'</span> regular_express.txt</span><br><span class="line"><span class="comment"># 等同於</span></span><br><span class="line">grep -n <span class="string">'[[:digit:]]'</span> regular_express.txt</span><br></pre></td></tr></table></figure>
+<h3>量詞 <code>{}</code></h3>
+<p>如果想要比對連續的相同規則，可以用 <code>{}</code></p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用 &#123;5&#125; 表示連續出現 5 次</span></span><br><span class="line">&gt; <span class="string">'abcde12345'</span>.match(<span class="regexp">/\d&#123;5&#125;/</span>)   <span class="comment"># &lt;MatchData "12345"&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 &#123;2,&#125; 表示連續出現 2 次以上</span></span><br><span class="line">&gt; <span class="string">'a++'</span>.match(<span class="regexp">/\w\+&#123;2,&#125;/</span>)       <span class="comment"># &lt;MatchData "a++"&gt;</span></span><br><span class="line">&gt; <span class="string">'a++'</span>.match(<span class="regexp">/\w\+&#123;2,&#125;/</span>)       <span class="comment"># nil</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 &#123;2, 5&#125; 表示連續出現 2 ~ 5 次</span></span><br><span class="line">&gt; <span class="string">'Hi!'</span>.match /^\w&#123;<span class="number">2</span>,<span class="number">5</span>&#125;!<span class="regexp">/       # &lt;MatchData "Hi!"&gt;</span></span><br><span class="line"><span class="regexp">&gt; 'Helloooo!'.match /</span>^\w&#123;<span class="number">2</span>,<span class="number">5</span>&#125;!<span class="regexp">/ #nil</span></span><br></pre></td></tr></table></figure>
+<p>量詞還有幾個更常用的特殊字元：</p>
+<ul>
+<li><code>*</code> 出現 0 次以上，等於 <code>{0,1}</code></li>
+<li><code>+</code> 出現一次以上，等於 <code>{1,}</code></li>
+<li><code>?</code> 出現 0 次或 1 次，等於 <code>{0,}</code></li>
+</ul>
+<h3>中括號 <code>[]</code></h3>
+<p>不管中括號裡面有幾個字，最後都只代表一個字元<br>
+範例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; grep -n <span class="string">'t[ae]st'</span> regular_express.txt <span class="comment">#[ae] 代表 a 或 e</span></span><br><span class="line">8:I can<span class="string">'t finish the test.</span></span><br><span class="line"><span class="string">9:Oh! The soup taste good.</span></span><br></pre></td></tr></table></figure>
+<p>如果我們要選的是所有大寫的 A B C…Z，就可以直接用 <code>[A-Z]</code><br>
+如果要選的這一字元是所有數字跟英文，就可以使用 <code>[A-Za-z0-9]</code></p>
+<h3>反向選擇 跟 行首字元<code>^</code></h3>
+<p>反向選擇範例(在 <code>[]</code> 裡面)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; grep -n <span class="string">'oo'</span> regular_express.txt </span><br><span class="line">1:<span class="string">"Open Source"</span> is a good mechanism to develop programs.</span><br><span class="line">2:apple is my favorite food.</span><br><span class="line">&gt; grep -n <span class="string">'[^g]oo'</span> regular_express.txt </span><br><span class="line"><span class="comment"># 選到帶有 'oo' 的行，但是 oo 前面不能是 g</span></span><br><span class="line">2:apple is my favorite food. <span class="comment"># 結果就少了 good 那一行</span></span><br></pre></td></tr></table></figure>
+<p>行首字元範例 (不在 <code>[]</code> 裡面)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; grep -n <span class="string">'^[a-z]'</span> regular_express.txt</span><br><span class="line"><span class="comment"># 可以得到第一個字元是小寫字元的行</span></span><br><span class="line">&gt; grep <span class="string">'^first'</span> regular_express.txt</span><br><span class="line"><span class="comment"># 得到 first 開頭的行</span></span><br></pre></td></tr></table></figure>
+<h3>行尾字元 <code>$</code></h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; grep -n <span class="string">'\.$'</span> regular_express.txt</span><br><span class="line"><span class="comment"># 得到結尾是句號的行</span></span><br><span class="line">&gt; grep <span class="string">'t$'</span> regular_express.txt</span><br><span class="line"><span class="comment"># 得到結尾是t 的行</span></span><br></pre></td></tr></table></figure>
+<h3>任意一個字元 <code>.</code></h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; grep -n `g..d` regular_express.txt</span><br><span class="line"><span class="comment"># good 跟 glad 都會被抓出來</span></span><br><span class="line">1:<span class="string">"Open Source"</span> is a good mechanism to develop programs.</span><br><span class="line">9:Oh! The soup taste good.</span><br><span class="line">16:The world &lt;Happy&gt; is the same with <span class="string">"glad"</span>.</span><br></pre></td></tr></table></figure>
+<hr>
+<h2>Group</h2>
+<p>group 是拿來捕獲特定文字供後續使用</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="string">'user: Alan'</span>.match(<span class="regexp">/user: (\w+)/</span>)</span><br><span class="line">=&gt; #&lt;MatchData "user: Alan" 1:"Alan"&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可以用巢狀結構</span></span><br><span class="line">&gt; <span class="string">'fullName: Alan Hsu'</span>.match(<span class="regexp">/fullName: ((\w+) (\w+))/</span>)</span><br><span class="line">=&gt; #&lt;MatchData "fullName: Alan Hsu" 1:"Alan Hsu" 2:"Alan" 3:"Hsu"&gt;</span><br><span class="line"></span><br><span class="line">t = <span class="string">"First sentence. Second sentence.Third sentence!Fourth sentence?Fifth sentence."</span></span><br><span class="line">t.gsub(<span class="regexp">/([.!?])([A-Z1-9])/</span>, <span class="string">"\\1\n\\2"</span>) <span class="comment"># =&gt; "First sentence. Second sentence.\nThird sentence!\nFourth sentence?\nFifth sentence."</span></span><br></pre></td></tr></table></figure>
+<p>我們可以幫這些群組命名，讓他更符合語意</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; result = <span class="string">'fullName: Alan Hsu'</span>.match(<span class="regexp">/fullName: (?&lt;firstName&gt;\w+) (?&lt;lastName&gt;\w+)/</span>)</span><br><span class="line">=&gt; #&lt;MatchData "fullName: Alan Hsu" firstName:"Alan" lastName:"Hsu"&gt;</span><br><span class="line">&gt; result[<span class="symbol">:firstName</span>]</span><br><span class="line">=&gt; <span class="string">"Alan"</span></span><br></pre></td></tr></table></figure>
+<h3>non-capturing group</h3>
+<p>如果捕獲的文字不重要，可以在前面加上 <code>?:</code></p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="string">'192.168.0.1'</span>.match /(\d&#123;<span class="number">1</span>,<span class="number">3</span>&#125;\.)&#123;<span class="number">3</span>&#125;\d&#123;<span class="number">1</span>,<span class="number">3</span>&#125;/</span><br><span class="line"> =&gt; #&lt;MatchData "192.168.0.1" 1:"0."&gt;</span><br><span class="line">&gt; <span class="string">'192.168.0.1'</span>.match /(?<span class="symbol">:</span>\d&#123;<span class="number">1</span>,<span class="number">3</span>&#125;\.)&#123;<span class="number">3</span>&#125;\d&#123;<span class="number">1</span>,<span class="number">3</span>&#125;/</span><br><span class="line"> =&gt; #&lt;MatchData "192.168.0.1"&gt;</span><br></pre></td></tr></table></figure>
+<h3>backreference</h3>
+<p>我們可以用 <code>\1</code> <code>\2</code> 等等來代表已經捕獲的文字</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; (<span class="string">'2a2b'</span>).match(<span class="regexp">/(\d+)a\1b/</span>)</span><br><span class="line">=&gt; #&lt;MatchData "2a2b" 1:"2"&gt;</span><br><span class="line">&gt; (<span class="string">'1a2b'</span>).match(<span class="regexp">/(\d+)a\1b/</span>)</span><br><span class="line">=&gt; nil</span><br></pre></td></tr></table></figure>
+<h2>Assertions</h2>
+<p>wiki:</p>
+<blockquote>
+<p>斷言是一種放在程式中的一階邏輯 ( 例如一個結果為 true 或 false 的判斷式 ) ，當程式執行到斷言的位置時就會執行判斷，若結果為 true 則繼續執行，結果為 false 則中止執行。</p>
+</blockquote>
+<p>前面提到的 <code>^</code> <code>$</code> 也都是 assertions 的一種，常見的還有文字邊界 <code>\b</code> 跟 lookaround</p>
+<p>文字邊界顧名思義就是會確定所在位置是不是文字的邊界</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="string">'difference between Javascript and Java.'</span>.sub(<span class="regexp">/Java/</span>, <span class="string">'Ruby'</span>)</span><br><span class="line"> =&gt; <span class="string">"difference between Rubyscript and Java."</span></span><br><span class="line">&gt; <span class="string">'difference between Javascript and Java.'</span>.sub(<span class="regexp">/\bJava\b/</span>, <span class="string">'Ruby'</span>)</span><br><span class="line"> =&gt; <span class="string">"difference between Javascript and Ruby."</span></span><br><span class="line">&gt; <span class="string">'difference between Javascript and Java.'</span>.gsub(<span class="regexp">/\b/</span>, <span class="string">'|'</span>)</span><br><span class="line"> =&gt; <span class="string">"|difference| |between| |Javascript| |and| |Java|."</span></span><br></pre></td></tr></table></figure>
+<h2>Lookaround</h2>
+<p>這部份是比較進階的用法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">?=  is for positive look ahead</span><br><span class="line">?!  is for negative look ahead</span><br><span class="line">?&lt;= is for positive look behind</span><br><span class="line">?&lt;! is for negative look behind</span><br></pre></td></tr></table></figure>
+<p>先來看 lookahead , 意思是「往前看」，語法為：</p>
+<p>Positive lookahead ： X(?=Y)</p>
+<p>Negative lookahead ： X(?!Y)</p>
+<p>解釋為： 我要找 X 而其後方必須/不可為 Y ；而其中 X 和 Y 都可以是一個合法的表達式。</p>
+<p>比方說 <code>/a(?=b)/</code> 會 match 到 “ab” 裡面的 “a”，但不會 match “ac” 裡面的 a，要注意的是雖然有用括號刮起來，但像是 non-capture group 一樣，他們並不會被放到群組裡面</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="string">'abc'</span>.match(<span class="regexp">/b(?=c)/</span>)</span><br><span class="line"> =&gt; #&lt;MatchData "b"&gt;</span><br></pre></td></tr></table></figure>
+<p>lookahead 跟 non-capturing group 有點像，但 lookahead match 到的部分不包括括號裡面的東西</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="string">'abc'</span>.match(<span class="regexp">/a(?=b)/</span>)</span><br><span class="line"> =&gt; #&lt;MatchData "a"&gt;</span><br><span class="line">&gt; <span class="string">'abc'</span>.match(<span class="regexp">/a(?:b)/</span>)</span><br><span class="line"> =&gt; #&lt;MatchData "ab"&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2>Examples</h2>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt; group = <span class="string">"You: are not coool"</span>.match(<span class="regexp">%r&#123;(^.*):(.*)&#125;</span>)</span><br><span class="line"><span class="comment">#&lt;MatchData "You: are not coool" 1:"You" 2:" are not coool"&gt;</span></span><br><span class="line">&gt; group[<span class="number">0</span>]</span><br><span class="line"><span class="string">"You: are not coool"</span></span><br><span class="line">&gt; group[<span class="number">1</span>]</span><br><span class="line"><span class="string">"You"</span></span><br><span class="line">&gt; group[<span class="number">2</span>]</span><br><span class="line"><span class="string">" are not coool"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; target.match(<span class="regexp">%r&#123;(application|assessment)/(\w+)&#125;</span>)</span><br></pre></td></tr></table></figure>
+<p>找到 html tag 裡面的雙引號：</p>
+<p><code>[^&lt;]*&gt;</code> 代表最後是 <code>&gt;</code> 然後前面是除了 <code>&lt;</code> 之外任意東西的 n 個</p>
+<p><code>&quot;(?=[^&lt;]*&gt;)</code> 就是找到雙引號，他的後面需要有 <code>&gt;</code>，然後這個 <code>&gt;</code> 的前面到雙引號之間不能有 <code>&lt;</code></p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="string">'&lt;tag&gt;this is a double quote "  &lt;/tag&gt;'</span>.match(<span class="regexp">/"(?=[^&lt;]*&gt;)/</span>)</span><br><span class="line"> =&gt; nil</span><br><span class="line">&gt; <span class="string">'&lt;tag href="this is a double quote "&gt;'</span>.gsub(<span class="regexp">/"(?=[^&lt;]*&gt;)/</span>, <span class="string">"|"</span>)</span><br><span class="line"> =&gt; <span class="string">"&lt;tag href=|this is a double quote |&gt;"</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h2>Ruby 相關</h2>
+<h3>ruby 的 <code>%r</code></h3>
+<p><code>%r</code> 裡面的東西會自己轉變成 regular expression(class 是 Regexp)<br>
+好處是不用去做 escape</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">%r&#123;<span class="regexp">/home/user</span>&#125;</span><br><span class="line"><span class="comment"># 會等於</span></span><br><span class="line">/\/home\/user/</span><br></pre></td></tr></table></figure>
+<h3>match</h3>
+<p>一般常見的用法：</p>
+<p>mtach 的結果會回傳 MatchData 物件</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt; string = <span class="string">'&#123;fontsize: 54&#125;Biigger text&#123;fontsize&#125;'</span></span><br><span class="line">&gt; result = string.match(<span class="regexp">/\&#123;fontsize: *(\d*)\&#125;(.*?)\&#123;fontsize\&#125;/</span>)</span><br><span class="line">&gt; result[<span class="number">1</span>]</span><br><span class="line"> =&gt; <span class="string">"54"</span></span><br><span class="line">&gt; result[<span class="number">2</span>]</span><br><span class="line"> =&gt; <span class="string">"Biigger text"</span></span><br><span class="line">&gt; result.captures</span><br><span class="line"> =&gt; [<span class="string">"54"</span>, <span class="string">"Biigger text"</span>]</span><br></pre></td></tr></table></figure>
+<p>如果是用 block，裡面被 yield 出來的參數也是同樣的 MatchData 物件</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">string.match(<span class="regexp">/\&#123;fontsize: *(\d*)\&#125;(.*?)\&#123;fontsize\&#125;/</span>) <span class="keyword">do</span> <span class="params">|match|</span></span><br><span class="line">  p match[<span class="number">1</span>]</span><br><span class="line">  p match[<span class="number">2</span>]</span><br><span class="line">  p match.captures</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#"54"</span></span><br><span class="line"><span class="comment">#"Biigger text"</span></span><br><span class="line"><span class="comment">#["54", "Biigger text"]</span></span><br></pre></td></tr></table></figure>
+<h3>gsub</h3>
+<p>可以在 gsub 裡面使用 regular expression 應該大家都知道，但如果想要比較複雜的操作，在 gsub 的 block 裡面 yield 的物件是 String 物件，可以用 <code>RegExp.last_match</code> 拿到 MatchData 物件</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt; string.gsub(<span class="regexp">/\&#123;fontsize: *(\d*)\&#125;(.*?)\&#123;fontsize\&#125;/</span>) <span class="keyword">do</span> <span class="params">|s|</span></span><br><span class="line">  p s<span class="class">.<span class="keyword">class</span></span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">=&gt; <span class="string">"String"</span></span><br><span class="line"></span><br><span class="line">&gt; string.gsub(<span class="regexp">/\&#123;fontsize: *(\d*)\&#125;(.*?)\&#123;fontsize\&#125;/</span>) <span class="keyword">do</span></span><br><span class="line">  match = Regexp.last_match</span><br><span class="line">  <span class="string">"&lt;span font-size='<span class="subst">#&#123;match[<span class="number">1</span>]&#125;</span>'px&gt;<span class="subst">#&#123;match[<span class="number">2</span>]&#125;</span>&lt;/span&gt;"</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">=&gt; <span class="string">"&lt;span font-size='54'px&gt;Biigger text&lt;/span&gt;"</span></span><br></pre></td></tr></table></figure>
+<h3><code>=~</code></h3>
+<p>如果只是想看某段字串是否符合 regular expression 可以用這個 operator</p>
+<p>他的回傳值是符合的地方的 index</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="string">'test123'</span> =~ <span class="regexp">/123/</span></span><br><span class="line"> =&gt; <span class="number">4</span></span><br></pre></td></tr></table></figure>
+<h3>scan</h3>
+<p>會把符合 regular expression 的部分都放到 array</p>
+<p>如果要用 group 的 regular expression 則會變成 nested array</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="string">'123test123'</span>.scan /<span class="number">123</span>/</span><br><span class="line"> =&gt; [<span class="string">"123"</span>, <span class="string">"123"</span>]</span><br><span class="line">&gt; <span class="string">'123test123'</span>.scan /(<span class="number">123</span>)/</span><br><span class="line"> =&gt; [[<span class="string">"123"</span>], [<span class="string">"123"</span>]]</span><br></pre></td></tr></table></figure>
+<hr>
+<h2>參考資料</h2>
+<p><a href="https://5xruby.tw/posts/15min-regular-expression" target="_blank" rel="noopener">五倍紅寶石的介紹</a><br>
+<a href="https://stackoverflow.com/questions/12493128/regex-replace-text-but-exclude-when-text-is-between-specific-tag" target="_blank" rel="noopener">Stackoverflow</a><br>
+<a href="https://stackoverflow.com/questions/10804732/difference-between-and" target="_blank" rel="noopener">Stackoverflow: Difference between ?:, ?! and ?=</a></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/2021-08-25-Ssh_tunnel/" data-toggle="tooltip" data-placement="top" title="SSH Tunnel">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/2021-08-20-Elixir_Basics/" data-toggle="tooltip" data-placement="top" title="Elixir Basics">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Regular Expression</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Basic Operation</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text">特殊符號</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.1.2.</span> <span class="toc-nav-text">量詞 {}</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.1.3.</span> <span class="toc-nav-text">中括號 []</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.1.4.</span> <span class="toc-nav-text">反向選擇 跟 行首字元^</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.1.5.</span> <span class="toc-nav-text">行尾字元 $</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.1.6.</span> <span class="toc-nav-text">任意一個字元 .</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">Group</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text">non-capturing group</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.2.</span> <span class="toc-nav-text">backreference</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">Assertions</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">Lookaround</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">Examples</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text">Ruby 相關</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.6.1.</span> <span class="toc-nav-text">ruby 的 %r</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.6.2.</span> <span class="toc-nav-text">match</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.6.3.</span> <span class="toc-nav-text">gsub</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.6.4.</span> <span class="toc-nav-text">=~</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.6.5.</span> <span class="toc-nav-text">scan</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.7.</span> <span class="toc-nav-text">參考資料</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Ruby" title="Ruby">Ruby</a>
+                        
+                          <a class="tag" href="/tags/#Shell" title="Shell">Shell</a>
+                        
+                          <a class="tag" href="/tags/#Regular Expression" title="Regular Expression">Regular Expression</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+                    
+                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+                    
+                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/qoosuperman">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Anthony Chao 2026 
+                    <br>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-153986590-1';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

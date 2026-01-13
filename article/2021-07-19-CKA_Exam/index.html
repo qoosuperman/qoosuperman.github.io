@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
+    <meta name="keyword" content="">
+    <meta property="og:image" content="undefined">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>
+        
+          Tips For Passing Certified Kubernetes Administrator(CKA) Exam - Anthony Chao | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2021-07-19-CKA_Exam/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://images.unsplash.com/photo-1626627969122-739ddc972b1c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1334&amp;q=80')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Devops" title="Devops">Devops</a>
+                            
+                              <a class="tag" href="/tags/#Kubernetes" title="Kubernetes">Kubernetes</a>
+                            
+                              <a class="tag" href="/tags/#K8S" title="K8S">K8S</a>
+                            
+                        </div>
+                        <h1>Tips For Passing Certified Kubernetes Administrator(CKA) Exam</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Anthony Chao on
+                            2021-07-19
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Anthony Chao</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>不知不覺又三個月沒發文，因為這三個月期間在緊鑼密鼓的準備這張證照的考試：Certified Kubernetes Administrator(CKA)</p>
+<p>今天來分享一下過關小技巧順便記錄一下</p>
+<p>沒圖沒真相，先發個合格證照的圖:</p>
+<p><img src="https://i.imgur.com/6gkegpK.jpg" alt="CKA_certificate"></p>
+<h2>考前準備</h2>
+<ol>
+<li>線上課程</li>
+</ol>
+<p>我覺得幫助最大的是 Udemy 上面找到的這堂課：<a href="https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/" target="_blank" rel="noopener">Certified Kubernetes Administrator (CKA) with Practice Tests</a></p>
+<p>這堂課真的大推，除了考試需要的知識之外，把一些基礎知識也教給你，像是 HTTPS 的原理 / 怎麼在 Linux 系統上面自己做類似 docker bridge netowrk 的架構等等，最猛的是它會另外提供虛擬環境給你練習題目，上面可以直接操作 K8S 的 cluster</p>
+<ol start="2">
+<li>CNCF 提供的 CKA 課程</li>
+</ol>
+<p>CNCF 就是主辦這個考試的機構，他自己也有提供 CKA 課程，但其實就是給你一堆 PDF 叫你自己跟著操作，跟實際考試會遇到的狀況差非常多，因為證照是公司當初跟著課程買的，所以一開始想說看 CNCF 的課程就好，結果花了很多時間看，但效果非常差，後來才去找到 Udemy 的課程來看</p>
+<ol start="3">
+<li>網路上善心人士提供的題庫</li>
+</ol>
+<p>如果去網路搜尋一下，會找到滿多人自己出的題目，像我找到的這個<a href="https://github.com/David-VTUK/CKA-StudyGuide/blob/master/LabGuide/01-Cluster%20Architcture%2C%20Installation%20and%20Configuration.md" target="_blank" rel="noopener">題庫</a>雖然不多但每一題都算是必考，考前的兩個禮拜我會開 Udemy 那堂課提供的虛擬環境來練這邊的題目，每天練一下熟悉一下手感</p>
+<h2>考試小技巧</h2>
+<ol>
+<li>把常用連結加到書籤</li>
+</ol>
+<p>在考試的時候，除了考試的網頁之外，最多只能再開一頁分頁，而且必須要是 K8S 的官方文件，考試中常常需要去搜尋不同 resource 的 yaml 範例拿來複製貼上，而且有的 yaml 範例還很不好找，所以建議把這些特別難找特別常用的加到書籤，可以省下不少時間</p>
+<p>我考試當時的書籤基本上就是滿滿的 K8S 官方文件：<br>
+<img src="https://i.imgur.com/2SYpZm8.png" alt="browser_tags"></p>
+<ol start="2">
+<li>設定 alias</li>
+</ol>
+<p>最重要的一個 alias 就是把 <code>kubectl</code> 設定成 <code>k</code>，重要到連 <a href="https://kubernetes.io/docs/reference/kubectl/cheatsheet/" target="_blank" rel="noopener">kubernetes 官方文件</a>的 cheatsheet 都放在最前面，設定這個 alias 考試至少省 15 分鐘以上</p>
+<ol start="3">
+<li>使用 tmux</li>
+</ol>
+<p>因為考試的時候用的是網頁，而不是真的可以用自己的 terminal，所以我用了 tmux 來切割視窗，為了讓 tmux 視窗可以吃到上面 alias 的設定，考試一開始我會先把上面 cheatsheet 寫的那幾行放到 <code>~/.bashrc</code> 裡面，然後用 apt-get 去下載 tmux 開起來</p>
+<p>比較麻煩的是如果要複製 yaml 回來貼上的話，在 tmux 裡面貼上格式會跑到，所以我只好都先 detach ，然後把要貼上的 yaml 貼上之後再 attach 回原本的 tmux session</p>
+<h2>考前須知</h2>
+<ol>
+<li>考試環境</li>
+</ol>
+<p>雖然這項考試裡面也寫得很清楚了，但想說還是提一下</p>
+<p>這個考試對於考試環境很龜毛，你要在一個空間裡面考試，在考試期間(兩小時)不能有其他人員進出這個空間，然後放電腦的桌上不能有其他紙筆，牆壁上不能有海報，甚至你的電腦後面不能有窗戶(怕有別人打 pass 給你)，在考試前會要求你用鏡頭讓考官掃視一下房間 / 桌子底下 / 桌上，我考試的時候花了差不多 20 分鐘再跟考官玩這些東西@@</p>
+<ol start="2">
+<li>跟考官的溝通</li>
+</ol>
+<p>原本以為跟考官的溝通是透過講英文，結果溝通方式是類似 FB 網頁版，會在右下角跳出一個視窗讓你跟考官透過視窗打字溝通<br>
+，所以從頭到尾倒尾你不會看到考官也不會聽到他的聲音，但他會聽到你這邊的聲音</p>
+<ol start="3">
+<li>鏡頭</li>
+</ol>
+<p>雖然考前就知道，考官會一直看著你的鏡頭看你有沒有作弊，但考試期間還是一直讓我滿困擾的，他要求要能一直看到你的臉，但我偏偏會下意識地想要湊近螢幕看題目，一直被跳出來的視窗干擾，所以如果你有額外的鏡頭就用吧，用 mac built in 的鏡頭應該很容易有我這種困擾</p>
+<ol start="4">
+<li>考試時間 / 題數</li>
+</ol>
+<p>考試時間是兩個小時，題數接近 20 題，全部都是上機考試的實作題，沒有什麼選擇是非題 XD</p>
+<p>雖然很多題目在官方文件上面找都會有答案，但考這個試最缺的就是時間，我看到很多人抱怨沒時間檢查，在 tmux / alias / 書籤的幫助下我大概檢查了兩次，而且以我粗心的個性果然有檢查到做錯的題目，所以檢查還是建議做一下</p>
+<h2>心得</h2>
+<p>很開心公司有提供這種機會讓我去學習 &amp; 考照，儘管現在用到的機會不多，但畢竟省了荷包(這張證照自己考可是要 300 鎂)，而且過程中真的是收穫滿滿！</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/2021-07-31-Ruby_Metaprogramming/" data-toggle="tooltip" data-placement="top" title="Synopsis of Ruby Metaprgramming">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/2021-04-16-Shell_variables/" data-toggle="tooltip" data-placement="top" title="Shell variables">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">考前準備</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">考試小技巧</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">考前須知</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">心得</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Devops" title="Devops">Devops</a>
+                        
+                          <a class="tag" href="/tags/#Kubernetes" title="Kubernetes">Kubernetes</a>
+                        
+                          <a class="tag" href="/tags/#K8S" title="K8S">K8S</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+                    
+                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+                    
+                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/qoosuperman">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Anthony Chao 2026 
+                    <br>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-153986590-1';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

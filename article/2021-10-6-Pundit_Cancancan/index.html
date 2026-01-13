@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
+    <meta name="keyword" content="">
+    <meta property="og:image" content="undefined">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>
+        
+          實作利用 Pundit 跟 Cancancan 做動態權限管理 - Anthony Chao | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2021-10-6-Pundit_Cancancan/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://images.unsplash.com/photo-1632213702844-1e0615781374?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=2664&amp;q=80')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Rails" title="Rails">Rails</a>
+                            
+                              <a class="tag" href="/tags/#Ruby" title="Ruby">Ruby</a>
+                            
+                        </div>
+                        <h1>實作利用 Pundit 跟 Cancancan 做動態權限管理</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Anthony Chao on
+                            2021-10-06
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Anthony Chao</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1>用 Pundit / Cancancan 做動態權限管理</h1>
+<p>Rails 有兩個 gem 在處理權限管理，分別是 Pundit 跟 Cancancan，自己的公司是使用 Cancancan，朋友的公司是使用 pundit，都剛好是用 DB 的資料來做權限控管，想要自己試看看用起來手感如何</p>
+<p>如果想要看 code 的話可以參考我的 <a href="https://github.com/qoosuperman/permission_test" target="_blank" rel="noopener">repo</a></p>
+<p>其中又把兩種不同的方式分成兩個 branch 來做</p>
+<p><code>feature/pundit-permission-system</code> 是使用 pundit 做的， <code>feature/cancan-permission-system</code> 是使用 cancancan 做的</p>
+<h2>Outline</h2>
+<ul>
+<li><a href="#pundit">Pundit</a></li>
+<li><a href="#cancancan">Cancancan</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+<h2>Pundit</h2>
+<p>Pundit 的基本使用方式參考 <a href="https://github.com/varvet/pundit" target="_blank" rel="noopener">官方repo</a></p>
+<h3>DB 設計</h3>
+<p><img src="https://i.imgur.com/34VlqyS.png" alt="pundit er diagram"></p>
+<p>在這個設計裡面，一個 User 歸屬於一個 UserGroup</p>
+<p>UserGroup 裡面的 admin 為 boolean，決定在這個 group 裡面的使用者有沒有 admin 權限</p>
+<p>PermissionResource 對應到每個不同的要做權限控管的資源，如果是對於 Book model 的權限控管，在這裡的 name 就是 <code>Book</code></p>
+<p>default priority 則是紀錄這個資源預設對大家是可讀還是可寫還是 disable</p>
+<p>UserGroup 跟 PermissionResource 之間則是多對多關聯，中間的 group_permission 紀錄了某 UserGroup 對於某 resource 的存取權，紀錄在 priority 欄位裡面</p>
+<h3>code 說明</h3>
+<h4>model</h4>
+<p>在 create permission resource 時，default_priority 只有 disable / read / write 三種</p>
+<p>然後每增加一個 resource 就會 trigger 自動幫所有 user_group 都加上 default priority</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># app/models/permission_resource.rb</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PermissionResource</span> &lt; ApplicationRecord</span></span><br><span class="line">  has_many <span class="symbol">:group_permissions</span>, <span class="symbol">dependent:</span> <span class="symbol">:destroy</span></span><br><span class="line">  enum <span class="symbol">default_priority:</span> GroupPermission::PRIORITY_OPTIONS</span><br><span class="line"></span><br><span class="line">  after_create <span class="symbol">:setup_group_sermissions</span></span><br><span class="line"></span><br><span class="line">  private</span><br><span class="line"></span><br><span class="line">  <span class="comment"># 每增加一個 permission resource 自動幫所有的 user group 加上這個 permission</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">setup_group_sermissions</span></span></span><br><span class="line">    UserGroup.all.each <span class="keyword">do</span> <span class="params">|user_group|</span></span><br><span class="line">      user_group.permission_resources += [<span class="keyword">self</span>]</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>GroupPermission 這邊加了一個 scope，要撈 enable 的 permission 會撈 priority &gt; 0 的，也就是非 diable 的</p>
+<p>這裡有做一個 before create 的 hook，要搭配前面的機制，在 create 的時候 priority 自動加上 permission_reosurce 自己設定的 default priority</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># app/models/group_permission.rb</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GroupPermission</span> &lt; ApplicationRecord</span></span><br><span class="line">  PRIORITY_OPTIONS = &#123;</span><br><span class="line">    <span class="symbol">disable:</span> <span class="number">0</span>,</span><br><span class="line">    <span class="symbol">readable:</span> <span class="number">1</span>,</span><br><span class="line">    <span class="symbol">writable:</span> <span class="number">2</span></span><br><span class="line">  &#125;</span><br><span class="line">  belongs_to <span class="symbol">:user_group</span></span><br><span class="line">  belongs_to <span class="symbol">:permission_resource</span></span><br><span class="line">  scope <span class="symbol">:enable</span>, -&gt; &#123; where(<span class="string">'group_permissions.priority &gt; 0'</span>) &#125;</span><br><span class="line">  enum <span class="symbol">priority:</span> PRIORITY_OPTIONS</span><br><span class="line"></span><br><span class="line">  before_create <span class="symbol">:setup_priority</span></span><br><span class="line"></span><br><span class="line">  private</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">setup_priority</span></span></span><br><span class="line">    <span class="keyword">self</span>.priority = permission_resource.default_priority <span class="keyword">if</span> priority.<span class="literal">nil</span>?</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h4>policy</h4>
+<p>原本的使用方式是，根據每個不同的 model 做出對應的 policy 做權限管理 ex <code>PostPolicy</code> 對應到 <code>Post</code> model</p>
+<p>但現在如果要動態產生，就會把所有 policy 做的事情集中到 <code>ApplicationPolicy</code> 來做</p>
+<p>其中的重點在 <code>permissions</code> 這個 method，他會撈這個 user 所有的 enabled_permissions，也就是他歸屬的 user_group 所有的非 diable 的 group_permission</p>
+<p>再透過 group_permission 撈出，permission_reosurce 的 name，看對這個 resource 有沒有 read 或者 write 權限，這邊的一個假設是只要不是 disable 都有 read 權限</p>
+<p>另外因為 pundit 不像 cancancan 有一些 mapping，這邊的 mapping 就是自己寫: ex <code>writable =&gt; [:create, :new, :update, :edit, :destroy]</code></p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># app/policies/application_policy.rb</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ApplicationPolicy</span></span></span><br><span class="line">  <span class="keyword">attr_reader</span> <span class="symbol">:user</span>, <span class="symbol">:record</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">initialize</span><span class="params">(user, record)</span></span></span><br><span class="line">    @user = user</span><br><span class="line">    @record = record</span><br><span class="line">    @record_model = @record.model_name.to_s</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">index?</span></span></span><br><span class="line">    readable?</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">show?</span></span></span><br><span class="line">    readable?</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">create?</span></span></span><br><span class="line">    writable?</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">new?</span></span></span><br><span class="line">    create?</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">update?</span></span></span><br><span class="line">    writable?</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">edit?</span></span></span><br><span class="line">    update?</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">destroy?</span></span></span><br><span class="line">    writable?</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">admin?</span></span></span><br><span class="line">    @admin <span class="params">||</span>= @user.user_group.admin?</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">readable?</span></span></span><br><span class="line">    admin? <span class="params">||</span> permissions.where(<span class="symbol">permission_resources:</span> &#123; <span class="symbol">name:</span> @record_model &#125;).any?</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">writable?</span></span></span><br><span class="line">    admin? <span class="params">||</span> permissions.writable.where(<span class="symbol">permission_resources:</span> &#123; <span class="symbol">name:</span> @record_model &#125;).any?</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">permissions</span></span></span><br><span class="line">    @permissions <span class="params">||</span>= @user.enabled_permissions.includes(<span class="symbol">:permission_resource</span>)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>有點討厭的是如果要對 Book 這個 resource 管控，還是要把這個 policy 寫出來，不然可能要考慮 metaprogramming 的方式</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># app/policies/book_policy.rb</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookPolicy</span> &lt; ApplicationPolicy</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h4>controller</h4>
+<p>在目前比較簡單的示範中，我們假設 controller 的命名也都符合 model 的命名，所以在每個 controller 的 action 都先進行權限確認</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AuthedController</span> &lt; ApplicationController</span></span><br><span class="line">  before_action <span class="symbol">:authenticate_user!</span></span><br><span class="line">  before_action <span class="symbol">:setup_authorize</span></span><br><span class="line"></span><br><span class="line">  private</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">setup_authorize</span></span></span><br><span class="line">    <span class="comment"># 預設 model 名為 controller 名的單數</span></span><br><span class="line">    authorize <span class="keyword">self</span><span class="class">.<span class="keyword">class</span>.<span class="title">name</span>.<span class="title">demodulize</span>.<span class="title">to_s</span>.<span class="title">gsub</span>('<span class="title">Controller</span>', '').<span class="title">singularize</span>.<span class="title">constantize</span></span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>如果權限不符合，預設 pundit 會 raise <code>Pundit::NotAuthorizedError</code> 這個 error，所以可以把他抓起來</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ApplicationController</span> &lt; ActionController::Base</span></span><br><span class="line">  before_action <span class="symbol">:authenticate_user!</span></span><br><span class="line">  <span class="keyword">include</span> Pundit</span><br><span class="line">  rescue_from Pundit::NotAuthorizedError, <span class="symbol">with:</span> <span class="symbol">:user_not_authorized</span></span><br><span class="line"></span><br><span class="line">  private</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">user_not_authorized</span></span></span><br><span class="line">    flash[<span class="symbol">:alert</span>] = <span class="string">"You are not authorized to perform this action."</span></span><br><span class="line">    redirect_back(<span class="symbol">fallback_location:</span> root_path)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h4>view</h4>
+<p>決定按鈕要不要出現可以搭配 policy helper 使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if policy(@books).writable? %&gt;</span><br><span class="line">  &lt;button&gt;&lt;%= link_to &apos;Add&apos;, new_book_path, class: &apos;btn btn-success&apos;%&gt;&lt;/button&gt;</span><br><span class="line">&lt;% end %&gt;</span><br></pre></td></tr></table></figure>
+<h2>Cancancan</h2>
+<p>Cancancan 的基本使用方式參考 <a href="https://github.com/CanCanCommunity/cancancan" target="_blank" rel="noopener">官方repo</a></p>
+<h3>DB 設計</h3>
+<p><img src="https://i.imgur.com/Xy2oB6Z.png" alt="cancancan er diagram"><br>
+在這個設計裡面，User 跟 Team 是多對多，Team 跟 PermissionGroup 是多對多，PermissionGroup 跟 Permission 是多對多，然後一個 ApplicationResource has_many permissions</p>
+<p>ApplicationResource 代表一個資源，他的 actions 裡面代表可以對這個資源做哪些操作，通常對應到 controller 裡面的 action, ex. <code>[:index, :new]</code></p>
+<p>而因為 cancancan 這個 gem 又已經對 controller 的 action 做了下面這樣的 mapping:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">read:</span> [<span class="symbol">:index</span>, <span class="symbol">:show</span>]</span><br><span class="line"><span class="symbol">create:</span> [<span class="symbol">:new</span>, <span class="symbol">:create</span>]</span><br><span class="line"><span class="symbol">update:</span> [<span class="symbol">:edit</span>, <span class="symbol">:update</span>]</span><br><span class="line"><span class="symbol">destroy:</span> [<span class="symbol">:destroy</span>]</span><br></pre></td></tr></table></figure>
+<p>所以 application resource 紀錄的 action 也通常是這四種</p>
+<p>Permission 則代表對這個 resource 可以操作的一種權限，比方說對 Book 這個 resource read 跟 read + write 可以分成兩種不同的權限</p>
+<p>比較特別的是 permission 裡面的 allowed_actions 用 bitmask 做紀錄，而他對應到的屬性是根據 belongs_to 的 application resource 的 actions 決定，所以 如果 permission A 跟 permission B 對應到的 application ressource 不同，就算他們的 allowed_actions 都是 1，那他們代表的意義也可能不同</p>
+<p>最後 team 跟 permission_group 的多對多，其實是可以只留下 team 或者只留下 permission_group，他們之間的區隔有點模糊，可能根據實際應用的例子可以考慮留下其中一個 model 即可，但這樣做有個彈性是，之後每個 user 也可以自己擁有 permission_group，而不屬於 team 底下</p>
+<h3>code 說明</h3>
+<h4>model</h4>
+<p>我們需要以 User 為起點，拿到這個用戶的權限，他背後串連著多個 model</p>
+<p>首先 <code>ApplicationResource</code> 裡面實作 <code>fetch_all_resources</code> 這個 class method</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># app/models/application_resource.rb</span></span><br><span class="line">...</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">fetch_all_resources</span></span></span><br><span class="line">  Rails.cache.fetch(APPLICATION_RESOURCE_CACHE) <span class="keyword">do</span></span><br><span class="line">    ApplicationResource.all.decorate.each_with_object(&#123;&#125;) <span class="keyword">do</span> <span class="params">|resource, hash|</span></span><br><span class="line">      hash[resource.id] = &#123; <span class="symbol">name:</span> resource.name, <span class="symbol">actions:</span> resource.actions &#125;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>上面的結果會拿到像這樣子的資料結構，說明每個 resource 有哪些權限可以使用：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="comment"># hash[resource.id] = &#123; name: resource.name, actions: resource.actions &#125;</span></span><br><span class="line">  <span class="number">1</span>: &#123; <span class="symbol">name:</span> <span class="string">'User'</span>, <span class="symbol">actions:</span> [<span class="string">'read'</span>]&#125;,</span><br><span class="line">  <span class="number">2</span>: &#123; <span class="symbol">name:</span> <span class="string">'Book'</span>, <span class="symbol">actions:</span> [<span class="string">'read'</span>,<span class="string">'create'</span>]&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Permission</code> 則有一個 class_method <code>fetch_all_permissions</code>，利用上面的資料結構，要把所有的 permission 代表的權限表示出來，中間有一些處理 Bitmask 的操作不是很重要：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># app/models/permission.rb</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Permission</span> &lt; ApplicationRecord</span></span><br><span class="line">  ...</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">fetch_all_permissions</span></span></span><br><span class="line">    all_resources = ApplicationResource.fetch_all_resources</span><br><span class="line">    Permission.all.each_with_object(&#123;&#125;) <span class="keyword">do</span> <span class="params">|permission, hash|</span></span><br><span class="line">      all_actions = all_resources[permission.application_resource_id][<span class="symbol">:actions</span>]</span><br><span class="line">      hash[permission.id] = &#123;</span><br><span class="line">        <span class="symbol">application_resource_name:</span> all_resources[permission.application_resource_id][<span class="symbol">:name</span>],</span><br><span class="line">        <span class="symbol">allowed_actions:</span> Admin::Permission::Bitmask.new(all_actions, permission.allowed_actions)</span><br><span class="line">      &#125;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  ...</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>上面的結果會拿到像這樣子的資料結構</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># hash[permission.id] = &#123;</span></span><br><span class="line"><span class="comment">#   application_resource_name: all_resources[permission.application_resource_id][:name],</span></span><br><span class="line"><span class="comment">#   allowed_actions: Admin::Permission::Bitmask.new(all_actions, permission.allowed_actions)</span></span><br><span class="line"><span class="comment"># &#125;</span></span><br><span class="line"><span class="comment"># Note: 這裡的 allowed_actions 是 permission 限制過的 action 而不是 application resource 的</span></span><br><span class="line">&#123; </span><br><span class="line">  <span class="number">1</span>: &#123; <span class="symbol">application_resource_name:</span> <span class="string">'User'</span>, <span class="symbol">allowed_actions:</span> [<span class="string">'read'</span>] &#125;,</span><br><span class="line">  <span class="number">2</span>: &#123; <span class="symbol">application_resource_name:</span> <span class="string">'Book'</span>, <span class="symbol">allowed_actions:</span> [<span class="string">'read'</span>] &#125;,</span><br><span class="line">  <span class="number">3</span>: &#123; <span class="symbol">application_resource_name:</span> <span class="string">'Book'</span>, <span class="symbol">allowed_actions:</span> [<span class="string">'read'</span>,<span class="string">'write'</span>] &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最後在 User 這個 model 就可以利用上面的產物，還有這個 user 屬於哪個 team，這個 team 有哪些 permission_group 去拿到屬於這個 user 的 permission</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># app/models/user.rb</span></span><br><span class="line">...</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">all_abilities</span></span></span><br><span class="line">    all_permissions = <span class="symbol">:</span><span class="symbol">:Permission</span>.fetch_all_permissions</span><br><span class="line"></span><br><span class="line">    team_permissions = teams.flat_map <span class="keyword">do</span> <span class="params">|team|</span></span><br><span class="line">      permissions_of(team, all_permissions)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    team_permissions.inject <span class="keyword">do</span> <span class="params">|all, permissions_of_group|</span></span><br><span class="line">      all.merge(permissions_of_group) &#123; <span class="params">|_, previous_group, next_group|</span> (previous_group + next_group).uniq &#125;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  private</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">permissions_of</span><span class="params">(user_or_team, all_permissions)</span></span></span><br><span class="line">    user_or_team.permission_groups.includes(<span class="symbol">:permissions</span>).where(<span class="symbol">enabled:</span> <span class="literal">true</span>).map <span class="keyword">do</span> <span class="params">|permission_group|</span></span><br><span class="line">      permission_group.permissions.pluck(<span class="symbol">:id</span>).each_with_object(&#123;&#125;) <span class="keyword">do</span> <span class="params">|id, hash|</span></span><br><span class="line">        hash[all_permissions[id][<span class="symbol">:application_resource_name</span>]] <span class="params">||</span>= []</span><br><span class="line">        (hash[all_permissions[id][<span class="symbol">:application_resource_name</span>]] += all_permissions[id][<span class="symbol">:allowed_actions</span>]).uniq!</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>最後的產物會是像這樣：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123; <span class="string">'User'</span> =&gt; [<span class="string">'read'</span>] &#125;,</span><br><span class="line">  &#123; <span class="string">'Tool'</span> =&gt; [<span class="string">'read'</span>, <span class="string">'write'</span>] &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h4>ability</h4>
+<p>跟 pundit 不同於需要定義不同的 policy class 去定義權限，原本 cancancan 就是把權限集中在 Ability 這個 class 上面</p>
+<p>因此就可以在這個 class 上面定義對某一 user 的權限，我們透過 user 的 <code>all_abilities</code> method 去拿到這個 user 的所有權限</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Ability</span></span></span><br><span class="line">  <span class="keyword">include</span> CanCan::Ability</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">initialize</span><span class="params">(user)</span></span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">unless</span> user</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">unless</span> user.all_abilities.present?</span><br><span class="line"></span><br><span class="line">    user.all_abilities.each <span class="keyword">do</span> <span class="params">|application_resource_name, actions|</span></span><br><span class="line">      can(actions, ApplicationResource.to_resource_names(application_resource_name))</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h4>controller</h4>
+<p>cancancan 在 controller 有個很好用的 helper method <code>authorize_resource</code>，在做每個 action 之前就會幫你做權限的檢查</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># app/controllers/books_controller.rb</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BooksController</span> &lt; ApplicationController</span></span><br><span class="line">  authorize_resource</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">index</span></span></span><br><span class="line">    @books = Book.all</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h4>view</h4>
+<p>相對於 pundit 在 view 裡面呼叫 policy 確認權限， cancancan 則是用 <code>can?</code> 這個 helper method</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># app/views/books/index.html.erb</span></span><br><span class="line">&lt;% <span class="keyword">if</span> can?(<span class="symbol">:create</span>, Book) %&gt;</span><br><span class="line">  &lt;button&gt;&lt;%= link_to <span class="string">'Add'</span>, new_book_path, <span class="class"><span class="keyword">class</span>: '<span class="title">btn</span> <span class="title">btn</span>-<span class="title">success</span>'%&gt;&lt;/<span class="title">button</span>&gt;</span></span><br><span class="line">&lt;% <span class="keyword">end</span> %&gt;</span><br></pre></td></tr></table></figure>
+<h2>Conclusion</h2>
+<p>因為 DB 設計的部分兩邊是可以共用的，所以不對這方面多做評論</p>
+<p>在 gem 的使用限制方面，Pundit 需要對不同的 Resource 都做出相對應的 policy，但 Cancancan 不用，如果要做像這樣動態的定義，Cancancan 比較方便</p>
+<p>另外 Cancancan 預設就有對一些 Restful 的 action 做一些 簡單的 mapping，讓 code 顯得不那麼囉唆，而且對於 Cancancan 的定義 permission 的方式使用正面表列(ex. <code>can(['read','write'], 'Book')</code>)，我會覺得比較單純一些</p>
+<h2>References</h2>
+<ul>
+<li>讀書會的朋友劭方的分享，感謝他</li>
+<li>公司專案的 code</li>
+</ul>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/2021-10-16-Synopsis_of_Docker_for_rails_developer/" data-toggle="tooltip" data-placement="top" title="Synopsis of Docker For Rails Developer">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/2021-09-7-Capacity_Provider/" data-toggle="tooltip" data-placement="top" title="AWS Capacity Provider">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">用 Pundit / Cancancan 做動態權限管理</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Outline</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">Pundit</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text">DB 設計</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.2.</span> <span class="toc-nav-text">code 說明</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.2.1.</span> <span class="toc-nav-text">model</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.2.2.</span> <span class="toc-nav-text">policy</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.2.3.</span> <span class="toc-nav-text">controller</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.2.4.</span> <span class="toc-nav-text">view</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">Cancancan</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.3.1.</span> <span class="toc-nav-text">DB 設計</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.3.2.</span> <span class="toc-nav-text">code 說明</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.3.2.1.</span> <span class="toc-nav-text">model</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.3.2.2.</span> <span class="toc-nav-text">ability</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.3.2.3.</span> <span class="toc-nav-text">controller</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.3.2.4.</span> <span class="toc-nav-text">view</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">Conclusion</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">References</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Rails" title="Rails">Rails</a>
+                        
+                          <a class="tag" href="/tags/#Ruby" title="Ruby">Ruby</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+                    
+                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+                    
+                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/qoosuperman">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Anthony Chao 2026 
+                    <br>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-153986590-1';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
+    <meta name="keyword" content="">
+    <meta property="og:image" content="undefined">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>
+        
+          How Gem Warden Works - Anthony Chao | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2022-09-25-Study_on_warden_and_devise/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://images.unsplash.com/photo-1613264520739-c2eb038e8404?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1770&amp;q=80')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Rails" title="Rails">Rails</a>
+                            
+                              <a class="tag" href="/tags/#Ruby" title="Ruby">Ruby</a>
+                            
+                        </div>
+                        <h1>How Gem Warden Works</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Anthony Chao on
+                            2022-09-25
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Anthony Chao</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>前一陣子稍微研究了一下 Ruby 裡面的 middleware 用法 / 寫法，雖然後來沒有把應用放在 middleware，但也因此比較深入瞭解了一些，也想找個更著名的 gem 來看看如何應用，這時候我想到了 devise</p>
+<p>devise 的核心是另一個叫做 warden 的 gem，如果說 devise 是一台車，那 warden 好比這台車的引擎，但 warden 是一個 middleware，他要怎麼利用 Rails 裡面的 model 來做 validation? 這引起我的好奇心，所以有了這篇文章的誕生～</p>
+<p>那就來看看 warden 做了什麼吧！</p>
+<h2>Outline</h2>
+<ul>
+<li><a href="#how-to-setup">How To Setup</a></li>
+<li><a href="#handle-failure">Handle Failure</a></li>
+<li><a href="#authenticate">Authenticate</a></li>
+<li><a href="#how-to-maintain-user-in-session">How to maintain user in session</a></li>
+<li><a href="#how-devise-make-use-of-warden">How Devise Make Use of Warden</a></li>
+<li><a href="#why">Why</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+<h2>How To Setup</h2>
+<p>從 <a href="https://github.com/wardencommunity/warden/wiki/Setup" target="_blank" rel="noopener">wiki</a> 可以看 warden 怎麼設定</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">config.middleware.use Warden::Manager <span class="keyword">do</span> <span class="params">|manager|</span></span><br><span class="line">  manager.default_strategies <span class="symbol">:password</span></span><br><span class="line">  <span class="comment"># 之後行為變複雜的話，可以考慮學 devise 替換成 callable object</span></span><br><span class="line">  manager.failure_app = proc &#123; <span class="params">|_env|</span></span><br><span class="line">    [<span class="string">'401'</span>, &#123; <span class="string">'Content-Type'</span> =&gt; <span class="string">'application/json'</span> &#125;, &#123; <span class="symbol">message:</span> <span class="string">'Unauthorized'</span>, <span class="symbol">status:</span> <span class="string">'unauthorized'</span> &#125;.to_json]</span><br><span class="line">  &#125;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這邊的 default startegy 是怎麼去做驗證，而 failure_app 則是驗證失敗的話要做什麼事情</p>
+<p>首先來看他怎麼連結到處理失敗的 case</p>
+<h2>Handle Failure</h2>
+<p>從前面設定的地方可以看到 middleware 放的是 Warden::Manager，所以他本身需要有 <code>call</code> 這個 method</p>
+<p>source code 有滿多細節處理，我大幅簡化留下好理解的部分</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Warden</span></span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Manager</span></span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">call</span><span class="params">(env)</span></span></span><br><span class="line">      env[<span class="string">'warden'</span>] = Proxy.new(env, <span class="keyword">self</span>) <span class="comment"># 把 proxy 藉由 env 傳到下個 middleware</span></span><br><span class="line">      @app.call(env) <span class="comment"># call app</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># 拿到 app 回來的 response，加工回去接下來的 middleware</span></span><br><span class="line">      <span class="keyword">case</span> result</span><br><span class="line">      <span class="keyword">when</span> Array</span><br><span class="line">        handle_chain_result(result.first, result, env)</span><br><span class="line">      <span class="keyword">when</span> Hash</span><br><span class="line">        process_unauthenticated(env, result) <span class="comment"># 這裡處理驗證失敗的 case</span></span><br><span class="line">      <span class="keyword">when</span> Rack::Response</span><br><span class="line">        handle_chain_result(result.status, result, env)</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_unauthenticated</span><span class="params">(env, options=&#123;&#125;)</span></span></span><br><span class="line">      <span class="comment"># ...</span></span><br><span class="line">      call_failure_app(env, options)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">call_failure_app</span><span class="params">(env, options = &#123;&#125;)</span></span></span><br><span class="line">      <span class="keyword">if</span> config.failure_app</span><br><span class="line">        <span class="comment"># ...</span></span><br><span class="line">        config.failure_app.call(env).to_a <span class="comment"># call 設定好的 failure app</span></span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">        raise <span class="string">"No Failure App provided"</span></span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>從上面的 code 可以知道， failure_app 呼叫的地方不是 app 驗證的時候，而是 app call 完之後，當 response 回到 warden 這一層，才會去做處理</p>
+<p>具象化的話會像是這張圖：<br>
+<img src="https://i.imgur.com/br7He8c.png" alt=""></p>
+<h2>Authenticate</h2>
+<p>前面設定的地方有設定一個 default_strategies，我們來看看 warden 裡面怎麼把它連結到驗證流程</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Warden</span></span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Proxy</span></span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">authenticate!</span><span class="params">(*args)</span></span></span><br><span class="line">      user, opts = _perform_authentication(*args)</span><br><span class="line">      throw(<span class="symbol">:warden</span>, opts) <span class="keyword">unless</span> user</span><br><span class="line">      user</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_perform_authentication</span><span class="params">(*args)</span></span></span><br><span class="line">      _run_strategies_for(scope, args)</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> winning_strategy &amp;&amp; winning_strategy.successful?</span><br><span class="line">        set_user(winning_strategy.user, opts.merge!(<span class="symbol">:event</span> =&gt; <span class="symbol">:authentication</span>)) <span class="comment"># 驗證成功寫進 session</span></span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">      [@users[scope], opts]</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_run_strategies_for</span><span class="params">(scope, args)</span></span></span><br><span class="line">      strategies = defaults[scope] <span class="params">||</span> defaults[<span class="symbol">:_all</span>]</span><br><span class="line"></span><br><span class="line">      (strategies <span class="params">||</span> args).each <span class="keyword">do</span> <span class="params">|name|</span></span><br><span class="line">        strategy = _fetch_strategy(name, scope) <span class="comment"># 不同 scope 可以對應不同 strategy</span></span><br><span class="line">        <span class="keyword">next</span> <span class="keyword">unless</span> strategy &amp;&amp; !strategy.performed? &amp;&amp; strategy.valid?</span><br><span class="line"></span><br><span class="line">        strategy._run!  <span class="comment"># 用 strategy 做驗證</span></span><br><span class="line">        <span class="keyword">break</span> <span class="keyword">if</span> strategy.halted?</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>其中有幾點我覺得滿重要的</p>
+<ol>
+<li>warden 可以設定不同的 scope，像是一般 user 跟 admin 的驗證流程可能不同，我們可以為他們設定不同的 strategy</li>
+<li>驗證的 method 是寫在 Warden::Proxy 裡面，而他是藉由 env 傳下去的，所以驗證的過程可以不用一定在自己的 app 裡面完成，也可以在其他層的 middleware</li>
+</ol>
+<p>warden 是靠 session 維持 user 資訊的，那這部分的 code 在哪裡呢？</p>
+<h2>How to maintain user in session</h2>
+<p>其實這是前面 set_user 這個 method 裡面做掉的事情</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Warden</span></span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Proxy</span></span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">set_user</span><span class="params">(user, opts = &#123;&#125;)</span></span></span><br><span class="line">      @users[scope] = user</span><br><span class="line">      <span class="comment"># ...</span></span><br><span class="line">      session_serializer.store(user, scope)</span><br><span class="line">      <span class="comment"># ...</span></span><br><span class="line">      @users[scope]</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Warden</span></span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">SessionSerializer</span></span></span><br><span class="line">  <span class="comment"># ...</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">store</span><span class="params">(user, scope)</span></span></span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">unless</span> user</span><br><span class="line">      method_name = <span class="string">"<span class="subst">#&#123;scope&#125;</span>_serialize"</span></span><br><span class="line">      specialized = respond_to?(method_name)</span><br><span class="line">      session[key_for(scope)] = specialized ? send(method_name, user) : serialize(user)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">session</span></span></span><br><span class="line">      env[<span class="string">"rack.session"</span>] <span class="params">||</span> &#123;&#125; <span class="comment"># rack 的 convention，從這裡拿到 session 的資訊</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="comment"># ...</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>在 session 這邊也保留了彈性，沒有指定 session 一定要存在哪裡，而是藉由 rack app 的 convention 來拿 session 的儲存資訊，有可能是 cookie / database / cache …etc</p>
+<h2>How Devise Make Use of Warden</h2>
+<p>理解了這些之後，看看 Devise 是怎麼做的吧</p>
+<p>因為是用 warden 做驗證，所以如果去看 devise session controller 會覺得看起來跟想像中的不太一樣</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Devise::SessionsController</span> &lt; DeviseController</span></span><br><span class="line">  <span class="comment"># ...</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># POST /resource/sign_in</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">create</span></span></span><br><span class="line">    <span class="keyword">self</span>.resource = warden.authenticate!(auth_options)</span><br><span class="line">    set_flash_message!(<span class="symbol">:notice</span>, <span class="symbol">:signed_in</span>)</span><br><span class="line">    sign_in(resource_name, resource)</span><br><span class="line">    <span class="keyword">yield</span> resource <span class="keyword">if</span> block_given?</span><br><span class="line">    respond_with resource, <span class="symbol">location:</span> after_sign_in_path_for(resource)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="comment"># ...</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">auth_options</span></span></span><br><span class="line">    &#123; <span class="symbol">scope:</span> resource_name, <span class="symbol">recall:</span> <span class="string">"<span class="subst">#&#123;controller_path&#125;</span>#new"</span> &#125;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="comment"># ...</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>一般來說，這裡驗證吃的參數應該是 params 裡面的 username / password，但這不是 auth_options 裡面的內容</p>
+<p>這是因為細節都寫在 strategy 裡面了，驗證失敗的情況也是在 warden 那層處理，所以這裡都不用做這些事情</p>
+<p>先回到這段 code 的其他地方，其中的 warden / sign_in 又是怎麼實作？</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">warden</span></span></span><br><span class="line">    request.env[<span class="string">'warden'</span>] <span class="keyword">or</span> raise MissingWarden</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">sign_in</span><span class="params">(resource_or_scope, *args)</span></span></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    warden.set_user(resource, options.merge!(<span class="symbol">scope:</span> scope))</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這裡的 env 不是我們一般熟知的環境變數，而是 middleware 一路傳下去的參數</p>
+<p>也就是說前面 warden 這個 middleware 透過 env 把 rails 這一層需要用來驗證的物件傳過來，如果去看這物件的內容會是 Warden::Proxy 的物件</p>
+<p>而 sign_in 背後的實作也是靠同一個物件的 set_user method，從前面的 code 可以知道，這一段就是把 user 寫進 proxy 的 instance variable 跟 session 裡面</p>
+<p>接著看看 devise 的 strategy 設定</p>
+<p>這在 devise 裡面比較難找一點點，因為命名的關係不太好認</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Devise</span></span></span><br><span class="line">  <span class="class"><span class="keyword">module</span> <span class="title">Strategies</span></span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Base</span> &lt; ::<span class="title">Warden::Strategies::Base</span></span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Devise</span></span></span><br><span class="line">  <span class="class"><span class="keyword">module</span> <span class="title">Strategies</span></span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Authenticatable</span> &lt; Base</span></span><br><span class="line">      <span class="comment"># 從 params 裡面拿需要的 attributes</span></span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">http_auth_hash</span></span></span><br><span class="line">        keys = [http_authentication_key, <span class="symbol">:password</span>]</span><br><span class="line">        Hash[*keys.zip(decode_credentials).flatten]</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Devise</span></span></span><br><span class="line">  <span class="class"><span class="keyword">module</span> <span class="title">Strategies</span></span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">DatabaseAuthenticatable</span> &lt; Authenticatable</span></span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">authenticate!</span></span></span><br><span class="line">        <span class="comment"># ...</span></span><br><span class="line">        <span class="keyword">if</span> validate(resource)&#123; hashed = <span class="literal">true</span>; resource.valid_password?(password) &#125;</span><br><span class="line">          success!(resource)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">          fail(<span class="symbol">:not_found_in_database</span>)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">Warden::Strategies.add(<span class="symbol">:database_authenticatable</span>, Devise::Strategies::DatabaseAuthenticatable)</span><br></pre></td></tr></table></figure>
+<p>可以看到要怎麼拿 param 都是寫在 strategy 裡面，另外 devise 也針對 error handeling 寫了很複雜的 failure_app，這邊就不去深究</p>
+<h2>Why</h2>
+<p>看了 warden 跟 devise 的這些 code 之後，我開始想搭配 warden 來做驗證有什麼好處</p>
+<p>一般使用的情境應該是像下面這張圖：<br>
+<img src="https://i.imgur.com/br7He8c.png" alt=""></p>
+<p>通常 <code>authenticate!</code> 這個 method 是在 web app 這層執行的，而且通常也不能在其他層執行，為什麼呢？</p>
+<p>如果這個 strategy 裡面有寫到 <code>User.authenticate(email, password)</code> 這樣的 code，在其他非 web app 的 middleware 並沒有 User 這個 constant，是無法做驗證的</p>
+<p>反過來說，其實我們也可以用 warden 做到在其他的 middleware 做驗證，像是有些情境會需要用 header 裡面的 token 做驗證，像是這樣<br>
+<img src="https://i.imgur.com/8m5rysv.png" alt=""></p>
+<h2>Conclusion</h2>
+<p>透過去看 devise / warden 的實作，更了解 middleware 的運作機制了，也覺得從別人的實作裡面可以看到很多不同的思考邏輯挺有趣的</p>
+<p>其中包括我一開始的一個問題</p>
+<blockquote>
+<p>warden 是一個 middleware，他要怎麼利用 Rails 裡面的 model 來做 validation?</p>
+</blockquote>
+<p>而 warden 利用了 Ruby 動態語言的特性，先把 proxy 裡面的 authenticate! method 包起來，用 env 傳到需要做驗證的那一層，只要在那一層可以成功執行就好</p>
+<p>雖然只是一個小巧思，但這是我在看 code 之前沒想到過的答案，真的是有越寫 code 越覺得懂的很少的感覺 Orz</p>
+<h2>References</h2>
+<p><a href="https://github.com/wardencommunity/warden" target="_blank" rel="noopener">Warden</a><br>
+<a href="https://github.com/heartcombo/devise" target="_blank" rel="noopener">Devise</a></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/2022-12-06-Synopsis_of_Mastering_PostgreSQL_13/" data-toggle="tooltip" data-placement="top" title="Synopsis of Mastering PostgreSQL 13">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/2022-09-19-Notes_For_Inside_Rails_in2019RailsConf/" data-toggle="tooltip" data-placement="top" title="Notes for Inside Rails in 2019 RailsConf">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Outline</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">How To Setup</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Handle Failure</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Authenticate</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">How to maintain user in session</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">How Devise Make Use of Warden</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">Why</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">Conclusion</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">9.</span> <span class="toc-nav-text">References</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Rails" title="Rails">Rails</a>
+                        
+                          <a class="tag" href="/tags/#Ruby" title="Ruby">Ruby</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+                    
+                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+                    
+                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/qoosuperman">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Anthony Chao 2026 
+                    <br>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-153986590-1';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
+    <meta name="keyword" content="">
+    <meta property="og:image" content="undefined">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>
+        
+          Rails Cache Basic Introduction - Anthony Chao | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2021-02-25-rails_caching_basic_intro/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://images.unsplash.com/photo-1606874136628-58da356227e9?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Rails" title="Rails">Rails</a>
+                            
+                              <a class="tag" href="/tags/#Cache" title="Cache">Cache</a>
+                            
+                        </div>
+                        <h1>Rails Cache Basic Introduction</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Anthony Chao on
+                            2021-02-25
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Anthony Chao</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p><a href="#introduction">Introduction</a><br>
+<a href="#normal-cache">Normal cache</a><br>
+<a href="#fragment-cache">Fragment cache</a><br>
+<a href="#variable-cache">Variable cache</a></p>
+<hr>
+<h1>Introduction</h1>
+<h2>Types</h2>
+<p>Rails 的 cache 可以有三種形式存在</p>
+<ol>
+<li>File (FileStore，為 Rails production 環境預設 cache 方式)</li>
+<li>Process (MemoryStore)</li>
+<li>第三方服務</li>
+</ol>
+<ul>
+<li>存 file:</li>
+</ul>
+<p>Rails 的預設 Cache 會存在檔案裡面，也就是以第一種形式存在，這樣有什麼壞處呢？其實快取就是要快，但如果要存成檔案的話，可能會甚至比去資料庫讀取還慢，就失去了快取應該有的價值</p>
+<ul>
+<li>存 process:</li>
+</ul>
+<p>存 process 的壞處是今天萬一 process 停掉，資料也都會不見</p>
+<p>不只如此，原本每一個 process 都佔有自己的記憶體空間，都會有自己的 cache，但其實每個 cache 存的東西都會一樣，因此這樣就浪費了記憶體，同時如果要清除快取也需要把每個 process 的快取清除</p>
+<ul>
+<li>存第三方服務:</li>
+</ul>
+<p>而大家常用的 memcached 就是一種第三方的 service，今天如果開另一台server 跑 cached<br>
+process 掛掉重開就還是有資料，讓 process 真的變成 stateless</p>
+<h2>注意事項</h2>
+<ul>
+<li>cache 要設計是可以壞掉的，不會因為沒有 cache 而 process 壞掉</li>
+<li>使用 cache 會讓 debug 更難</li>
+<li>key 的命名</li>
+<li>要設計成什麼時間 (expired time) 資料過期了要重新計算</li>
+</ul>
+<p>除此之外，使用 model cache 也要小心，我們一般使用 model cache 就是不想讓他一直去做 SQL query ，但我們要注意是不是有達到我們要的目的，看看下面範例：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = User.where(condition)</span><br><span class="line">Rails.cache.write(<span class="string">"some_key"</span>, x)</span><br></pre></td></tr></table></figure>
+<p>乍看之下沒問題，但其實 cache 裡面存的是 <code>User.where(condition)</code> 這個 object 而不是 SQL query 的結果！所以我們可以用 <code>load</code> 這個方法強制讀取，甚至會用 <code>to_h</code> 把它轉成 hash 確定成功之後再存起來</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = User.where(condition).load.to_h</span><br><span class="line">Rails.cache.write(<span class="string">"some_key"</span>, x)</span><br></pre></td></tr></table></figure>
+<h2>Config</h2>
+<p>預設在開發/測試環境 cache 的機能是關掉的，可以用下面的指令先把 cache 存在記憶體裡，在下一次則是關掉</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ rails dev:cache</span><br><span class="line">Development mode is now being cached.</span><br></pre></td></tr></table></figure>
+<p>或者在你要使用的環境加上這行</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># config/environments/develop.rb</span></span><br><span class="line">config.action_controller.perform_caching = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>存在 file</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config.cache_store = <span class="symbol">:file_store</span>, <span class="string">"/path/to/cache/directory"</span></span><br></pre></td></tr></table></figure>
+<p>如果不指定路徑，會存在 <code>&quot;#{root}/tmp/cache/&quot;</code> 這個路徑中</p>
+<ul>
+<li>存在 process</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config.cache_store = <span class="symbol">:memory_store</span>, &#123; <span class="symbol">size:</span> <span class="number">64</span>.megabytes &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>存在第三方服務</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config.cache_store = <span class="symbol">:mem_cache_store</span>, <span class="string">"cache-1.example.com"</span>, <span class="string">"cache-2.example.com"</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h1>Normal cache(Low-Level Caching)</h1>
+<p>最主要的操作方法有 <code>read</code> <code>write</code> <code>delete</code> <code>exist?</code> <code>fetch</code> 這五個</p>
+<p>這邊介紹個 write 跟 fetch 就好，其他都差不多</p>
+<ul>
+<li><code>write</code></li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Rails.cache.write(key, value, options = <span class="literal">nil</span>)</span><br></pre></td></tr></table></figure>
+<p>其中比較常用的一個 options 是 <code>:expires_in</code> 單位是秒</p>
+<ul>
+<li><code>fetch</code></li>
+</ul>
+<p>fetch 同時有讀跟寫的功能</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Rails.cache.fetch(cache_key, <span class="symbol">expires_in:</span> EXPIRE_IN) <span class="keyword">do</span></span><br><span class="line">  uri = URI(url)</span><br><span class="line">  response = Net::HTTP.start(uri.host, uri.port, <span class="symbol">use_ssl:</span> <span class="literal">true</span>).head(url, header)</span><br><span class="line">  response.code == <span class="string">'200'</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>可以看看 rails_guide 介紹</p>
+<blockquote>
+<p>The most efficient way to implement low-level caching is using the Rails.cache.fetch method. This method does both reading and writing to the cache. When passed only a single argument, the key is fetched and value from the cache is returned. If a block is passed, that block will be executed in the event of a cache miss. The return value of the block will be written to the cache under the given cache key, and that return value will be returned. In case of cache hit, the cached value will be returned without executing the block.</p>
+</blockquote>
+<p>大致上是說 fetch 如果只有給一個值，會把它當作 key 嘗試去拿 cache 的 value，如果後面還有帶一個 block，則萬一 cache miss, 就會把 block 裡面的東西算出來存到 cache 裡面，如果 cache hit 則不會去對 block 裡面做運算</p>
+<p>除此之外， Rails 還有提供把 Redis 當作 cache 來用的選項，詳細操作可以看 <a href="https://rails.ruby.tw/caching_with_rails.html" target="_blank" rel="noopener">Rails Guide</a></p>
+<p>註：Redis 是 memory-based 的 NoSQL 資料庫，所以他可以支援存很多種格式的東西，像是圖片 / 文件 / 搜尋等等， key-value pair 只是其中一種格式，除此之外也有很多資料庫才有的特性，但 memcache 就只是鍵值對而已，不過也就因為單純所以速度更快</p>
+<h3>cache lru</h3>
+<p>是個在 cache 比較常見的簡寫，全名為 least-recently-used，表示把最近沒用的優先 drop</p>
+<h3>參考資料：</h3>
+<p><a href="https://rails.ruby.tw/caching_with_rails.html" target="_blank" rel="noopener">Rails Guide - Caching with Rails: An overview</a></p>
+<p><a href="https://ihower.tw/rails/caching.html" target="_blank" rel="noopener">ihower 前輩的介紹</a></p>
+<p><a href="%5Bhttps://www.writershelf.com/article/rails-%E7%9A%84-cache-%E4%BB%8B%E7%B4%B9%E4%BA%8C%E7%B6%B2%E9%A0%81-caching?locale=zh-TW%5D(https://www.writershelf.com/article/rails-%E7%9A%84-cache-%E4%BB%8B%E7%B4%B9%E4%BA%8C%E7%B6%B2%E9%A0%81-caching?locale=zh-TW)">紅寶鐵軌客的介紹</a></p>
+<hr>
+<h1>Fragment cache</h1>
+<p>fragment cache 是 rails 裡面比較 high level 的 cache, 不同於前面的 low-level, fragment caching 背後 Rails 做了很多事情也有滿多慣例的</p>
+<p>那什麼時候會用到 fragment caching?</p>
+<p>有時候 view rendering 是很慢的，尤其是這個 view 要去 db 拿很多 data 的時候</p>
+<p>這時候可以嘗試用 rails 內建的 fragment cache 加快 render 速度</p>
+<p>如果今天網站有個頁面長這樣：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"># app/views/products/index.html.erb</span><br><span class="line"><span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">thead</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">th</span>&gt;</span>Title<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">th</span>&gt;</span>Description<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">th</span>&gt;</span>Image url<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">th</span>&gt;</span>Price<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">th</span> <span class="attr">colspan</span>=<span class="string">"3"</span>&gt;</span><span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">%</span> @<span class="attr">products.each</span> <span class="attr">do</span> |<span class="attr">product</span>| %&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">%=</span> <span class="attr">render</span> <span class="attr">product</span> %&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">%</span> <span class="attr">end</span> %&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"></span><br><span class="line"># app/views/products/_product.html.erb</span><br><span class="line"><span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">%=</span> <span class="attr">product.title</span> %&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">%=</span> <span class="attr">product.description</span> %&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">%=</span> <span class="attr">product.image_url</span> %&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">%=</span> <span class="attr">product.price</span> %&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">%=</span> <span class="attr">link_to</span> '<span class="attr">Show</span>', <span class="attr">product</span> %&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">%=</span> <span class="attr">link_to</span> '<span class="attr">Edit</span>', <span class="attr">edit_product_path</span>(<span class="attr">product</span>) %&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">%=</span> <span class="attr">link_to</span> '<span class="attr">Destroy</span>', <span class="attr">product</span>, <span class="attr">method:</span> <span class="attr">:delete</span>, <span class="attr">data:</span> &#123; <span class="attr">confirm:</span> '<span class="attr">Are</span> <span class="attr">you</span> <span class="attr">sure</span>?' &#125; %&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如果要用 fragment cache, 可以改成這樣寫：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># app/views/products/_product.html.erb</span><br><span class="line"><span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">  # ...</span><br><span class="line">  <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">%</span> @<span class="attr">products.each</span> <span class="attr">do</span> |<span class="attr">product</span>| %&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">%</span> <span class="attr">cache</span>(<span class="attr">product</span>) <span class="attr">do</span> %&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">%=</span> <span class="attr">render</span> <span class="attr">product</span> %&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">%</span> <span class="attr">end</span> %&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">%</span> <span class="attr">end</span> %&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如果要符合某條件才 cache 的話可以用 <code>cache_if</code> / <code>cache_unless</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%</span> <span class="attr">cache_if</span> <span class="attr">admin</span>?, <span class="attr">product</span> <span class="attr">do</span> %&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">%=</span> <span class="attr">render</span> <span class="attr">product</span> %&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">%</span> <span class="attr">end</span> %&gt;</span></span><br></pre></td></tr></table></figure>
+<p>除了一個一個 cache 也可以 cache 整個 collection</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%=</span> <span class="attr">render</span> <span class="attr">partial:</span> '<span class="attr">products</span>/<span class="attr">product</span>', <span class="attr">collection:</span> @<span class="attr">products</span>, <span class="attr">cached:</span> <span class="attr">true</span> %&gt;</span></span><br></pre></td></tr></table></figure>
+<h2>機制</h2>
+<p>在上面的例子中當我們使用 cache helper 的時候，我們用 product 物件當作這個 cache 的 dependency</p>
+<p>而這個物件有個 <code>#cache_key</code> method，靠著他得到這個 fragment 的 cache key</p>
+<p>長相會像是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">views/products/42-20180302103130041320/75dda06d36880e8b0ae6cac0a44fb56d</span><br></pre></td></tr></table></figure>
+<p>其中 <code>views/products</code> 是 cache 的歸類</p>
+<p><code>42</code> 是這個 product 的 id<br>
+<code>20180302103130041320</code> 是這個 product 的 <code>updated_at</code><br>
+<code>75dda06d36880e8b0ae6cac0a44fb56d</code> 則是用這個 render template view 換算出來的亂碼</p>
+<p>因此如果 product 被 update 了，或者 template 內容變了，都會導致 cache miss</p>
+<h2>Russian Doll Caching</h2>
+<p>有時候我們可能會想要在某個 cache fragment 裡面再包另一個 cache fragment，這稱作 russian doll caching</p>
+<p>但這種情況，我們需要注意某些時候，我們想要 cache miss，但他並沒有</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- views/products/show --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">%</span> <span class="attr">cache</span> <span class="attr">product</span> <span class="attr">do</span> %&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">%=</span> <span class="attr">render</span> <span class="attr">product.games</span> %&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">%</span> <span class="attr">end</span> %&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- views/products/_game --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">%</span> <span class="attr">cache</span> <span class="attr">game</span> <span class="attr">do</span> %&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">%=</span> <span class="attr">render</span> <span class="attr">game</span> %&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">%</span> <span class="attr">end</span> %&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如果其中有一個 game 被 update 過，所以第二層的 cache 會被 expire 掉，但是因為 product 的 updated_at 並沒有被更新，這時候根本到不了第二層，在第一層就整個 view 被 cache 住了，要修正這個問題，就要在 game 被修改的時候同時修改 product 更新時間，在關聯中使用 <code>touch</code> 這個 option</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Product</span> &lt; ApplicationRecord</span></span><br><span class="line">  has_many <span class="symbol">:games</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Game</span> &lt; ApplicationRecord</span></span><br><span class="line">  belongs_to <span class="symbol">:product</span>, <span class="symbol">touch:</span> <span class="literal">true</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h2>其他範例</h2>
+<ol>
+<li></li>
+</ol>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">json.cache! [<span class="string">'v1'</span>, @person], <span class="symbol">expires_in:</span> <span class="number">10</span>.minutes <span class="keyword">do</span></span><br><span class="line">  json.extract! @person, <span class="symbol">:name</span>, <span class="symbol">:age</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">json.cache_if! !admin?, [<span class="string">'v1'</span>, @person], <span class="symbol">expires_in:</span> <span class="number">10</span>.minutes <span class="keyword">do</span></span><br><span class="line">  json.extract! @person, <span class="symbol">:name</span>, <span class="symbol">:age</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li></li>
+</ol>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># items/index.json.jbuilder</span></span><br><span class="line">json.items @items <span class="keyword">do</span></span><br><span class="line">  json.cache! item <span class="keyword">do</span></span><br><span class="line">    json.partial! <span class="string">"item"</span>, <span class="symbol">item:</span> item</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># items/show.json.jbuilder</span></span><br><span class="line">json.item <span class="keyword">do</span></span><br><span class="line">  json.cache! item <span class="keyword">do</span></span><br><span class="line">    json.partial! <span class="string">"item"</span>, <span class="symbol">item:</span> @item</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># items/_items.json.jbuilder</span></span><br><span class="line">json(item, <span class="symbol">:id</span>, <span class="symbol">:name</span>, ...)</span><br></pre></td></tr></table></figure>
+<h3>參考資料：</h3>
+<p><a href="https://blog.appsignal.com/2018/03/20/fragment-caching-in-rails.html" target="_blank" rel="noopener">https://blog.appsignal.com/2018/03/20/fragment-caching-in-rails.html</a></p>
+<p><a href="https://guides.rubyonrails.org/caching_with_rails.html" target="_blank" rel="noopener">https://guides.rubyonrails.org/caching_with_rails.html</a></p>
+<p><a href="https://coderwall.com/p/zn-gkq/cache-your-partials-not-the-other-way-around" target="_blank" rel="noopener">https://coderwall.com/p/zn-gkq/cache-your-partials-not-the-other-way-around</a></p>
+<hr>
+<h1>Variable Cache</h1>
+<p>我們在 rails 裡面常常會看到像是下面這樣的 code</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@aa <span class="params">||</span>= ...</span><br></pre></td></tr></table></figure>
+<p>其實這就是把實體變數存在 process 裡面，如果是 instance method 裡面使用的話還好，但如果是像下面這樣</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Qoo</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">name</span></span></span><br><span class="line">    @aa <span class="params">||</span>= ...</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這種情況，一但 process 一啟動，變數就會 cache 住，要清掉通常只能重開 process</p>
+<hr>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/2021-03-01-Synopsis_of_Continous_Delivery_With_Docker_and_Jenkins/" data-toggle="tooltip" data-placement="top" title="Synopsis of Continous Delivery With Docker and Jenkins">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/2021-02-16-docker_swarm/" data-toggle="tooltip" data-placement="top" title="Docker Swarm introduction">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Introduction</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Types</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">注意事項</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">Config</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Normal cache(Low-Level Caching)</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.0.1.</span> <span class="toc-nav-text">cache lru</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.0.2.</span> <span class="toc-nav-text">參考資料：</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Fragment cache</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">機制</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">Russian Doll Caching</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">其他範例</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.3.1.</span> <span class="toc-nav-text">參考資料：</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Variable Cache</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Rails" title="Rails">Rails</a>
+                        
+                          <a class="tag" href="/tags/#Cache" title="Cache">Cache</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+                    
+                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+                    
+                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/qoosuperman">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Anthony Chao 2026 
+                    <br>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-153986590-1';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

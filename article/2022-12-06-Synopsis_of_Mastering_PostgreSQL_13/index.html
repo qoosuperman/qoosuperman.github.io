@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
+    <meta name="keyword" content="">
+    <meta property="og:image" content="undefined">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>
+        
+          Synopsis of Mastering PostgreSQL 13 - Anthony Chao | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2022-12-06-Synopsis_of_Mastering_PostgreSQL_13/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://images.unsplash.com/photo-1597852074816-d933c7d2b988?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1770&amp;q=80')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#SQL" title="SQL">SQL</a>
+                            
+                        </div>
+                        <h1>Synopsis of Mastering PostgreSQL 13</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Anthony Chao on
+                            2022-12-06
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Anthony Chao</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>最近因為業務需要加上公司有補助買書，所以買了這本書來看</p>
+<p>但簡單來說，覺得這不是一本好書</p>
+<p>topic 很硬之外，編排的方式也讓人不解</p>
+<p>比方說前面好幾個地方已經有用到 function，但是讀到某個幾乎無關的章節中間才來跟我說 PostgreSQL 裡面的 function 要怎麼寫？？</p>
+<p>而且很多地方花了很多篇幅說明，結果後來才發現這裡講一堆東西完全不是重點，也有很多地方不明白想要表達什麼</p>
+<p>雖然講這麼多不好的，但還是從裡面學到滿多之前不知道的知識，只是如果有其他更好的學習資源建議不要從這本書入手</p>
+<p>以下的段落沒有完全按照書中的章節區分，而是以我之後可能會回來比較容易尋找的方式做區分，然後 PostgreSQL 在下面的筆記中會簡稱 pg</p>
+<h2>Outline</h2>
+<ul>
+<li><a href="#transaction">Transaction</a></li>
+<li><a href="#making-use-of-indexes">Making Use of Indexes</a></li>
+<li><a href="#advanced-sql">Advanced SQL</a></li>
+<li><a href="#system-statistics">System statistics</a></li>
+<li><a href="#optimizer">Optimizer</a></li>
+<li><a href="#understand-execution-plans">Understand Execution plans</a></li>
+<li><a href="#function-in-pg">Function in pg</a></li>
+<li><a href="#triggers">Triggers</a></li>
+<li><a href="#transaction-log">Transaction log</a></li>
+<li><a href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+<h2>Transaction</h2>
+<p>在 Postgresql 裡面，任何東西都是 transaction，你隨便 fire 一個 query 其實都包含了 transaction</p>
+<p>如果要把多個 statement 放在同一個 transaction 裡面，要用 begin 的語法</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">now</span>();</span><br><span class="line"><span class="comment">-- 2020-08-13 11:04:15</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">now</span>();</span><br><span class="line"><span class="comment">-- 2020-08-13 11:04:15</span></span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
+<p>這裡的 COMMIT 也可以用 END 替換，他們的意思是一樣的</p>
+<p>而如果把 COMMIT 換成 ROLLBACK 或者 ABORT 就會是相反的意思</p>
+<p>而在 pg 裡面有個重要的觀念：</p>
+<blockquote>
+<p>table can be read concurrently</p>
+</blockquote>
+<p>以下的例子中，這個 table 只有一個 id 欄位<br>
+<img src="https://i.imgur.com/cAv72t5.png" alt=""></p>
+<p>如果一個 write transaction 跟一個 read transaction 同時發生，read transaction 可以看到的資料只有在這個 read transaction 開始之前 commit 進去的東西，所以就算上圖的第一個 transaction 先 commit 了，第二個 transaction 看到的還是舊的資料</p>
+<p>要決定哪些 transaction 是可以同時進行，哪些會互相衝突，要看的是 locking level</p>
+<p>locking level:</p>
+<ul>
+<li>ACCESS SHARE: 一般的 read 就是用這種 lock level，只會跟 ACCESS EXCLUSIVE 衝突，而 drop table 用的就是 access exclusive，所以如果有一個 table 即將要被 drop，則 SELECT 的語句無法開始，同樣如果 drop table 要開始也要等到所有這張 table SELECT 語句結束</li>
+<li>ROW SHARE: 用在 SELECT FOR UPDATE / SELECT FOR SHARE，跟 EXCLUSIVE / ACCESS EXCLUSIVE 衝突</li>
+<li>ROW EXCLUSIVE: 用在 INSERT / UPDATE / DELETE，跟 SHARE / SHARE ROW EXCLUSIVE / EXCLUSIVE / ACCESS EXCLUSIVE 衝突</li>
+<li>SHARE UPDATE EXCLUSIVE: 用在 create index concurrently / anaylyze /alter table / validate</li>
+<li>SHARE: 用在 create index</li>
+<li>SHARE ROW EXCLUSIVE: 用在 create trigger 跟一些 alter table，除了 access share 之外跟所有其他衝突</li>
+<li>EXCLUSIVE: 禁止 read / write 同一張 table</li>
+<li>ACCESS EXCLUSIVE: 禁止 read / write</li>
+</ul>
+<h3>SELECT for UPDATE</h3>
+<p>locking level 是根據每句 sql 語句有不同的 level</p>
+<p>下面是一個常見的錯誤：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> invoice <span class="keyword">WHERE</span> processed = <span class="literal">false</span>;</span><br><span class="line"><span class="keyword">UPDATE</span> invoice <span class="keyword">SET</span> processed = <span class="literal">true</span>  ....; <span class="comment">-- 錯誤在這</span></span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
+<p>如果考慮到 race condition 的情況，有另一個人也對同樣的 row 操作，在 update 那一個 statement 就會被另一個人 overwrite</p>
+<p>這就是一個 SELECT For UPDATE 的很好使用時機</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> invoice <span class="keyword">WHERE</span> processed = <span class="literal">false</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>; <span class="comment">-- for update</span></span><br><span class="line"><span class="keyword">UPDATE</span> invoice <span class="keyword">SET</span> processed = <span class="literal">true</span>  ....;</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
+<p>如果使用 select for update 這些被選的 row 跟 update 一樣都會被 lock 住</p>
+<p>而同樣的 row 如果有兩個 select for update 都要去拿，比較慢去取的會需要等第一個 select for update 的 transaction 結束，所以第一個 transaction 如果沒 commit ，第二個 transaction 就需要一直等下去，如果不想要這種行為可以使用 SELECT FOR UPDATE NOWAIT</p>
+<p>當他發現要用的 row 被 lock，會馬上跳出 error<br>
+<img src="https://i.imgur.com/0ARkZXP.png" alt=""></p>
+<p>另一個方式是設定 lock_timeout 讓他不要一直等下去</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> lock_timeout <span class="keyword">TO</span> <span class="number">5000</span>;</span><br></pre></td></tr></table></figure>
+<p>有時候我們要 update 隨便兩個紀錄，而不是一定要特定的兩個紀錄</p>
+<p>比方說搶機票的這種情境，我們只是要隨便拿一個位置，但如果用 select for update 就會一直需要等待<br>
+<img src="https://i.imgur.com/lVWSUvl.png" alt=""></p>
+<p>這時候可以用 select for update skip locked<br>
+<img src="https://i.imgur.com/aEKh3X5.png" alt=""></p>
+<p>另外要注意 SELECT FOR UPDATE 得時候，如果這個 table 有 foreign key，則相關 table 的 row 也是會被鎖住的</p>
+<h3>Transaction isolation levels</h3>
+<p>一般使用比較可能接觸到的有兩種不同的 isolation level:</p>
+<ul>
+<li>READ COMITTED</li>
+<li>TRANSACTION ISOLATION LEVEL REPEATTABLE</li>
+</ul>
+<p>第一種 READ COMITTED level 是預設行為，每個 transaction 裡面的 statement 都會拿到新的 data snapshot<br>
+<img src="https://i.imgur.com/tNstR84.png" alt=""></p>
+<p>第二種 TRANSACTION ISOLATION LEVEL REPEATTABLE 則是確保整個 transaction 裡面都是同一個 snapshot，這個模式可能在需要產生 report 的情況比較需要打開<br>
+<img src="https://i.imgur.com/WPaAcgW.png" alt=""><br>
+<img src="https://i.imgur.com/GecwMk7.png" alt=""></p>
+<h3>Vacuum</h3>
+<p>使用 transaction 是需要付出一些代價的，也就是需要額外的空間儲存修改前跟修改後的資料，而 vacuum 這個機制就是在一個 transaction 之後把不需要的 dead space 標記在 free space map(FSM) 裡面，讓這個空間之後可以在同個 table 裡面重複使用（注意不是歸還給整個系統）</p>
+<p>另外也有 VACUUM ALL 的機制，他就會把空間還給整個系統，但是 lock level 較高而且效能不好，除非很確定 table 裡面大部分是 dead space 否則最好不要用 VACUUM ALL</p>
+<p>以前的 pg 版本會需要人工執行 vacuum，後來則是給 autovacumm 這個工具去安排 background job 完成</p>
+<h2>Making Use of Indexes</h2>
+<p>在 pg 的 SQL statement fire 出去之後會經過四個階段：</p>
+<ol>
+<li>parser 檢查 syntax / 明顯錯誤</li>
+<li>檢查 rules(ex. views)</li>
+<li>optimizer 做出最有效率的 query 選擇，並做出一個 plan</li>
+<li>executor 去執行上一步做出的 plan</li>
+</ol>
+<h3>Cost model</h3>
+<p>如果我們使用 EXPLAIN 看執行 sql 的 plan，會看到一個不知道哪來的數字，那個數字是用 cost model 算來的 penalty points</p>
+<p><img src="https://i.imgur.com/TcdBU77.png" alt=""></p>
+<p>上面這例子中，71622 這個數字代表這個操作會花 71622 penalty points</p>
+<p>系統裡面有定義 cpu 做一些操作的常數 / IO 操作的常數，還有 table 大小 / 有沒有使用 index 跟平行處理</p>
+<p>因為無關乎真正如何執行，所以不可能把這個數字換成時間</p>
+<p>使用 index 的時候要知道，index 除了會佔去更多空間，每次的寫入也都要去維護 index 資料，所以寫入也會更費時</p>
+<p>我們最常用的 b-tree index 可以視為一種 sorted list 的概念，因此用 b-tree index 找最小最大值的速度會是最快的，請多加利用</p>
+<h3>Index only scan</h3>
+<p>另外如果只是想要撈 index 的欄位，搜尋會用 index only scan(如下圖)，這樣就甚至省去到 main table 搜尋的功夫<br>
+<img src="https://i.imgur.com/SVvF6BU.png" alt=""><br>
+<img src="https://i.imgur.com/jd4Mzf6.png" alt=""></p>
+<h3>Bitmap scan</h3>
+<p>如果用多個 index 做搜尋，或者用一個 index 搜尋多次的話，有可能會進行 bitmap scan 來做搜尋</p>
+<p><img src="https://i.imgur.com/Iyres19.png" alt=""><br>
+<img src="https://i.imgur.com/XlzcfV6.png" alt=""></p>
+<p>bitmap scan 搜尋的原理是 pg 會先用第一個 index scan，找到總共有哪些 block(可以視為 table 的 page) 有這筆資料, 接著再用下一個 index 搜尋</p>
+<p>下面兩種情況使用 bitmap scan 會最有效率:</p>
+<ul>
+<li>避免同一個 block 不斷被重複搜尋</li>
+<li>要搜尋幾個弱關聯的條件</li>
+</ul>
+<h3>How pg know the composition of a table</h3>
+<p>並不是這張 table 有 index 就會用 index 去搜尋，還會根據裡面資料組成改變 plan</p>
+<p>比方說在 id 是 auto increment 的情況下，pg 會這樣做搜尋：<br>
+<img src="https://i.imgur.com/tUm7Z73.png" alt=""><br>
+<img src="https://i.imgur.com/obRO8iA.png" alt=""></p>
+<p>但如果我們用同樣的資料，但資料的順序完全被打亂，會這樣搜尋：<br>
+<img src="https://i.imgur.com/mb4BvDD.png" alt=""></p>
+<p>那 pg 到底怎麼知道資料組成的？</p>
+<p>其實是透過 pg_stats 這個 table<br>
+<img src="https://i.imgur.com/FfTMjHU.png" alt=""></p>
+<p>這個 table 維護的工作會在背景執行，通常是配合 autovacuum 執行的時候一起做</p>
+<p>t_test 的兩個 index correlation 都是1，因為 id 是 ascending 的，而 name 的排序是 paul 先，接著全部都是 hans</p>
+<p>而 t_random 的兩個 index 則是趨近於 0，代表是打亂的排列</p>
+<h2>Advanced SQL</h2>
+<p>接著介紹一些比較少人知道的 SQL 語句</p>
+<h3>grouping sets</h3>
+<p>GROUP BY + HAVING 大部分得人都知道，但 pg 裡面還可以搭配 CUBE / ROLLUP / GROUPING SETS 使用</p>
+<p>ROLLUP 可以另外幫你另外做出一欄，算出整體的平均</p>
+<p>下面兩張圖片顯示出 ROLLUP 的用法</p>
+<p><img src="https://i.imgur.com/Ey7Re0K.png" alt=""><br>
+<img src="https://i.imgur.com/xgU3i0o.png" alt=""></p>
+<p>如果 GROUP BY 的條件不止一個，會另外幫你做 by region 的平均</p>
+<p><img src="https://i.imgur.com/emXPKZ0.png" alt=""></p>
+<p>如果想要更多彈性的話可以用 CUBE，會幫你把所有條件的排列組合都做計算，可能在做報表的時候有用（by region / by region + country / by country / overall average）</p>
+<p><img src="https://i.imgur.com/CK595hU.png" alt=""></p>
+<p>而以上這些做分組平均的計算，如果用 EXPLAIN 去看，通常是用 MixedAggregate 的算法去算的</p>
+<p><img src="https://i.imgur.com/VyuX32w.png" alt=""></p>
+<h3>Filter clause</h3>
+<p>在使用 grouping sets 的時候，可以搭配 FILTER 使用</p>
+<p><img src="https://i.imgur.com/3k6vsyq.png" alt=""></p>
+<p>理論上我們還是希望資料盡量在 WHERE 的時候就濾除乾淨，這樣從 table 拿出來的資料會比較少，使用 FILTER 只有在不同的 aggregate 條件裡面會使用到，而使用 FILTER 的效能會比同樣的地方使用 CASE WHEN … THEN NULL … ELSE END 來得好</p>
+<h3>Ordered Sets</h3>
+<p>所謂的 ordered sets 指的是 <code>WITHIN GROUP (ORDER BY)</code> 這樣的語句</p>
+<p>拿中位數就是一個使用 ordered sets 的好時機</p>
+<p><img src="https://i.imgur.com/a3CjlSr.png" alt=""></p>
+<p>如果使用 ROLLUP 他也可以幫你拿到整體的中位數</p>
+<p><img src="https://i.imgur.com/Gk4jXid.png" alt=""></p>
+<p>percentile_disc 這個 function 的作用是幫你去除掉多少的資料，input 可以是 0…1之間</p>
+<p><img src="https://i.imgur.com/NpsB5vF.png" alt=""></p>
+<p>另外還有一個 function 是 percentile_cont，兩者的差別在於 percentile_disc 一定會回傳資料裡面的數字，但 percentile_cont 會在沒有資料符合的情況下用內插(interpolate)的方式計算</p>
+<p><img src="https://i.imgur.com/m5FZcFZ.png" alt=""></p>
+<p>除此之外也可以使用 mode 這個 function 去拿眾數，但要小心 pg 的 mode 就算有多個符合的時候也只會回傳一個<br>
+像下面這樣</p>
+<p><img src="https://i.imgur.com/lAU4Gag.png" alt=""><br>
+<img src="https://i.imgur.com/tJKFn1g.png" alt=""></p>
+<p>雖然 50 / 48/52 都是 5 個，但他只會給你其中一個</p>
+<h3>Utilizing windowing functions</h3>
+<p>如果想要把所有資料跟所有資料的平均比較，我們可能會用 sub-select 但其實有比較簡單的做法，就是用 over</p>
+<p><img src="https://i.imgur.com/Wx65fGL.png" alt=""></p>
+<p>over 裡面放的條件就是我們要去使用的條件(window)</p>
+<p>如果你需要額外的條件可以用  PARTITION BY 去定義</p>
+<p><img src="https://i.imgur.com/yBx7kKg.png" alt=""></p>
+<p>如果 PARTITION BY 後面放的是布林值，那就會被分為兩種條件</p>
+<p><img src="https://i.imgur.com/CmtKXFp.png" alt=""></p>
+<p>然後有時候需要在 window 裡面做 sorting，也可以在 over 裡面放 order by，他就會在你目前的 window 裡面拿需要的資料，像是最小值</p>
+<p>以下面的例子來說，如果上一年的 production 較少，就會維持上一年的值</p>
+<p><img src="https://i.imgur.com/Pmfssgi.png" alt=""></p>
+<p><img src="https://i.imgur.com/ov5Ww4j.png" alt=""></p>
+<p>下面這個例子更可以看出有沒有加上 order by 的差異<br>
+<img src="https://i.imgur.com/O7MjvWs.png" alt=""></p>
+<h3>sliding window</h3>
+<p>如果要使用 sliding window 最重要的是一定要加上 ORDER BY 語句</p>
+<p><img src="https://i.imgur.com/5kXBv37.png" alt=""></p>
+<p>還可以搭配 UNCOUNDED PRECEDING / UNBOUNDED FOLLOWING 等等組成更複雜的 sql</p>
+<p><img src="https://i.imgur.com/RBh3cil.png" alt=""></p>
+<h3>Difference between rows and range</h3>
+<p>rows 跟 range 常常被搞混</p>
+<p>rows 就是我們認知的一列，而 range 則是如果好幾列都是同一個值，則他們同時視為一個 range</p>
+<p>參考下圖：<br>
+<img src="https://i.imgur.com/RBYjcGI.png" alt=""></p>
+<h3>EXCLUDE TIES / EXCLUDE GROUP</h3>
+<p>如果在 over 裡面使用 exclude ties，會把重複的值刪除，像是 DISTINCT 那樣</p>
+<p>但 exclude group 會把如果有重複的值，全部的都刪除，一個不留</p>
+<h3>rank / dense_rank</h3>
+<p>rank 跟 dense_rank 可以幫我們做排名，但如果有名次相同的狀況，他們行為會不太相同<br>
+<img src="https://i.imgur.com/6nfZghm.png" alt=""><br>
+<img src="https://i.imgur.com/aPgpmcQ.png" alt=""></p>
+<p><img src="https://i.imgur.com/o1PrqnN.png" alt=""></p>
+<h3>ntile</h3>
+<p>ntile 可以做分組<br>
+<img src="https://i.imgur.com/qCsJU90.png" alt=""></p>
+<h3>lead / lag</h3>
+<p>lead lag 可以把某些欄位放到上一列或者下一列<br>
+<img src="https://i.imgur.com/A2QgZVJ.png" alt=""></p>
+<h3>first_value / nth_value / last_value</h3>
+<p><img src="https://i.imgur.com/C2AWgEF.png" alt=""></p>
+<h3>row_number</h3>
+<p>可以幫我們編排序號<br>
+<img src="https://i.imgur.com/HjZODsq.png" alt=""></p>
+<h2>System statistics</h2>
+<h3>pg_stat_activity</h3>
+<p>pg_stat_activity 這個 table 可以讓你知道現在正在發生的事情，他會把目前的每一個連線都變成一個 row 紀錄資訊，其中的 state 資訊可以讓你知道這個連線目前是 active 還是 idle</p>
+<p>一旦找到 bad query，可以去把它關掉：</p>
+<ul>
+<li>pg_cancel_backend: 會把 query 結束掉，但 connection 留著</li>
+<li>pg_teminate_backend：會把 connection 直接關掉</li>
+</ul>
+<p>可以很暴力的把除了自己之外的連線關掉：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> PG_terminate_backend(pid)</span><br><span class="line"><span class="keyword">FROM</span> pg_stat_activity</span><br><span class="line"><span class="keyword">WHERE</span> pid &lt;&gt; pg_backend_pid()</span><br><span class="line"><span class="keyword">AND</span> backend_type = <span class="string">'client_backend'</span></span><br></pre></td></tr></table></figure>
+<h3>pg_stat_database</h3>
+<p>pg_stat_database 可以讓我們更進一步看到每一個 database 目前狀態</p>
+<p>其中 numbackend 可以知道這個 database 目前連線數量</p>
+<p>然後 tup_ 系列的欄位則是告訴你目前有多少 reading / writing 正在發生</p>
+<h3>pg_stat_user_tables</h3>
+<p>pg_stat_user_tables 則是更細到每一張 table，還可以搭配另一張 pg_statio_user_tables 一起用（但那張紀錄的比較少去看）</p>
+<p>其中 seq_tup_read 是比較重要的欄位，他會告訴我們這張 table seq_scan 使用的數量，這代表沒有使用 index 來做搜尋</p>
+<p>另一個 idx_scan 則是 index 多常被用到</p>
+<p>我們可以用這樣的 query 檢查這張 table 是不是缺少 index:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> schemaname, relname, seq_scan, seq_tup_read, seq_tup_read/seq_scan <span class="keyword">AS</span> <span class="keyword">avg</span>, idx_scan</span><br><span class="line"><span class="keyword">FROM</span> pg_stat_user_tables</span><br><span class="line"><span class="keyword">WHERE</span> seq_scan &gt; <span class="number">0</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> seq_tup_read <span class="keyword">DESC</span> <span class="keyword">LIMIT</span> <span class="number">25</span></span><br></pre></td></tr></table></figure>
+<h3>pg_stat_user_indexes</h3>
+<p>pg_stat_user_indexes 可以幫我們找到是不是有不需要存在的 index</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> schemaname, relname, indexrelname, idx_scan,</span><br><span class="line">       pg_size_pretty(pg_relation_size(indexrelid)) <span class="keyword">AS</span> idx_size</span><br><span class="line">       pg_size_pretty(<span class="keyword">sum</span>(pg_relation_size(indexrelid))) <span class="keyword">OVER</span>(<span class="keyword">ORDER</span> <span class="keyword">BY</span> idx_scan, indexrelid) <span class="keyword">AS</span> total</span><br><span class="line"><span class="keyword">FROM</span> pg_stat_user_indexes</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="number">6</span></span><br></pre></td></tr></table></figure>
+<h3>pg_stat_statements</h3>
+<p>這應該是最重要的一張看 performance 問題的 table</p>
+<p>其中 tmp_blks_read / tmp_blks_written 代表 tempfile 讀取寫入的 block 數量，我們在建立 index 的時後用到 tempfile 是很自然的，除此之外，如果太常用到 tempfile 會導致效能變得很差</p>
+<p>而這兩個欄位平常是空的，如果要做觀測，需要特別改設定把他們打開</p>
+<p>如果平常要對這張 table 做 query 要記得做 sorting 才會拿到比較有用的數據</p>
+<p>範例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">round</span>((<span class="number">100</span> * total_exec_time / <span class="keyword">sum</span>(total_exec_time) <span class="keyword">OVER</span>()::<span class="built_in">numeric</span>, <span class="number">2</span>)) <span class="keyword">percent</span>,</span><br><span class="line">       <span class="keyword">round</span>(total_exec_time::<span class="built_in">Numeric</span>, <span class="number">2</span>) <span class="keyword">AS</span> total,</span><br><span class="line">       calls</span><br><span class="line">       <span class="keyword">round</span>(mean_exec_time::<span class="built_in">numeric</span>, <span class="number">2</span>) <span class="keyword">AS</span> mean,</span><br><span class="line">       <span class="keyword">substring</span>(<span class="keyword">query</span>, <span class="number">1</span>, <span class="number">40</span>)</span><br><span class="line"><span class="keyword">FROM</span> pg_stat_statements</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> total_exec_time <span class="keyword">DESC</span></span><br><span class="line"><span class="keyword">LIMIT</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
+<p>另外也可以主動去 reset 這張 table:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT pg_stat_statements_reset()</span><br></pre></td></tr></table></figure>
+<h3>logging slow queryes</h3>
+<p>我們可以把 slow query 定義一個大於 0 的值，只要比這個久的 query 都會被記錄下來</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 預設是 -1</span><br><span class="line">loh_min_duration_statement = -1</span><br></pre></td></tr></table></figure>
+<p>但要記得，不是所有 slow query 都是拖垮效能的主因，畢竟 1000 個 500ms 的 query(500s) 比兩個花 5秒(10s)的 query 來得糟</p>
+<h2>Optimizer</h2>
+<p>假設現在有三張 table</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">table `a` aid(integer, indexded) 100 million rows</span><br><span class="line">table `b` bid(integer, indexded) 200 million rows</span><br><span class="line">table `c` cid(integer, indexded) 300 million rows</span><br></pre></td></tr></table></figure>
+<p>然後有一個 view</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">VIEW</span> v <span class="keyword">AS</span></span><br><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> a, b</span><br><span class="line"><span class="keyword">WHERE</span> aid = bid</span><br></pre></td></tr></table></figure>
+<p>現在有個 query 那 planner 到底會怎麼去做出 plan 呢？</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> v, c</span><br><span class="line"><span class="keyword">WHERE</span> v.aid = c.cid</span><br><span class="line"><span class="keyword">AND</span> cid = <span class="number">4</span></span><br></pre></td></tr></table></figure>
+<p>如果照這個 query 去執行，可能會使用兩個迭代 O(n^2) 的方式，或者 Hash join / Merge join，而這些方式都不是最好的，因此 optimizer 會先做 transformation 的處理</p>
+<h3>transformations</h3>
+<p>先把 view 變回原本的 query</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">Select</span> *</span><br><span class="line">  <span class="keyword">FROM</span> a, b</span><br><span class="line">  <span class="keyword">WHERE</span> aid = bid</span><br><span class="line">)<span class="keyword">AS</span> v, c</span><br><span class="line"><span class="keyword">WHERE</span> v.aid = c.cid</span><br><span class="line"><span class="keyword">AND</span> cid = <span class="number">4</span></span><br></pre></td></tr></table></figure>
+<p>接著 flatten subselects</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> a, b, c</span><br><span class="line"><span class="keyword">WHERE</span> a.aid = c.cid</span><br><span class="line"><span class="keyword">AND</span> aid = bid</span><br><span class="line"><span class="keyword">AND</span> cid = <span class="number">4</span></span><br></pre></td></tr></table></figure>
+<p>經過邏輯推導變成下面這樣，就可以用 index 分別 query 三張 table</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> a,b,c</span><br><span class="line"><span class="keyword">WHERE</span> a.aid = c.cid</span><br><span class="line"><span class="keyword">AND</span> aid = bid</span><br><span class="line"><span class="keyword">AND</span> cid = <span class="number">4</span></span><br><span class="line"><span class="keyword">AND</span> bid = cid</span><br><span class="line"><span class="keyword">AND</span> aid = <span class="number">4</span></span><br><span class="line"><span class="keyword">AND</span> bid = <span class="number">4</span></span><br></pre></td></tr></table></figure>
+<p>除了這個之外，還有其他種優化：</p>
+<h3>Exhaustive searching</h3>
+<p>現在 query 已經做完 transformation，接著 planner 會做 exhaustive searching，找出所有可能的 plan 並找出一個最好的</p>
+<p>pg 在決定這些 plan 的時候也會在背後做一些優化：</p>
+<h3>Constant folding</h3>
+<p>如果做了一些運算，而可以算出常數的話， pg 會把它轉成常數</p>
+<p>在下面的 plan 裡面可以看到它自動把 3 + 1 變成 4，這樣就可以用 index 去做搜尋<br>
+<img src="https://i.imgur.com/Qtpp56i.png" alt=""></p>
+<p>但如果換一個方式去做搜尋的話，index 就會失效：<br>
+<img src="https://i.imgur.com/DqMLoNe.png" alt=""></p>
+<h3>function inlining</h3>
+<p>在 postgresql 裡面還有一個特殊的加速方式叫做 function inlining</p>
+<p>比方說下面有一個標註為 immutable 的 function</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">FUNCTION</span> ld(<span class="built_in">int</span>)</span><br><span class="line"><span class="keyword">RETURNS</span> <span class="built_in">numeric</span> <span class="keyword">AS</span></span><br><span class="line">$$</span><br><span class="line">  <span class="keyword">SELECT</span> <span class="keyword">log</span>(<span class="number">2</span>, $<span class="number">1</span>);</span><br><span class="line">$$</span><br><span class="line">LANGUAGE 'sql' IMMUTABLE;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> ld(<span class="number">1024</span>);</span><br><span class="line"><span class="comment"># 10</span></span><br></pre></td></tr></table></figure>
+<p>接著做出一個 table 用這個 function 做 index</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> a <span class="keyword">SELECT</span> generate_series(<span class="number">1</span>, <span class="number">10000</span>);</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> idx_ld <span class="keyword">ON</span> a (ld(aid));</span><br></pre></td></tr></table></figure>
+<p>雖然我們是用這個 function 建立的</p>
+<p>但如果去搜尋這張 table 會發現下面的結果：<br>
+<img src="https://i.imgur.com/3zeUtgZ.png" alt=""><br>
+他的 index 其實是用 log function 建立得，而不是原本的 ld function</p>
+<p><img src="https://i.imgur.com/wMNVdKh.png" alt=""><br>
+所以就算不是用這個 function 去搜尋，還是可以用到原本的 index(Index Scan)</p>
+<h3>Join pruning</h3>
+<p>pg 還會幫忙把不需要的 join 拿掉</p>
+<p><img src="https://i.imgur.com/NAvHvey.png" alt=""><br>
+下面的結果：如果沒有要去拿 y 就不會去 join y<br>
+<img src="https://i.imgur.com/djLLcIh.png" alt=""></p>
+<h3>Speed up set operations</h3>
+<p>set operations 是指含有 UNION / INTERSECT / EXCEPT 這些關鍵字的 sql query</p>
+<p><img src="https://i.imgur.com/KAR5rfD.png" alt=""><br>
+<img src="https://i.imgur.com/kvAzBYJ.png" alt=""><br>
+其中 aid = 3 跟 bid = 3 是 pg 自己推導出來的，如果不這樣做，那就會是 sequential scan，如果先推出這樣的結論，搜尋就可以使用 Index Scan</p>
+<blockquote>
+<p>常常有人不知道 UNION ALL 跟 UNION 的區別，UNION 會去除重複資料，而且排序，但這些 UNION ALL 都不會去做，但也因此 UNION ALL 速度較快</p>
+</blockquote>
+<h2>Understand Execution plans</h2>
+<p>EXPLAIN 可以幫我們看到 execution plan</p>
+<p>看 plan 的關鍵是從裡面往外面看(inside out)</p>
+<p><img src="https://i.imgur.com/zs8xbwj.png" alt=""><br>
+以這個 plan 來說，是從對 b 做 sequential scan 開始的，然後又有 cost 跟 actual time 這兩個 block<br>
+cost 是用預測的，而 actual time 那邊則是跑完 query 後真正的時間</p>
+<p>如果要讓 EXPLAIN 更 verbose 可以使用 <code>EXPLAIN (analyze, verbose, costs, timing, buffers)</code></p>
+<h3>join_collapse_limit</h3>
+<p>在 planning 階段， pg 會嘗試檢查所有可能的 join 順序</p>
+<p>而在 join 非常多的情況下，這樣可能反而是相對花時間的操作</p>
+<p>join_collapse_limit 這個設定值就是在控制這樣的行為</p>
+<p>比方說有三個 query:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- implicit join</span></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> tab1, tab2, tab3</span><br><span class="line"><span class="keyword">WHERE</span> tab1.id = tab2.id</span><br><span class="line"><span class="keyword">AND</span> tab2.ref = tab3.id;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> tab1 <span class="keyword">CROSS</span> <span class="keyword">JOIN</span> tab2 <span class="keyword">CROSS</span> <span class="keyword">JOIN</span> tab3</span><br><span class="line"><span class="keyword">WHERE</span> tab1.id = tab2.id</span><br><span class="line"><span class="keyword">AND</span> tab2.ref = tab3.id;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- explicit join</span></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> tab1 <span class="keyword">JOIN</span> (tab2 <span class="keyword">JOIN</span> tab3)</span><br><span class="line"><span class="keyword">ON</span> (tab2.ref = tab3.id)</span><br><span class="line"><span class="keyword">ON</span> (tab1.id = tab2.id)</span><br></pre></td></tr></table></figure>
+<p>這三個 query 其實最後都會讓 pg 做一樣的事情，但到底要進行多少組合，就是用這個參數控制</p>
+<h2>Function in pg</h2>
+<p>因為 pg 裡面可以用的語言很多，所以要指定語言</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">FUNCTION</span> mysum(<span class="built_in">int</span>, <span class="built_in">int</span>)</span><br><span class="line"><span class="keyword">RETURNS</span> <span class="built_in">int</span> <span class="keyword">AS</span></span><br><span class="line"><span class="string">'</span></span><br><span class="line"><span class="string">  SELECT $1 + $2;</span></span><br><span class="line"><span class="string">'</span> <span class="keyword">LANGUAGE</span> <span class="string">'sql'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> mysum(<span class="number">10</span>, <span class="number">20</span>);</span><br><span class="line"><span class="comment">-- 30</span></span><br></pre></td></tr></table></figure>
+<p>然後 pg 裡面 function 除了根據 naming 之外也會根據參數，所以 mysum(int8, int8) 跟 mysum(int, int) 可以是兩個完全不同的 function</p>
+<p>因為單引號常常需要做 escape 所以可以換成兩個錢</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">FUNCTION</span> mysum(<span class="built_in">int</span>, <span class="built_in">int</span>)</span><br><span class="line"><span class="keyword">RETURNS</span> <span class="built_in">int</span> <span class="keyword">AS</span></span><br><span class="line">$$</span><br><span class="line">  <span class="keyword">SELECT</span> $<span class="number">1</span> + $<span class="number">2</span>;</span><br><span class="line">$$ LANGUAGE 'sql';</span><br></pre></td></tr></table></figure>
+<p>但有些語言裡面 <code>$$</code> 是有意義的，像是 bash / perl<br>
+所以也可以在 $ 之間放進去一些可以識別的字</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">FUNCTION</span> mysum(<span class="built_in">int</span>, <span class="built_in">int</span>)</span><br><span class="line"><span class="keyword">RETURNS</span> <span class="built_in">int</span> <span class="keyword">AS</span></span><br><span class="line">$<span class="keyword">body</span>$</span><br><span class="line">  <span class="keyword">SELECT</span> $<span class="number">1</span> + $<span class="number">2</span>;</span><br><span class="line">$body$ LANGUAGE 'sql';</span><br></pre></td></tr></table></figure>
+<h3>String formating</h3>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">format</span>(<span class="string">'Hello, %s %s'</span>, <span class="string">'pg'</span>, <span class="number">13</span>);</span><br><span class="line"><span class="comment">-- Hello, pg 13</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">format</span>(<span class="string">'Hello, %s %10s'</span>, <span class="string">'pg'</span>, <span class="number">13</span>);</span><br><span class="line"><span class="comment">-- Hello, pg 13</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">format</span>(<span class="string">'%1$s, %1$s, %2$s'</span>, <span class="string">'one'</span>, <span class="string">'two'</span>)</span><br><span class="line"><span class="comment">-- one, one, two</span></span><br></pre></td></tr></table></figure>
+<h2>Triggers</h2>
+<p>trigger 一定是對一張 table 或者一個 view 做事情</p>
+<p>而且如果同時在 table 有多個 trigger 的時候，他 fire 的順序是按照 trigger 的名字字母來排序的</p>
+<p>在 trigger 裡面有一些特殊變數可以用，像是 INSERT / UPDATE 的操作後會有 NEW 這個 variable 代表即將進來的資料，UPDATE / DELETE 則是有 OLD 代表即將改變的資料</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">FUNCTION</span> trig_func()</span><br><span class="line"><span class="keyword">RETURNS</span> <span class="keyword">trigger</span> <span class="keyword">AS</span></span><br><span class="line">$$</span><br><span class="line">  <span class="keyword">BEGIN</span></span><br><span class="line">    <span class="keyword">IF</span> NEW.temperature &lt; <span class="number">-273</span></span><br><span class="line">    <span class="keyword">THEN</span> NEW.temperature := <span class="number">0</span></span><br><span class="line">    <span class="keyword">END</span> <span class="keyword">IF</span>;</span><br><span class="line">    RETURN NEW;</span><br><span class="line">  <span class="keyword">END</span>;</span><br><span class="line">$$ LANGUAGE 'plpgsql';</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> sensor_trig</span><br><span class="line"><span class="keyword">BEFORE</span> <span class="keyword">INSERT</span> <span class="keyword">ON</span> t_sensor</span><br><span class="line"><span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="keyword">ROW</span></span><br><span class="line"><span class="keyword">EXECUTE</span> <span class="keyword">PROCEDURE</span> trig_func();</span><br></pre></td></tr></table></figure>
+<p>效果如下：<br>
+<img src="https://i.imgur.com/Sr1OdXd.png" alt=""></p>
+<h2>Transaction log</h2>
+<p>目前所有比較近代的 db 都有方法可以讓這個 db 的 hardware 就算 crash 或者插頭被拔掉，還是可以在系統重啟之後回到正常狀態</p>
+<p>而 pg 實作的方法就是靠 Write Ahead Log(WAL) 或者在以前是 xlog</p>
+<p>主要的概念就是先把要做的事情先寫到 log 再去寫到 data file，因此 pg 的 transaction log 不只是 log，在系統異常的時候，他還代表可能之後要修復的紀錄</p>
+<p>一般來說這些資料放在 pg_wal 資料夾裡面 <code>/var/lib/pgsql/13/data/pg_wal</code></p>
+<h3>check points</h3>
+<p>雖然 transaction log 可以修復受損的資料，但 pg 也不可能一直寫入 transaction log，某個時間點會做回收的動作，這個時間點就是 checkpoint</p>
+<p>書中提到 checkpoint 時間間隔如果太短，會造成 performance 較差，因為當某個 block 被 touch 到，那就要整個寫到 WAL 裡面，如果再下個 checkpoint 之前有做更改，只需要去改 WAL 的部分紀錄，不用全部寫進去 WAL，但沒有寫到如果 checkpoint 間隔太長的話會有什麼副作用（除了需要的 disk 變多之外）</p>
+<h2>Troubleshooting</h2>
+<p>這跟前面的 System statistics 很像，但給了一些可以方便我們找出問題的 SQL</p>
+<h3>pg_stat_activity</h3>
+<p>通常不知道發生什麼事情的話會先第一個看這張 table，因為他通常可以給我們一個概念，這個 db 發生了什麼事情</p>
+<p>比方說我們可以看看現在有多少連線，有沒有 idle 中的：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> datname,</span><br><span class="line"><span class="keyword">count</span>(*) <span class="keyword">AS</span> <span class="keyword">open</span>,</span><br><span class="line"><span class="keyword">count</span>(*) FILTER (<span class="keyword">WHERE</span> state = <span class="string">'active'</span>) <span class="keyword">AS</span> active,</span><br><span class="line"><span class="keyword">count</span>(*) FILTER (<span class="keyword">WHERE</span> state = <span class="string">'idle'</span>) <span class="keyword">AS</span> idle,</span><br><span class="line"><span class="keyword">count</span>(*) FILTER (<span class="keyword">WHERE</span> state = <span class="string">'idle'</span> <span class="keyword">in</span> <span class="keyword">transaction</span>) <span class="keyword">AS</span> idle_in_trans</span><br></pre></td></tr></table></figure>
+<p>如果看到  idle in transaction 的連線數量很多的話就要小心了，首先要看這些連線已經維持了多久</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> pid, xact_start, <span class="keyword">now</span>() - xact_start <span class="keyword">AS</span> <span class="keyword">duration</span></span><br><span class="line"><span class="keyword">FROM</span> pg_stat_activity</span><br><span class="line"><span class="keyword">WHERE</span> state <span class="keyword">LIKE</span> <span class="string">'%transaction%'</span></span><br><span class="line"><span class="comment">-- 以第三個欄位排序</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="number">3</span> <span class="keyword">DESC</span>;</span><br></pre></td></tr></table></figure>
+<p>也可以看有沒有一些跑了很久的 query:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">now</span>() - query_start <span class="keyword">AS</span> <span class="keyword">duration</span>, datname, <span class="keyword">query</span></span><br><span class="line"><span class="keyword">FROM</span> pg_stat_activity</span><br><span class="line"><span class="keyword">WHERE</span> state = <span class="string">'active'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="number">1</span> <span class="keyword">DESC</span>;</span><br></pre></td></tr></table></figure>
+<p>如果是使用 ORM 的系統，常常會產生很長的 query，而 pg_stat_activity 只會儲存 1024 bytes 的 query clause</p>
+<p>這長度可以透過 <code>track_activity_query_size</code> 這個參數來調整</p>
+<p>如果想要快速知道有問題的 query 從哪來，有時候很難判斷，這時候最好請 developer 加上 application_name 在不同的 application 裡面，這樣才知道從哪個系統來的 request 出問題</p>
+<h3>Checking for slow queries</h3>
+<p>設定 log_min_duration_statement 這個參數，可以讓 query 超過這個時間的 query 被額外記錄下來，這個參數預設是 -1(被關掉)</p>
+<p>使用這個功能的時候要記得，紀錄這些時間長的 query 並意識到他們的存在是好的，但很常他們並不是造成系統很慢的主因，如果有幾百萬個 500ms 的 query，會比單一個很長的 query 來的更嚴重</p>
+<p>所以最好還是搭配 pg_stat_statements 這個 view 來確認系統中發生得問題，不要太依賴 slow query</p>
+<h3>Checking for missing indexes</h3>
+<p>有一個 query 可能可以讓你比較快找出 missing index</p>
+<p>這樣可以找出哪些大 table 比較常使用 seq scan</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> schemaname, relname, seq_scan, seq_tup_read,</span><br><span class="line">      idx_scan, seq_tup_read / seq_scan <span class="keyword">AS</span> <span class="keyword">avg</span></span><br><span class="line"><span class="keyword">FROM</span> pg_stat_user_tables</span><br><span class="line"><span class="keyword">WHERE</span> seq_scan &gt; <span class="number">0</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> seq_tup_read <span class="keyword">DESC</span></span><br><span class="line"><span class="keyword">LIMIT</span> <span class="number">20</span>;</span><br></pre></td></tr></table></figure>
+<h3>Checking for memory and I/O</h3>
+<p>pg 裡面有個預設關閉的功能： track_io_timing</p>
+<p>如果覺得 IO 有問題，可以打開來追蹤看看，但要記得關掉因為效能上會有影響</p>
+<p>另外也可以從 pg_stat_database 這張 table 大概看出一點端倪</p>
+<p>其中的欄位 blk_read_time / blk_write_time 通常跟 temp_files / temp_bytes 一起變高</p>
+<p>而這時候通常是要去調整 work_mem 或者 maintenance_work_mem (create index) 的時候了，要記得記憶體不夠的話，他就會用磁碟的空間，而這會導致速度變得很爛</p>
+<h3>checkpoint messages</h3>
+<p>前面有提到 checkpoint 會去回收 transaction log，而 checkpoint 間隔如果太短會效能不好</p>
+<p>如果真的太短，系統會印出 log 提醒你：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">checkpoints are occuring too frequently</span><br></pre></td></tr></table></figure>
+<h3>careless connection management</h3>
+<p>在 pg 裡面每個 db connection 都是一個 process，但這些 process 是使用 shared memory(mapped memory)</p>
+<p>在這個前提下，如果某個 connection 意外 crash，很有可能 memory 正在被這個 crash 的 connection 編輯中，為了安全起見，postmaster(main process) 會去把其他所有連線都踢掉，避免這個髒資料影響到其他的 process，等記憶體清乾淨資料才會讓這些 connection 重新連線</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/2023-01-01-retrospect_and_prospect_of_2023/" data-toggle="tooltip" data-placement="top" title="Retrospect And Prospect of 2023">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/2022-09-25-Study_on_warden_and_devise/" data-toggle="tooltip" data-placement="top" title="How Gem Warden Works">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Outline</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Transaction</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">SELECT for UPDATE</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">Transaction isolation levels</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">Vacuum</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Making Use of Indexes</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">Cost model</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">Index only scan</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">Bitmap scan</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.4.</span> <span class="toc-nav-text">How pg know the composition of a table</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Advanced SQL</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">grouping sets</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.2.</span> <span class="toc-nav-text">Filter clause</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.3.</span> <span class="toc-nav-text">Ordered Sets</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.4.</span> <span class="toc-nav-text">Utilizing windowing functions</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.5.</span> <span class="toc-nav-text">sliding window</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.6.</span> <span class="toc-nav-text">Difference between rows and range</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.7.</span> <span class="toc-nav-text">EXCLUDE TIES / EXCLUDE GROUP</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.8.</span> <span class="toc-nav-text">rank / dense_rank</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.9.</span> <span class="toc-nav-text">ntile</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.10.</span> <span class="toc-nav-text">lead / lag</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.11.</span> <span class="toc-nav-text">first_value / nth_value / last_value</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.12.</span> <span class="toc-nav-text">row_number</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">System statistics</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.1.</span> <span class="toc-nav-text">pg_stat_activity</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.2.</span> <span class="toc-nav-text">pg_stat_database</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.3.</span> <span class="toc-nav-text">pg_stat_user_tables</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.4.</span> <span class="toc-nav-text">pg_stat_user_indexes</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.5.</span> <span class="toc-nav-text">pg_stat_statements</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.6.</span> <span class="toc-nav-text">logging slow queryes</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">Optimizer</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.1.</span> <span class="toc-nav-text">transformations</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.2.</span> <span class="toc-nav-text">Exhaustive searching</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.3.</span> <span class="toc-nav-text">Constant folding</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.4.</span> <span class="toc-nav-text">function inlining</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.5.</span> <span class="toc-nav-text">Join pruning</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.6.</span> <span class="toc-nav-text">Speed up set operations</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">Understand Execution plans</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">7.1.</span> <span class="toc-nav-text">join_collapse_limit</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">Function in pg</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">8.1.</span> <span class="toc-nav-text">String formating</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">9.</span> <span class="toc-nav-text">Triggers</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">10.</span> <span class="toc-nav-text">Transaction log</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">10.1.</span> <span class="toc-nav-text">check points</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">11.</span> <span class="toc-nav-text">Troubleshooting</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">11.1.</span> <span class="toc-nav-text">pg_stat_activity</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">11.2.</span> <span class="toc-nav-text">Checking for slow queries</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">11.3.</span> <span class="toc-nav-text">Checking for missing indexes</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">11.4.</span> <span class="toc-nav-text">Checking for memory and I/O</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">11.5.</span> <span class="toc-nav-text">checkpoint messages</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">11.6.</span> <span class="toc-nav-text">careless connection management</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#SQL" title="SQL">SQL</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+                    
+                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+                    
+                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/qoosuperman">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Anthony Chao 2026 
+                    <br>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-153986590-1';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

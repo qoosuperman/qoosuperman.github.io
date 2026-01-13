@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
+    <meta name="keyword" content="">
+    <meta property="og:image" content="undefined">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>
+        
+          What Does Counter Culture Do - Anthony Chao | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2022-05-19-What_Does_Counter_Culture_Do/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://images.unsplash.com/photo-1652944234451-7ac52e1fe6ce?crop=entropy&amp;cs=tinysrgb&amp;fm=jpg&amp;ixlib=rb-1.2.1&amp;q=80&amp;raw_url=true&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1770')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Rails" title="Rails">Rails</a>
+                            
+                        </div>
+                        <h1>What Does Counter Culture Do</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Anthony Chao on
+                            2022-05-19
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Anthony Chao</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2>Outline</h2>
+<ul>
+<li><a href="#intro">Intro</a></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#analyzing">Analyzing</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+<h2>Intro</h2>
+<p>在 ActiveRecord 模組裡面已經有原生的 counter cache 機制，但如果要用到比較複雜的 cache 機制可以使用 <a href="https://github.com/magnusvk/counter_culture" target="_blank" rel="noopener">counter_culture 這個 gem</a></p>
+<p>剛好最近有個 bug 跟他有關，因此去了解消化一下 source code 內容</p>
+<h2>Usage</h2>
+<p>如果 A has_many B，使用 counter_culture 要寫在 B 身上</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> &lt; ActiveRecord::Base</span></span><br><span class="line">  has_many <span class="symbol">:bs</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> &lt; ActiveRecord::Base</span></span><br><span class="line">  belongs_to <span class="symbol">:a</span></span><br><span class="line">  counter_culture <span class="symbol">:a</span>, <span class="symbol">column_name:</span> <span class="string">"bs_count"</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>厲害的地方在於，如果 has_many 這一邊還有 parent 身上也有 count cache 要更新， counter_culture 也支援這種情況</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> &lt; ActiveRecord::Base</span></span><br><span class="line">	has_many <span class="symbol">:children</span>, <span class="symbol">class_name:</span> <span class="string">'A'</span>, <span class="symbol">foreign_key:</span> <span class="string">'parent_id'</span>, <span class="symbol">optional:</span> <span class="literal">true</span></span><br><span class="line">	belongs_to <span class="symbol">:parent</span>, <span class="symbol">class_name:</span> <span class="string">'A'</span>, <span class="symbol">foreign_key:</span> <span class="string">'parent_id'</span></span><br><span class="line">  has_many <span class="symbol">:bs</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> &lt; ActiveRecord::Base</span></span><br><span class="line">  belongs_to <span class="symbol">:a</span></span><br><span class="line">  counter_culture <span class="symbol">:a</span>, <span class="symbol">column_name:</span> <span class="string">"bs_count"</span>, <span class="symbol">foreign_key_values:</span> proc &#123; <span class="params">|a_id|</span> [a_id, A.find_by_id(a_id).try(<span class="symbol">:parent</span>).try(<span class="symbol">:id</span>)] &#125;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>其他更詳細的使用方式就看看 counter_culture 的 <a href="https://github.com/magnusvk/counter_culture" target="_blank" rel="noopener">文件</a> 吧！</p>
+<h2>Analyzing</h2>
+<h3>Entrypoint</h3>
+<p>首先要先找到這個 gem 的入口在哪裡，通常會寫在跟 gem 名字很像的檔案上面</p>
+<p>果然在 lib 的第一層就找到他了</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># lib/counter_culture.rb</span></span><br><span class="line">ActiveSupport.on_load(<span class="symbol">:active_record</span>) <span class="keyword">do</span></span><br><span class="line">  <span class="keyword">include</span> CounterCulture::Extensions</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>他這邊利用了 Active Support 的 lazy load hooks，讓 ActiveRecord 完整 load 完之後 include CounterCulture::Extensions 這個 module</p>
+<p>這個 <code>on_load</code> 的用法可以參考這篇 <a href="https://simonecarletti.com/blog/2011/04/understanding-ruby-and-rails-lazy-load-hooks/" target="_blank" rel="noopener">文章</a>，同時來看看 ActiveSupport 這邊的原始碼：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">ActiveSupport</span></span></span><br><span class="line">  <span class="class"><span class="keyword">module</span> <span class="title">LazyLoadHooks</span></span></span><br><span class="line">	<span class="comment"># ...</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">on_load</span><span class="params">(name, options = &#123;&#125;, &amp;block)</span></span></span><br><span class="line">      @loaded[name].each <span class="keyword">do</span> <span class="params">|base|</span></span><br><span class="line">        execute_hook(name, base, options, block)</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">      @load_hooks[name] &lt;&lt; [block, options]</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run_load_hooks</span><span class="params">(name, base = Object)</span></span></span><br><span class="line">      @loaded[name] &lt;&lt; base</span><br><span class="line">      @load_hooks[name].each <span class="keyword">do</span> <span class="params">|hook, options|</span></span><br><span class="line">        execute_hook(name, base, options, hook)</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">	<span class="comment">#...</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>在 <code>on_load</code> 的時候會先把前面已經註冊的 hook 都先執行過，然後把這次新註冊的再加到 <code>@load_hooks</code> 這個 instance_variable 裏面，但要使用這個方法的前提是用 <code>on_load</code> 註冊的 class 需要在 code 的最後用 <code>run_load_hooks</code> 去執行所有還沒執行的 hook，他們是需要搭配使用的</p>
+<p>這個 gem 可以這樣在 ActiveRecord 身上裝 hook 是因為 ActiveRecord 最後就有這行：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ActiveSupport.run_load_hooks(<span class="symbol">:active_record</span>, ActiveRecord::Base)</span><br></pre></td></tr></table></figure>
+<h3>counter_culture instance method</h3>
+<p>接著就來看看 counter_culture 這個 gem 最重要的 instance method <code>counter_culture</code> 從哪裡來的，前面利用 hook 讓 ActiveRecord include <code>CounterCulture::Extensions</code> 這個模組，所以一定是放在裡面的</p>
+<p>我把一些相容其他 gem 跟 error check 的部分拿掉比較好看</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># counter_culture/extentions.rb</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">counter_culture</span><span class="params">(relation, options = &#123;&#125;)</span></span></span><br><span class="line">	<span class="keyword">unless</span> @after_commit_counter_cache</span><br><span class="line">		<span class="comment"># initialize callbacks only once</span></span><br><span class="line">		after_create <span class="symbol">:_update_counts_after_create</span></span><br><span class="line"></span><br><span class="line">		before_destroy <span class="symbol">:_update_counts_after_destroy</span>, <span class="symbol">unless:</span> <span class="symbol">:destroyed_for_counter_culture?</span></span><br><span class="line"></span><br><span class="line">		after_update <span class="symbol">:_update_counts_after_update</span>, <span class="symbol">unless:</span> <span class="symbol">:destroyed_for_counter_culture?</span></span><br><span class="line"></span><br><span class="line">		<span class="comment"># we keep a list of all counter caches we must maintain</span></span><br><span class="line">		@after_commit_counter_cache = []</span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line">	column_names_valid = (</span><br><span class="line">		!options[<span class="symbol">:column_names</span>] <span class="params">||</span></span><br><span class="line">		options[<span class="symbol">:column_names</span>].is_a?(Hash) <span class="params">||</span></span><br><span class="line">		(</span><br><span class="line">			options[<span class="symbol">:column_names</span>].is_a?(Proc) &amp;&amp;</span><br><span class="line">			options[<span class="symbol">:column_names</span>].call.is_a?(Hash)</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">	<span class="comment"># add the counter to our collection</span></span><br><span class="line">	@after_commit_counter_cache &lt;&lt; Counter.new(<span class="keyword">self</span>, relation, options)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>從上面的原始碼看到，他還是利用了 ActiveRecord 的 after_create / before_destroy / after_update 這些 callback，因為他想要指註冊一次 callback，所以會先去檢查 <code>@after_commit_counter_cache</code> 這個 instance_variable 是不是空值，否則如果某個 model 使用了兩次 counter_culture 就會執行兩次</p>
+<p>而綁定在這些 callback 身上的 method 長得很簡單：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_update_counts_after_create</span></span></span><br><span class="line">	<span class="keyword">self</span><span class="class">.<span class="keyword">class</span>.<span class="title">after_commit_counter_cache</span>.<span class="title">each</span> <span class="title">do</span> |<span class="title">counter</span>|</span></span><br><span class="line">		<span class="comment"># increment counter cache</span></span><br><span class="line">		counter.change_counter_cache(<span class="keyword">self</span>, <span class="symbol">:increment</span> =&gt; <span class="literal">true</span>)</span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>只是把 instance_variable 裡面的東西拿出來讓 counter 去改他們的 counter_cache，可以知道實作的細節是靠 <code>Counter</code> 這個 class 去實現的</p>
+<p>所以就來看看 Counter 主要的進入點 <code>change_counter_cache</code> 怎麼寫，這部分有點多，我直接把自己的註解放進去</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">change_counter_cache</span><span class="params">(obj, options)</span></span></span><br><span class="line">	<span class="comment"># counter cache 記錄在哪個欄位</span></span><br><span class="line">	change_counter_column = options.fetch(<span class="symbol">:counter_column</span>) &#123; counter_cache_name_for(obj) &#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment"># 要改的資料有哪些，如果 parent 也需要更新，這邊會一起撈到</span></span><br><span class="line">	id_to_change = foreign_key_value(obj, relation, options[<span class="symbol">:was</span>])</span><br><span class="line">	id_to_change = foreign_key_values.call(id_to_change) <span class="keyword">if</span> foreign_key_values</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> id_to_change &amp;&amp; change_counter_column</span><br><span class="line">		<span class="comment"># delta_magnitude 是 counter 要增減的數量</span></span><br><span class="line">		delta_magnitude = <span class="keyword">if</span> delta_column</span><br><span class="line">												(options[<span class="symbol">:was</span>] ? attribute_was(obj, delta_column) : obj.public_send(delta_column)) <span class="params">||</span> <span class="number">0</span></span><br><span class="line">											<span class="keyword">else</span></span><br><span class="line">												counter_delta_magnitude_for(obj)</span><br><span class="line">											<span class="keyword">end</span></span><br><span class="line">		<span class="comment"># 如果 destroy 是 - create 就是 +</span></span><br><span class="line">		operator = options[<span class="symbol">:increment</span>] ? <span class="string">'+'</span> : <span class="string">'-'</span></span><br><span class="line">		<span class="comment"># 拿到需要調整的 class</span></span><br><span class="line">		klass = relation_klass(relation, <span class="symbol">source:</span> obj, <span class="symbol">was:</span> options[<span class="symbol">:was</span>])</span><br><span class="line"></span><br><span class="line">		quoted_column = <span class="string">"<span class="subst">#&#123;model.connection.quote_column_name(change_counter_column)&#125;</span>"</span></span><br><span class="line"></span><br><span class="line">		column_type = klass.type_for_attribute(change_counter_column).type</span><br><span class="line"></span><br><span class="line">		<span class="comment"># updates 最後長相：["\"bs_count\" = COALESCE(\"bs_count\", 0) + 1"]</span></span><br><span class="line">		updates = []</span><br><span class="line">		updates &lt;&lt; <span class="string">"<span class="subst">#&#123;quoted_column&#125;</span> = COALESCE(<span class="subst">#&#123;quoted_column&#125;</span>, 0) <span class="subst">#&#123;operator&#125;</span> <span class="subst">#&#123;delta_magnitude&#125;</span>"</span></span><br><span class="line"></span><br><span class="line">		primary_key = relation_primary_key(relation, <span class="symbol">source:</span> obj, <span class="symbol">was:</span> options[<span class="symbol">:was</span>]primary_key = relation_primary_key(relation, <span class="symbol">source:</span> obj, <span class="symbol">was:</span> options[<span class="symbol">:was</span>]))</span><br><span class="line"></span><br><span class="line">		<span class="comment"># 最重要的一行，在這行執行</span></span><br><span class="line">		execute_now_or_after_commit(obj) <span class="keyword">do</span></span><br><span class="line">			klass.where(primary_key =&gt; id_to_change).update_all updates.join(<span class="string">', '</span>)</span><br><span class="line">		<span class="keyword">end</span></span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>其中最重要的在最後一行</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">klass.where(primary_key =&gt; id_to_change).update_all updates.join(<span class="string">', '</span>)</span><br></pre></td></tr></table></figure>
+<p>他會把所有需要改變的紀錄用 where 一次撈出來，然後直接去更新這些紀錄的 counter 欄位，要注意 update_all 是不會 trigger callback 的一個 method，所以如果要更新紀錄的時間，在這個 gem 裡面有另外實作</p>
+<h2>Conclusion</h2>
+<p>counter_culture 這個 gem 的原始碼不多，但也是一個有 1000 多個星星的專案，所以真的實用的 gem 真的不用太多行，打到大家的痛處就好</p>
+<p>因為最近常常遇到不知道怎麼寫比較好的情況，覺得除了平常 review PR 之外，多看看 source code 也是個學習快速的方式，所以最近應該會嘗試多看看各種 gem 是怎麼寫的，來加強自己功力！</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/2022-05-29-Iptables_Introduction/" data-toggle="tooltip" data-placement="top" title="Iptables Introduction">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/2022-05-08-Desktop-setup-part1/" data-toggle="tooltip" data-placement="top" title="Desk Setup Part1 - Cable Management">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Outline</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Intro</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Usage</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Analyzing</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">Entrypoint</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.2.</span> <span class="toc-nav-text">counter_culture instance method</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Conclusion</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Rails" title="Rails">Rails</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+                    
+                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+                    
+                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/qoosuperman">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Anthony Chao 2026 
+                    <br>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-153986590-1';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

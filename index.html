@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
+    <meta name="keyword" content="">
+    <meta property="og:image" content="undefined">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>
+        
+          Anthony Chao | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://qoosuperman.github.io/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://images.unsplash.com/photo-1446488547543-78c11468449a?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1949&amp;q=80') 
+            /*config*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="site-heading">
+                        <h1>Anthony Chao</h1>
+                        <!--<hr class="small">-->
+                        <span class="subheading">Pseudo Worker not allowed</span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Anthony Chao</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Main Content -->
+<div class="container">
+    <div class="row">
+        
+
+<!-- USE SIDEBAR -->
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
+            
+                <!-- Main Content -->
+
+
+<div class="post-preview">
+
+    <a href="/article/2026-01-13-超級嬰兒通 書摘/">
+        <h2 class="post-title">
+                                 
+            超級嬰兒通 書摘
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            《超級嬰兒通》這本書介紹了許多實用的育兒觀念與心態，內容從產前應該建立的期待，一路延伸到產後如何實際照顧孩子，同時也幫助父母校正對育兒生活的想像。這本書非常適合在有小孩之前就開始閱讀。
+以下整理的是我個人閱讀後特別有感的重點。由於我是成為父母之後才開始閱讀這本書，因此有些章節（例如母乳哺育相關內容）便略過沒有深入整理。仍然非常推薦大家親自閱讀原書，會有更多收穫。
+崔西建議的 E.A.S.Y ......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Anthony Chao on
+            2026-01-13
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Life" title="Life">Life</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/2025-05-04-人生四千個禮拜 書摘/">
+        <h2 class="post-title">
+                                 
+            人生四千個禮拜 書摘
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            最近在休息或者出遊時，喜歡看點閒書沈澱一下心情。感謝友人借我 《人生四千個禮拜》 這本好書，有改變了我對於時間焦慮還有真正放鬆休息的一些看法。
+標題中的「四千個禮拜」是在說人類平均壽命大約只有四千個禮拜，書中的大意提醒我們：生命是有限的，但與其追求掌控時間，不如學會與時間和平共處。
+想要記錄一下一些重要的概念，除了跟大家分享之外，也用來提醒以後的自己。
+注意力不是資源，是我們的生活本身
+社群......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Anthony Chao on
+            2025-05-04
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Life" title="Life">Life</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/2024-01-14-Retrospect_And_Prospect_of_2025/">
+        <h2 class="post-title">
+                                 
+            Retrospect And Prospect of 2025
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            2024 年的前三季投入了大量時間在學習上，但或許正因如此，到了年底感覺有些彈性疲乏。這段經歷讓我深刻體會到，學會如何放鬆與整理內心同樣至關重要，這也是一門值得持續練習的課題。
+接下來，簡單回顧一下 2024 年玩過的遊戲、達成的目標與值得紀錄的事情，並展望 2025 年的目標！
+2024 目標回顧
+✅ 已完成目標
+
+培養學習熱忱
+上木工的線上課程，並自己做一個傢俱
+跟朋友維繫感情
+
+⏳ 未......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Anthony Chao on
+            2025-02-02
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Life" title="Life">Life</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/2024-12-17-CircleCI Dynamic Config 介紹/">
+        <h2 class="post-title">
+                                 
+            CircleCI Dynamic Config 介紹
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            最近因為工作需要，接觸了 CircleCI 的 Dynamic Config 功能，使用之後覺得這個功能既強大又非常的有幫助，所以想來好好介紹一下。
+以下會介紹一下這個功能，透過範例來說明他解決了什麼問題，以及我的使用案例跟心得。
+什麼是 Dynamic Config？
+簡單來說，Dynamic Config 是透過 .circleci/config.yml 定義的流程（workflows）......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Anthony Chao on
+            2024-12-17
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Devops" title="Devops">Devops</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/2024-11-28-用 Ruby 實作 RAG/">
+        <h2 class="post-title">
+                                 
+            用 Rails 實作 RAG 初體驗
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            我第一次接觸到 RAG 是在 Hello World Dev Conference 的 workshop 中。雖然 workshop 只是簡單地帶我們實作從一個 PDF 檔案中搜尋內容，但這次體驗讓我了解到目前市場上常見解決方案背後的原理。為了進一步了解 RAG 的運作方式，我決定自己實作一個小小的 side project 試試看。
+RAG 是什麼？
+RAG，即 Retrieval-Aug......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Anthony Chao on
+            2024-11-28
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Rails" title="Rails">Rails</a>
+            
+              <a href="/tags/#AI" title="AI">AI</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/2024-10-24-Rails Turbo 學習心得/">
+        <h2 class="post-title">
+                                 
+            Rails Turbo 學習心得
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            前言
+
+最近準備要做個小小的 side project
+快要做到前端的時候想到自己其實還不會用目前 Rails 生態系推薦的 Hotwire 系列工具，因此這兩週就花了些時間研究了一下（如果要學的話推薦學習資源放在最下面）
+以下記錄一下重點跟使用心得
+Hotwire
+Hotwire 指的是 HTML over the wire，與傳統 JavaScript 透過 API 獲取 JSON 資料......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Anthony Chao on
+            2024-10-24
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Rails" title="Rails">Rails</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/2024-10-14-Shape Up 書摘/">
+        <h2 class="post-title">
+                                 
+            Shape Up 書摘
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            前言
+
+前陣子看 ruby newsletter 發現 BaseCamp 團隊出了一本書叫做 Shape Up，看起來跟軟體開發團隊的功能規劃跟執行有關，正好那陣子有相關的討論反覆在 retro meeting 被提起，當時想著也許這本書能提供我們一些不同的觀點，因此找了同事一起第一次辦了讀書會一起看這本書，結束之後覺得收穫豐富，也推薦大家可以閱讀一下！
+Shape Up 重點整理
+1. 塑......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Anthony Chao on
+            2024-10-14
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Developer" title="Developer">Developer</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/2024-09-17-Key take away in 2024 DDD TW conf/">
+        <h2 class="post-title">
+                                 
+            Key Take Away from 2024 DDD TW Conf
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            上週參加了 2024 台灣領域驅動設計年會，覺得收穫滿滿！
+有些議程專門給剛開始接觸 DDD 的新手，像是說明 DDD 裡面提供的 design pattern 如何運用，也有人在講自己專案中導入 DDD 的實戰經驗，更多的是分享自己的一些見解（ex. 團隊拓墣 / 開發者體驗 …etc）
+另外比較特別的還有 panel discussion 找一些專家討論遺留工作負載這個議題
+這篇文章中挑......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Anthony Chao on
+            2024-09-17
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Developer" title="Developer">Developer</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/2024-06-17-Hokaido_Travel_Notes/">
+        <h2 class="post-title">
+                                 
+            Hokaido Travel Notes
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            第一次的北海道之旅，第一次自駕旅遊，第一次在國外跟友人會合一起玩樂
+這次旅遊的三個關鍵字：溫泉 / 清酒 / 生活
+每天都壓線 checkout（甚至 10 分鐘前還在泡湯），晚上睡覺前邊喝便利商店買來的清酒一邊思考明天要去哪裡晃晃，像日本阿北在躺在溫泉旁的石椅上散熱覺得很融入，買了很多北海道小精靈的小廢物週邊，晚上才發現照片裡面好多自己被卡掉的畫面碎碎念，因為便利商店買的清酒送的小杯子材質......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Anthony Chao on
+            2024-06-17
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Life" title="Life">Life</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/2024-05-27-The Many Meanings of Event-Driven Architecture/">
+        <h2 class="post-title">
+                                 
+            演講摘要 - The Many Meanings of Event-Driven Architecture
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            不久前我看了一場關於事件驅動（event-driven）的 演講，從中獲益良多，因此決定特別記錄下來。
+演講者是Martin Fowler，他最為人所知的作品應該是《重構》（Refactoring）這本書。
+Fowler提到，許多人跟他說他們正在使用事件驅動架構，但大家心中所理解的並不一致。他整理完之後，認為主要可以分為下列四種模式：
+
+事件通知（Event Notification）
+攜帶......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Anthony Chao on
+            2024-05-27
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Developer" title="Developer">Developer</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+    
+        <li class="next">
+            <a href="/page/2/">Older Posts &rarr;</a>
+        </li>
+    
+</ul>
+
+
+
+                <br>
+
+                <!-- require APlayer -->
+                
+
+                <!-- 如果开启评论功能 -->
+                
+            </div>
+
+          <!-- Sidebar Container -->
+<div class="
+    col-lg-3 col-lg-offset-0
+    col-md-3 col-md-offset-0
+    col-sm-12
+    col-xs-12
+    sidebar-container
+">
+    
+        <!-- Featured Tags -->
+
+<section>
+    <!-- no hr -->
+    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+    <div class="tags">
+        
+            
+            <a href="/tags/#Rails" title="Rails" rel="43">Rails</a>
+            
+        
+            
+            <a href="/tags/#Javascript" title="Javascript" rel="31">Javascript</a>
+            
+        
+            
+            <a href="/tags/#Life" title="Life" rel="13">Life</a>
+            
+        
+            
+            <a href="/tags/#Ruby" title="Ruby" rel="15">Ruby</a>
+            
+        
+            
+            <a href="/tags/#Devops" title="Devops" rel="13">Devops</a>
+            
+        
+            
+            <a href="/tags/#Docker" title="Docker" rel="5">Docker</a>
+            
+        
+            
+            <a href="/tags/#Cache" title="Cache" rel="1">Cache</a>
+            
+        
+            
+            <a href="/tags/#AWS" title="AWS" rel="3">AWS</a>
+            
+        
+            
+            <a href="/tags/#Continuous Delivery" title="Continuous Delivery" rel="1">Continuous Delivery</a>
+            
+        
+            
+            <a href="/tags/#Jenkins" title="Jenkins" rel="3">Jenkins</a>
+            
+        
+            
+            <a href="/tags/#Kubernetes" title="Kubernetes" rel="1">Kubernetes</a>
+            
+        
+            
+            <a href="/tags/#K8S" title="K8S" rel="2">K8S</a>
+            
+        
+            
+            <a href="/tags/#Shell" title="Shell" rel="4">Shell</a>
+            
+        
+            
+            <a href="/tags/#Elixir" title="Elixir" rel="1">Elixir</a>
+            
+        
+            
+            <a href="/tags/#Regular Expression" title="Regular Expression" rel="1">Regular Expression</a>
+            
+        
+            
+            <a href="/tags/#SSH" title="SSH" rel="1">SSH</a>
+            
+        
+            
+            <a href="/tags/#Apps Script" title="Apps Script" rel="1">Apps Script</a>
+            
+        
+            
+            <a href="/tags/#GraphQL" title="GraphQL" rel="1">GraphQL</a>
+            
+        
+            
+            <a href="/tags/#SQL" title="SQL" rel="2">SQL</a>
+            
+        
+            
+            <a href="/tags/#AI" title="AI" rel="2">AI</a>
+            
+        
+            
+            <a href="/tags/#Developer" title="Developer" rel="5">Developer</a>
+            
+        
+    </div>
+</section>
+
+        <hr>
+    
+        <!-- Short About -->
+<section class="visible-md visible-lg">
+    <h5><a href="/about/">ABOUT ME</a></h5>
+    <div class="short-about">
+
+        
+            <img id = "avatar_pic" src="https://i.imgur.com/XK2P4Zc.png" />
+        
+
+        
+            <p>喜歡彈吉他，打電動，看漫畫，調酒，煮菜，算是個多方位宅男</p>
+        
+
+        <!-- SNS Link -->
+        <ul class="list-inline">
+            
+                <li>
+                    <a href="/atom.xml">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+            
+            
+            
+
+            
+
+            
+
+            
+                <li>
+                    <a target="_blank"  href="https://github.com/qoosuperman">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+            
+            
+            
+            
+        </ul>
+    </div>
+</section>
+
+        <hr>
+    
+        
+  <h5>RECENT POSTS</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="/article/2026-01-13-超級嬰兒通 書摘/">超級嬰兒通 書摘</a>
+        </li>
+      
+        <li>
+          <a href="/article/2025-05-04-人生四千個禮拜 書摘/">人生四千個禮拜 書摘</a>
+        </li>
+      
+        <li>
+          <a href="/article/2024-01-14-Retrospect_And_Prospect_of_2025/">Retrospect And Prospect of 2025</a>
+        </li>
+      
+        <li>
+          <a href="/article/2024-12-17-CircleCI Dynamic Config 介紹/">CircleCI Dynamic Config 介紹</a>
+        </li>
+      
+        <li>
+          <a href="/article/2024-11-28-用 Ruby 實作 RAG/">用 Rails 實作 RAG 初體驗</a>
+        </li>
+      
+    </ul>
+  </div>
+
+        <hr>
+    
+        <!-- Friends Blog -->
+
+<h5>FRIENDS</h5>
+<ul class="list-inline">
+
+    
+        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+    
+        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+    
+        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+    
+</ul>
+
+        <hr>
+    
+        
+    <h5>ARCHIVES</h5>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/01/">January 2026</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">February 2025</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/10/">October 2024</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/09/">September 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">June 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/02/">February 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">September 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">27</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">24</span></li></ul>
+    </div>
+
+        <hr>
+    
+</div>
+
+        
+    </div>
+</div>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/qoosuperman">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Anthony Chao 2026 
+                    <br>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-153986590-1';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

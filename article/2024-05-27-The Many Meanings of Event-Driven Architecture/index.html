@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
+    <meta name="keyword" content="">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1577563908411-5077b6dc7624?q=80&amp;w=2940&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>
+        
+          演講摘要 - The Many Meanings of Event-Driven Architecture - Anthony Chao | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2024-05-27-The Many Meanings of Event-Driven Architecture/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://images.unsplash.com/photo-1577563908411-5077b6dc7624?q=80&amp;w=2940&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Developer" title="Developer">Developer</a>
+                            
+                        </div>
+                        <h1>演講摘要 - The Many Meanings of Event-Driven Architecture</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Anthony Chao on
+                            2024-05-27
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Anthony Chao</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>不久前我看了一場關於事件驅動（event-driven）的 <a href="%5Bhttps://www.youtube.com/watch?v=STKCRSUsyP0%5D(https://www.youtube.com/watch?v=STKCRSUsyP0)">演講</a>，從中獲益良多，因此決定特別記錄下來。</p>
+<p>演講者是Martin Fowler，他最為人所知的作品應該是《重構》（Refactoring）這本書。</p>
+<p>Fowler提到，許多人跟他說他們正在使用事件驅動架構，但大家心中所理解的並不一致。他整理完之後，認為主要可以分為下列四種模式：</p>
+<ol>
+<li>事件通知（Event Notification）</li>
+<li>攜帶狀態的事件傳遞（Event-carried state transfer）</li>
+<li>事件溯源（Event sourcing）</li>
+<li>命令查詢責任分離（CQRS）</li>
+</ol>
+<p>以下是對這些模式的說明：</p>
+<h2>Event Notification</h2>
+<p>這算是最常見的一種類型：單純利用事件來解耦合。舉例來說，在保險系統中，若需要更改地址，客戶管理系統（customer management ）就需要通知保險報價系統（insurance quoting），從而形成依賴關係。</p>
+<p><img src="https://hackmd.io/_uploads/H1EGecEWA.png" alt="image"></p>
+<p>採用 Event Notification 的作法後，流程變成了發布 / 訂閱模式，由客戶管理系統發布事件，保險報價系統訂閱這個事件。</p>
+<p><img src="https://hackmd.io/_uploads/S1h3xvzbR.png" alt="image"></p>
+<p>優點：能夠解耦信息的接收者和發送者<br>
+缺點：整體流程的行為較難追蹤</p>
+<h3>Event vs Command</h3>
+<p>講者還提到在事件系統中，有的人會用事件（events），有的人會用命令（commands），這兩者到底有什麼差異？</p>
+<p>他認為，這兩者有微妙的區別，通常是取決於你對於這個東西的想法，如果這件事情發生了，而你不在乎他的結果，通常會使用 event 來命名（就像單純述說某件事情發生了），而如果這件事情發生，而你很在乎他，通常會取 command（就像你命令某人去做事情）</p>
+<h2>Event-carried state transfer</h2>
+<p>這是 event notification 的另一種形式，不過相對較少見。</p>
+<p>有時，雖然保險報價系統（Insurance quoting）接收到了事件，但資料不夠充分，因此需要反問客戶管理系統（Customer Management）以取得額外資料。當然我們可以將所需資訊都放在事件中，但有時資訊過多不適合這樣處理。</p>
+<p>為了不讓 Customer Management 增加額外的 loading，可以複製一份需要的資料（可能是獨立的資料庫）專門讓 Insurance quoting 去查詢<br>
+<img src="https://hackmd.io/_uploads/r1mj_wMZR.png" alt="image"></p>
+<p>而這個做法的缺點在於資料的一致性，因為複製過來的資料不一定是最即時的<br>
+<img src="https://hackmd.io/_uploads/S1gTFvfbR.png" alt="image"></p>
+<h2>Event sourcing</h2>
+<p>事實上，許多軟體開發者都使用過基於事件溯源 (event-sourcing) 的工具，如 Git。</p>
+<p>判斷是否為 event sourcing system 的關鍵在於，如果所有資料流失，只剩下 event log ，是不是可以根據 event log 回復你的所有資料，如果是的話他就是 event sourcing system。</p>
+<p>優點：</p>
+<ul>
+<li>Audit</li>
+<li>Debugging</li>
+<li>Historic state</li>
+<li>Alternative state</li>
+<li>Memory image: 有了 event 之後，其實 application 運行可以不需要 persistent store，把所有的東西都在 memory 運行，可以讓 application 變得非常快，然後每天打一次 snapshot 紀錄狀態</li>
+</ul>
+<p>缺點：</p>
+<ul>
+<li>Unfamiliar</li>
+<li>External systems：雖然系統內可以 replay，但如果打外部 API，現在重放可能跟兩個禮拜前打 API 的結果不同，可能需要考慮 partner replay event</li>
+<li>Event schema：舊的事件模式仍然必須以某種方式與新版本的程式碼一起工作</li>
+<li>Identifiers: 產生 identifier 給某個東西的時候也要特別小心，不要影響回放</li>
+<li>Asynchrony: 異步處理對於人們的處理是很難的，而使用 event sourcing 不一定要搭配 Asynchronous 來使用，當有人抱怨每次要增加 feature 時要處理 write model 跟 read model，變成兩份工作時，這跟 event sourcing 無關，跟 Asynchornous 有關</li>
+<li>versioning: 當有個一年前的 event，我想要回放他，還是可以 apply 的嗎？增加 versioning 也增加了整體的複雜度</li>
+</ul>
+<p>講者特別提到一點挺有趣的，在 Git 中，我們如果只看每個 commit 的改動，只能看到改變了什麼而無法知道為什麼要改，所以我們必須透過 commit message 得知意圖</p>
+<p>同理，當我們在試圖儲存 event 的時候，也分成 external event / internal event，external event 充分展現了意圖，internal event 則表示這個 event 改變了什麼，他想討論在 event sourcing 中，需要儲存的 event 是哪一種，講者說他覺得大部分情況下應該同時儲存兩者，其中一種情境可以看下面範例</p>
+<p>在下面的圖中，有個錯誤，實際上的價格是 32 而不是 33，但我們又難以去改這些 event，因為 output event 已經發送給其他系統做操作，會影響後續一系列的事件，因此陷入了 event 彼此糾纏而無法 replay 的窘境，他的建議是不要任何 business logic 放在這些跟其他系統溝通的 event 中，而解決這個問題的一種方式就是同時儲存 external 跟 internal events<br>
+<img src="https://hackmd.io/_uploads/HyVVv0h70.png" alt="image"></p>
+<h2>CQRS</h2>
+<p>CQRS的主要概念在於分離讀取和寫入模型。</p>
+<p>作者指出使用這種模式時需要謹慎，認為只有在某些特定情景下，這種模式才適合使用。強調應該清楚理解其優勢，確信需要這些優勢時才採用。</p>
+<p>作者認為 CQRS 並不只是把資料轉換過放到另一個不同的 database 做查找（ex. 把資料轉換後用不同形式放到 big query 專門產生報表用資料），重點在於寫的模型不會被任何讀取操作使用到，這才是相對比較少見的</p>
+<p><img src="https://hackmd.io/_uploads/HJ4tM_fW0.png" alt="image"></p>
+<h3>IDDD 中的使用範例</h3>
+<p>另外分享一下在《實踐領域驅動設計》（IDDD）裡面看到的範例。</p>
+<p>在事件溯源系統中，想要獲取當前狀態時，可以通過快照加上部分事件回放來獲知。而在需要對這些物件進行搜索時，則是運用 CQRS 的 理想時機。每次事件發生時，最新狀態將寫入 Event store（圖中稱為 command store），同時也會有訂閱者更新 read model的數據，這樣一來就可以透過 read model 去做查詢並維持原本的 replay 機制。</p>
+<p><img src="https://hackmd.io/_uploads/SksYmghxR.png" alt="image"></p>
+<h2>心得</h2>
+<p>之前從沒想過 Event Driven 還可以區分成這麼多不同類型，小到單純是寫程式的一種 pattern，大到整個系統會需要依賴於這些事件而存在。然而，並不存在所謂的 best practice，不同情景各有其最合適的方法。</p>
+<p>感謝這個演講，真的讓我獲益良多，也令我期待在未來的不同情境中找到合適的實踐方式。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/2024-06-17-Hokaido_Travel_Notes/" data-toggle="tooltip" data-placement="top" title="Hokaido Travel Notes">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/2024-05-16-實現領域驅動設計IDDD 閱讀心得/" data-toggle="tooltip" data-placement="top" title="實現領域驅動設計(IDDD) 閱讀心得">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Event Notification</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Event vs Command</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Event-carried state transfer</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Event sourcing</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">CQRS</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">IDDD 中的使用範例</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">心得</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Developer" title="Developer">Developer</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+                    
+                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+                    
+                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/qoosuperman">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Anthony Chao 2026 
+                    <br>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-153986590-1';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

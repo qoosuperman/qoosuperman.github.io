@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
+    <meta name="keyword" content="">
+    <meta property="og:image" content="undefined">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>
+        
+          Synopsis of To Thread or Not To Thread - Anthony Chao | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2022-08-10-Synopsis_of_Thread_or_not_to_thread/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://images.unsplash.com/photo-1604869515882-4d10fa4b0492?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1770&amp;q=80')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Ruby" title="Ruby">Ruby</a>
+                            
+                        </div>
+                        <h1>Synopsis of To Thread or Not To Thread</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Anthony Chao on
+                            2022-08-10
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Anthony Chao</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>這篇文章主要在翻譯 &amp; 摘要 <a href="https://shopify.engineering/ruby-execution-models" target="_blank" rel="noopener">這篇</a>，圖片也都是來自這篇文章的內容</p>
+<p>裡面釐清了很多之前我覺得很困惑的問題，查到的資料又常常太過艱深，非常感謝這篇文章整理出來（感謝 Shopify 祝你們生意興隆），我也帶著滿滿的收穫用自己的話做個重點整理</p>
+<h2>Outline</h2>
+<ul>
+<li><a href="#how-much-memory-is-used-in-general">How Much Memory Is Used In General</a></li>
+<li><a href="#memory-metrics">Memory Metrics</a></li>
+<li><a href="#improving-copy-on-write-efficiency">Improving Copy on Write Efficiency</a></li>
+<li><a href="#pros-for-process-based-server">Pros for Process Based Server</a></li>
+<li><a href="#ractor-/-fiber">Ractor / Fiber</a></li>
+<li><a href="#reference">Reference</a></li>
+</ul>
+<h2>How Much Memory Is Used In General</h2>
+<p>跑一個 app 起來的時候，記憶體主要可以分成兩個區塊： static memory / request processing memory:<br>
+<img src="https://i.imgur.com/lh08m76.png" alt=""></p>
+<ul>
+<li>static memory:<br>
+是固定的，像是把 ruby VM 啟動的費用，或是一些無可避免的 Ruby Objects，這裡的費用理論上來說是固定費用，不管是用幾個 thread 都不影響</li>
+<li>request processing memory:<br>
+需要處理 request 的記憶體，像是 query 結果 / 過程中產生的變數等等，理論上是跟 thread 數量正相關</li>
+</ul>
+<p>基於以上的論點，最基本的記憶體使用量應該是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">processes * (static_memory + (threads * processing_memory))</span><br></pre></td></tr></table></figure>
+<p>因此使用一個 procees 兩個 thread 跟使用兩個 single thread 的 process 記憶體使用量應該是後者較多，如下圖所示</p>
+<p><img src="https://i.imgur.com/M86cqBp.png" alt=""></p>
+<p>不過當然事情不會像我們想的這麼簡單</p>
+<p>以前的 linux 系統在 fork process 的時候的確幾乎就像上面講的那樣，但隨著科技進步，就算是 fork 一個 process，他可以欺騙 parent process 跟 child process 他們是用各自的記體體，但實際上是用同一塊，這技巧叫做 Copy On Write(Cow)</p>
+<p><img src="https://i.imgur.com/AaRpI9o.png" alt=""></p>
+<p>如果完美運行 CoW 的話，記憶體使用應該長這樣：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static_memory + (processes * threads * processing_memory)</span><br></pre></td></tr></table></figure>
+<p>這表示 process 跟 thread 使用的成本是一樣的，但實際上當然也不是這麼美好</p>
+<h2>Memory Metrics</h2>
+<p>Resident Set Size (RSS) 這個 metric 算是最常看到的，像是 ps 看到的就是 RSS，如果是做 fork 過的 process，原本的 parent process 是 100 MB，就算 child process 沒有使用任何新的記憶體，你會看到兩個 process 分別使用 100MB，實際上他們總共才用了 100MB</p>
+<p>Proportional Set Size (PSS)，則是按照比例去算，像上面的例子 100Mb fork 變成兩個 process，則一個 process 按照比例分別用了 50MB，如果急著要計算剩下多少記憶體用量，PSS 是比 RSS 接近實際的算法</p>
+<p>但又有更精確的算法</p>
+<p>在 Linux 系統上，可以用 <code>cat /proc/$PID/smaps_rollup</code> 看到記憶體用量分配明細，下面是 unicorn 的例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># unicorn worker</span><br><span class="line"></span><br><span class="line">Rss:              771912 kB</span><br><span class="line">Pss:              441856 kB</span><br><span class="line">...</span><br><span class="line">Shared_Clean:      18288 kB</span><br><span class="line">Shared_Dirty:     315648 kB</span><br><span class="line">Private_Clean:        48 kB</span><br><span class="line">Private_Dirty:    437928 kB</span><br><span class="line"></span><br><span class="line"># unicorn parent</span><br><span class="line"></span><br><span class="line">Rss:              508544 kB</span><br><span class="line">Pss:              109398 kB</span><br><span class="line">...</span><br><span class="line">Shared_Clean:      14680 kB</span><br><span class="line">Shared_Dirty:     411584 kB</span><br><span class="line">Private_Clean:      2844 kB</span><br><span class="line">Private_Dirty:     79436 kB</span><br></pre></td></tr></table></figure>
+<p>名詞解釋：</p>
+<ol>
+<li>Shared memory 的部分是其他 process 也有使用的，Private memory 是只有單一 process 使用的</li>
+<li>Clean memory 是雖然分配了這空間，但從來沒有被寫入資料，Dirty memory 則是至少已經被一個 process 寫入資料了</li>
+</ol>
+<p>所以對於 worker 來說，總共 771912kb 其中 437928kb，是 worker 自己已經用的，其他都是從 parent 繼承來的</p>
+<p>那究竟多少比例的 staic memory 是大家共用的呢？</p>
+<p>worker 裡面 shared 的部分就是共用的，而我們預估 parent 的 Rss 大致上是整體的 static memory，可以算出大概 65% 是共用的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(18288 + 315648) / 508544.0 * 100%</span><br><span class="line">&gt;&gt; 65.66%</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/8Qktbkj.png" alt=""></p>
+<p>原本光從數據來看，像是用 ps 的話，我們可能以為多一個 process 會多 770MB 記憶體，但經過計算後，實際上應該差不多是 450MB，差異相當大</p>
+<h2>Improving Copy on Write Efficiency</h2>
+<ol>
+<li>preload app</li>
+</ol>
+<p>為了讓 CoW 效率最大，要在 parent process fork 前盡量把整個 app 載入，因此不管是 Puma / Unicorn / Sidekiq enterprise 都有 preload_app 可以用</p>
+<ol start="2">
+<li>避免 memoized class variables</li>
+</ol>
+<p>如果醉了這樣的事情：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SomeStuff</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">something</span></span></span><br><span class="line">    @something <span class="params">||</span>= load_some_data</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這種事情做很多的話，process 之間無法共用的記憶體會越來越多，最好是可以用 constant 來替代，但有的情況沒辦法，這種時候 eager load namespace feature 就是次好的做法</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SomeStuff</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">something</span></span></span><br><span class="line">    @something <span class="params">||</span>= load_some_data</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">eager_load!</span></span></span><br><span class="line">    something</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># config/application.rb</span></span><br><span class="line">config.before_eager_load <span class="keyword">do</span></span><br><span class="line">  config.eager_load_namespaces &lt;&lt; SomeStuff</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h2>Pros for Process Based Server</h2>
+<ol>
+<li>
+<p>有時候我們會需要中斷一個 request，可能像是需要處理很大量的資料或是被攻擊的情境，這時候 process based server 只要砍掉 worker 重新啟動新的就好，但如果殺死一個 thread 他可能會遺留無法處理的 mutable resources 下來，因為是跟其他 thread 共用記憶體，可能造成其他 thread 的 error</p>
+</li>
+<li>
+<p>處理 request 時間較快</p>
+</li>
+</ol>
+<p>下面是兩個 process 處理 request 的情況<br>
+<img src="https://i.imgur.com/jEAArTB.png" alt=""></p>
+<p>下面是兩個 thread 處理 request 的情況：<br>
+<img src="https://i.imgur.com/lq9IjgX.png" alt=""><br>
+在一個 process 裡面因為 GIL 的關係，同一時間只能有一個 thread 處理 ruby code，而且 GC 的時候 thread 當下也都是暫停運作的，因此可以想像處理 request 的時間會比兩個不同的 process 長</p>
+<h2>Ractor / Fiber</h2>
+<p>Ractor 跟 Fiber 是 Ruby3 之後推出的新的用來實現 concurrent 的工具（每個 Ractor 裡面有多個 thread，每個 thread 又有多個 fiber），筆者認為他們目前用途還不大：</p>
+<ol>
+<li>Ractor 雖然可以達到真正平行處理，但他們之間的溝通很困難，他認為很難靠他做到有規模的 app 可以做到的事情</li>
+<li>fiber 是更輕量的 thread，但 thread 有的缺點他也都有，所以如果目前沒有靠 thread 拿到一些平行處理的好處，也不用指望 Fiber</li>
+</ol>
+<h2>Reference</h2>
+<ul>
+<li><a href="https://sitaramshelke.medium.com/inside-rubyvm-967b25e234db" target="_blank" rel="noopener">什麼是 Ruby VM</a></li>
+<li><a href="https://blog.saeloun.com/2020/02/24/rails-6.1-rake-eager-load.html" target="_blank" rel="noopener">eager load constant</a></li>
+<li><a href="https://scoutapm.com/blog/ruby-ractor" target="_blank" rel="noopener">什麼是 Ractor</a></li>
+</ul>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/2022-09-19-Notes_For_Inside_Rails_in2019RailsConf/" data-toggle="tooltip" data-placement="top" title="Notes for Inside Rails in 2019 RailsConf">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/2022-06-16-Graphql_intro_part1/" data-toggle="tooltip" data-placement="top" title="GraphQL Intro part1 - Type and Schema">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Outline</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">How Much Memory Is Used In General</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Memory Metrics</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Improving Copy on Write Efficiency</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Pros for Process Based Server</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">Ractor / Fiber</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">Reference</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Ruby" title="Ruby">Ruby</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+                    
+                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+                    
+                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/qoosuperman">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Anthony Chao 2026 
+                    <br>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-153986590-1';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

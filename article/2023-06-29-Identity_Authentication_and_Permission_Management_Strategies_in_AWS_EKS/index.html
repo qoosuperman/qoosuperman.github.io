@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
+    <meta name="keyword" content="">
+    <meta property="og:image" content="undefined">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>
+        
+          AWS EKS 中的身份驗證與權限管理策略 - Anthony Chao | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2023-06-29-Identity_Authentication_and_Permission_Management_Strategies_in_AWS_EKS/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://images.unsplash.com/photo-1687894986595-da703eb96375?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=1770&amp;q=80')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Devops" title="Devops">Devops</a>
+                            
+                              <a class="tag" href="/tags/#AWS" title="AWS">AWS</a>
+                            
+                              <a class="tag" href="/tags/#K8S" title="K8S">K8S</a>
+                            
+                        </div>
+                        <h1>AWS EKS 中的身份驗證與權限管理策略</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Anthony Chao on
+                            2023-06-29
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Anthony Chao</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2>Outline</h2>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#why">Why</a></li>
+<li><a href="#iam-roles-for-service-accounts%28irsa%29">IAM roles for service accounts(IRSA)</a></li>
+<li><a href="#aws-iam-authenticator">AWS IAM Authenticator</a></li>
+<li><a href="#%E8%B8%A9%E9%9B%B7%E9%81%8E%E7%A8%8B">踩雷過程</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+<h2>Introduction</h2>
+<p>Amazon Elastic Kubernetes Service (EKS) 是在AWS上使用Kubernetes(簡稱 K8S)進行容器管理的一個選項</p>
+<p>我們可以使用 AWS 的 EC2 來自行搭建 Kubernetes，但 EKS 的好處在於它能夠自動管理 Kubernetes 的 control plane，這樣我們只需支付一點額外費用，就不需要花費人力去管理複雜 control plan運作。</p>
+<p>最近我們正在使用 terraform 搭建新的 EKS cluster，正在處理EKS的權限時遇到了一些小問題，我想稍微記錄一下這些經驗，並介紹 EKS 的身份驗證與權限管理策略</p>
+<h2>Why</h2>
+<p>接下來，讓我們談談為什麼需要處理EKS的權限。</p>
+<p>讓我們用兩個例子來說明：</p>
+<ol>
+<li>在 EKS 上運行的 Pod 無法直接存取 AWS 的 S3 資源，因為它們沒有相應的 AWS IAM 權限。</li>
+<li>如果作為 IAM User 登入，您也無法直接控制 Kubernetes cluster，因為 IAM User 沒有Kubernetes Role 的權限。</li>
+</ol>
+<p>為了應對這兩種情況，AWS 提供了兩種解決方案：</p>
+<ul>
+<li>IAM roles for service accounts(IRSA)</li>
+<li>AWS IAM Authenticator</li>
+</ul>
+<p>接著會一一介紹他們</p>
+<h2>IAM roles for service accounts(IRSA)</h2>
+<p>通常，我們會為 Pod 分配一個 Service Account，而 IRSA 這個功能允許 Kubernetes 的 Service Account 拿到 IAM Role 的權限，透過這種方式使 Pod 能夠操作部分 AWS 資源</p>
+<p>具體的實現原理很複雜，而我發現下圖解釋得很清楚，有空的話也可以去看看 <a href="https://mohaamer5.medium.com/iam-roles-for-service-accounts-with-eks-irsa-good-bye-aws-credentials-1cdf1fa5192" target="_blank" rel="noopener">原文</a><br>
+<img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*rHxhoE-uJwVQEdIhQMTn3A.png" alt=""></p>
+<p>能做到的前提主要有兩個：</p>
+<ol>
+<li>AWS IAM 支援使用 OIDC JSON Web Token(JWT) 做認證(但建立 Role 的時候要指定支援)</li>
+<li>Kubernetes 的 Service Account 在某個版本後開始支援 projected service account tokens，他也是基於 OIDC JWT</li>
+</ol>
+<p>有了這些設定，我們就可以實現在 Kubernetes cluster 中讓 Service Account 具有 IAM Role 的權限，從而使 Pod 能夠訪問所需的AWS資源</p>
+<h3>實作細節</h3>
+<p>接下來說明如何用 terraform 做出有 IAM role 權限的 Service Account</p>
+<p>這篇 <a href="https://antonputra.com/terraform/how-to-create-eks-cluster-using-terraform/#create-eks-cluster-using-terraform" target="_blank" rel="noopener">文章</a> 提供了詳細的說明，我用裡面的例子來說明</p>
+<ol>
+<li>開啟 EKS cluster 的 OIDC provider 功能（它不會自動啟用）</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">resource &quot;aws_iam_openid_connect_provider&quot; &quot;eks&quot; &#123;</span><br><span class="line">  client_id_list  = [&quot;sts.amazonaws.com&quot;]</span><br><span class="line">  thumbprint_list = [data.tls_certificate.eks.certificates[0].sha1_fingerprint]</span><br><span class="line">  url             = aws_eks_cluster.demo.identity[0].oidc[0].issuer</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>建立提供 serveice account 使用的 IAM Role，在 assume role policy 中要記得註明可以由 OIDC provider assume 為此 IAM Role</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"># 這個 assume role policy 為重點</span><br><span class="line">data &quot;aws_iam_policy_document&quot; &quot;test_oidc_assume_role_policy&quot; &#123;</span><br><span class="line">  statement &#123;</span><br><span class="line">    actions = [&quot;sts:AssumeRoleWithWebIdentity&quot;]</span><br><span class="line">    effect  = &quot;Allow&quot;</span><br><span class="line"></span><br><span class="line">    condition &#123;</span><br><span class="line">      test     = &quot;StringEquals&quot;</span><br><span class="line">      variable = &quot;$&#123;replace(aws_iam_openid_connect_provider.eks.url, &quot;https://&quot;, &quot;&quot;)&#125;:sub&quot;</span><br><span class="line">      values   = [&quot;system:serviceaccount:default:aws-test&quot;]</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    principals &#123;</span><br><span class="line">      identifiers = [aws_iam_openid_connect_provider.eks.arn]</span><br><span class="line">      type        = &quot;Federated&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">resource &quot;aws_iam_role&quot; &quot;test_oidc&quot; &#123;</span><br><span class="line">  assume_role_policy = data.aws_iam_policy_document.test_oidc_assume_role_policy.json</span><br><span class="line">  name               = &quot;test-oidc&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>在建立 service account 時，確保在 annotation 中寫上相應的 IAM Role arn</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ServiceAccount</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">aws-test</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line">  <span class="attr">annotations:</span></span><br><span class="line">    <span class="comment"># 重點在這</span></span><br><span class="line">    <span class="attr">eks.amazonaws.com/role-arn:</span> <span class="string">arn:aws:iam::424432388155:role/test-oidc</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">aws-cli</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">serviceAccountName:</span> <span class="string">aws-test</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">aws-cli</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">amazon/aws-cli</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">[</span> <span class="string">"/bin/bash"</span><span class="string">,</span> <span class="string">"-c"</span><span class="string">,</span> <span class="string">"--"</span> <span class="string">]</span></span><br><span class="line">    <span class="attr">args:</span> <span class="string">[</span> <span class="string">"while true; do sleep 30; done;"</span> <span class="string">]</span></span><br><span class="line">  <span class="attr">tolerations:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">operator:</span> <span class="string">Exists</span></span><br><span class="line">    <span class="attr">effect:</span> <span class="string">NoSchedule</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>如果此 IAM Role 有 S3 權限，那麼新建立的 pod 就可以訪問 S3 的資源</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl exec aws-cli -- aws s3api list-buckets</span><br></pre></td></tr></table></figure>
+<h2>AWS IAM Authenticator</h2>
+<p>現在我們來探討如何使用 aws-iam-authenticator 將 IAM Role / User 綁定到 K8S 的 group，以便透過 IAM Role 操控 K8S。</p>
+<p>當我們要使用 IAM 權限來訪問 Kubernetes 資源時，就會觸發這個機制，如下圖所示：</p>
+<p>1.我們的電腦首先向 AWS STS 要求代表當前 IAM 身份的 token（未繪製在圖上），然後帶著 token 訪問 Kubernetes 的 API server</p>
+<p>2.Kubernetes 的 API server 使用該 token 訪問 AWS IAM Authenticator server 的 <code>/authenticate</code> API</p>
+<p>3+4.AWS IAM Authenticator server 對該 token 進行處理和初步驗證，然後將傳給 AWS STS，會得到 GetCallerIdentityResponse</p>
+<p>5.AWS IAM Authenticator server 使用 <code>aws-auth</code> configmap 中的規則，將 GetCallerIdentityResponse 中的內容映射到相應的 Kubernetes 身份（group / username）</p>
+<p>6.一旦知道 Kubernetes 的相應身份，Kubernetes cluster 就可以使用原有的 RBAC 機制來處理該請求，並將 response 返回給我們。</p>
+<p><img src="https://7903508.fs1.hubspotusercontent-na1.net/hub/7903508/hubfs/newblog1.png?width=624&amp;name=newblog1.png" alt=""></p>
+<h3>實作細節</h3>
+<p>我使用 terraform 中的 <a href="https://registry.terraform.io/providers/gavinbunney/kubectl/latest/docs" target="_blank" rel="noopener">kubectl provider</a> 來實作</p>
+<ol>
+<li>首先建立要使用的 Kubernetes ClusterRole 和 ClusterRoleBinding。我將 deployer 這個 role 綁定到 deployers 這個 group。需要特別注意的是，deployers group的資源不需要額外建立，Kubernetes 會自動處理</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">resource &quot;kubectl_manifest&quot; &quot;test_role&quot; &#123;</span><br><span class="line">  yaml_body = &lt;&lt;-EOF</span><br><span class="line">apiVersion: rbac.authorization.k8s.io/v1</span><br><span class="line">kind: ClusterRole</span><br><span class="line">metadata:</span><br><span class="line">  name: deployer</span><br><span class="line">  labels:</span><br><span class="line">    k8s-addon: cluster-autoscaler.addons.k8s.io</span><br><span class="line">    k8s-app: cluster-autoscaler</span><br><span class="line">rules:</span><br><span class="line">  - apiGroups: [&quot;&quot;]</span><br><span class="line">    resources:</span><br><span class="line">      - &quot;namespaces&quot;</span><br><span class="line">      - &quot;pods&quot;</span><br><span class="line">      - &quot;services&quot;</span><br><span class="line">      - &quot;replicationcontrollers&quot;</span><br><span class="line">      - &quot;persistentvolumeclaims&quot;</span><br><span class="line">      - &quot;persistentvolumes&quot;</span><br><span class="line">    verbs: [&quot;watch&quot;, &quot;list&quot;, &quot;get&quot;]</span><br><span class="line">EOF</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">resource &quot;kubectl_manifest&quot; &quot;test_role_binding&quot; &#123;</span><br><span class="line">  yaml_body = &lt;&lt;-EOF</span><br><span class="line">apiVersion: rbac.authorization.k8s.io/v1</span><br><span class="line">kind: ClusterRoleBinding</span><br><span class="line">metadata:</span><br><span class="line">  name: deployer</span><br><span class="line">subjects:</span><br><span class="line">  - kind: Group</span><br><span class="line">    name: deployers</span><br><span class="line">    apiGroup: rbac.authorization.k8s.io</span><br><span class="line">roleRef:</span><br><span class="line">  kind: ClusterRole</span><br><span class="line">  name: deployer</span><br><span class="line">  apiGroup: rbac.authorization.k8s.io</span><br><span class="line">EOF</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>接下來建立要使用的 IAM Role。由於希望多人可以登入並使用此角色，因此將可以使用者清單放入 deployer_users_list 中</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">resource &quot;aws_iam_role&quot; &quot;deployer&quot; &#123;</span><br><span class="line">  name = &quot;deployer&quot;</span><br><span class="line"></span><br><span class="line">  assume_role_policy = data.aws_iam_policy_document.deployer.json</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">data &quot;aws_iam_policy_document&quot; &quot;deployer&quot; &#123;</span><br><span class="line">  version = &quot;2012-10-17&quot;</span><br><span class="line">  statement &#123;</span><br><span class="line">    effect = &quot;Allow&quot;</span><br><span class="line">    actions = [</span><br><span class="line">      &quot;sts:AssumeRole&quot;</span><br><span class="line">    ]</span><br><span class="line">    principals &#123;</span><br><span class="line">      type        = &quot;AWS&quot;</span><br><span class="line">      identifiers = var.deployer_users_list</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>因為 aws-auth configmap 一開始就存在，所以我們需要在 Terraform 中創建一個空殼，然後將此 configmap import</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">terraform import module.k8s-resources.kubectl_manifest.aws-auth v1//ConfigMap//aws-auth//kube-system</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>修改 <code>aws-auth</code> configmap 的 mapping 規則</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">resource &quot;kubectl_manifest&quot; &quot;aws-auth&quot; &#123;</span><br><span class="line">  yaml_body = &lt;&lt;-EOF</span><br><span class="line">apiVersion: v1</span><br><span class="line">kind: ConfigMap</span><br><span class="line">metadata:</span><br><span class="line">  name: aws-auth</span><br><span class="line">  namespace: kube-system</span><br><span class="line">data:</span><br><span class="line">  mapRoles: |</span><br><span class="line">    - groups:</span><br><span class="line">      - deployers</span><br><span class="line">      username: &quot;aws:&#123;&#123;AccountID&#125;&#125;:eks-deployer:&#123;&#123;SessionName&#125;&#125;&quot;</span><br><span class="line">      rolearn: $&#123;var.deployer-role-arn&#125;</span><br><span class="line">EOF</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>要使用的開發者們在使用這個角色進行登入之前，要像下面這樣來設定 <code>~/.aws/config</code> 跟 <code>~/.aws/credentials</code> 檔案</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># ~/.aws/config</span><br><span class="line">[profile eks-admin]</span><br><span class="line">role_arn = arn:aws:iam::&lt;account id&gt;:role/&lt;role name&gt;</span><br><span class="line">source_profile = anthony</span><br><span class="line"></span><br><span class="line"># ~/.aws/credentials</span><br><span class="line">[anthony]</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>最後，透過 aws 指令完成 kube config 設定</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aws eks update-kubeconfig  --name &lt;cluster name&gt; --region &lt;region&gt; --profile eks-admin</span><br></pre></td></tr></table></figure>
+<p>這樣，就可以使用 IAM Role 來扮演使用 Kubernetes 的 deployer role 來管理 cluster 並進行相關操作了</p>
+<h2>踩雷過程</h2>
+<h3>IRSA</h3>
+<p>根據別人的 <a href="https://antonputra.com/terraform/how-to-create-eks-cluster-using-terraform/#create-iam-oidc-provider-eks-using-terraform" target="_blank" rel="noopener">建議</a>，我決定在建立完 OIDC provider 之後，測試建立一個具有 S3 權限的 IAM Role，並將服務帳戶關聯到該角色，以便讓 Pod 可以取得 S3 資源的訪問權限</p>
+<p>在創建 OIDC provider 時，我沒有遇到問題，然而，在建立 Cluster 內的 Pod 時，我一開始完全無法建立</p>
+<p>踩雷過程中的第一個問題是：預設情況下，只有建立 EKS Cluster 的 IAM User 才擁有該 Cluster 的 admin 權限。我猜測這是因為 AWS 不希望該權限被移除後沒有人能夠操作 Cluster</p>
+<p>由於 Cluster 是透過持續交付流程 (CD) 建立的，如果我想操作該 Cluster，就需要使用跟 CD 中相同的 IAM User 身份進行操作，或者透過 aws-iam-authenticator 為我的 IAM User 提供權限</p>
+<h3>aws-iam-authenticator</h3>
+<p>在嘗試使用 <a href="https://registry.terraform.io/providers/gavinbunney/kubectl/latest/docs" target="_blank" rel="noopener">kubectl provider</a> 建立 Kubernetes 資源時，我一直遇到問題，並且持續收到 “Unauthorized” 的錯誤訊息。這讓我很難判斷問題的來源。</p>
+<p>我嘗試過 Terraform 的 <a href="https://developer.hashicorp.com/terraform/internals/debugging" target="_blank" rel="noopener">調整 Log level 為 debug 的方法</a> ，但並沒有提供太多幫助</p>
+<p>kubectl provider 的參數主要包含三個：host / cluster_ca_certificate / token，我也嘗試將這些參數的值輸出到root level，以檢查它們的值是不是正常，但這同樣並沒有提供太多幫助如果是在 module level output 的參數，無法透過 <code>terraform output</code> 指令確認, <a href="https://stackoverflow.com/questions/52503528/why-is-my-terraform-output-not-working-in-module" target="_blank" rel="noopener">reference</a>）</p>
+<p>最後，我在 CloudTrail 中看了 AWS 操作記錄，才發現我一直以為已經切換到 CD 流程使用的 IAM User，但實際上並未完全切換。意識到這點後，問題才得以解決</p>
+<p>另外，特別提一下，aws-auth configmap 可以將 Kubernetes group 的權限綁定到 IAM User 或 IAM Role（目前無法綁定到 IAM group）。它們分別對應 configmap 中的 mapUsers 和 mapRoles 部分，而這裡的 username 將 IAM Role 在 Kubernetes Cluster 中映射到指定的名稱，所以通常會使用 “aws::eks-developer:” ，這樣做才可以知道當前操作 Cluster 的人的身份(<a href="https://dev.to/aws-builders/eks-auth-deep-dive-4fib" target="_blank" rel="noopener">reference</a>)</p>
+<p>下面的 mapRoles 規則允許名為 abc 的 Role 使用 system:masters 這個 group 的權限來操作 Kubernetes，而 mapUsers 則允許名為 a-user 的 user 使用 system:masters 這個 group 的權限來操作 Kubernetes</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: ConfigMap</span><br><span class="line">metadata:</span><br><span class="line">    name: aws-auth</span><br><span class="line">    namespace: kube-system</span><br><span class="line">data:</span><br><span class="line">  mapRoles: |</span><br><span class="line">    - rolearn: arn:aws:iam::555555555555:role/abc</span><br><span class="line">      username: ops-user</span><br><span class="line">      groups:</span><br><span class="line">        - system:masters</span><br><span class="line">  mapUsers: |</span><br><span class="line">    - userarn: arn:aws:iam::555555555555:user/a-user</span><br><span class="line">      username: admin</span><br><span class="line">      groups:</span><br><span class="line">        - system:masters</span><br></pre></td></tr></table></figure>
+<h2>References</h2>
+<p><a href="https://antonputra.com/terraform/how-to-create-eks-cluster-using-terraform/#create-iam-oidc-provider-eks-using-terraform" target="_blank" rel="noopener">How to Create EKS Cluster Using Terraform?</a></p>
+<p><a href="https://antonputra.com/terraform/how-to-create-eks-cluster-using-terraform/#create-public-load-balancer-on-eks" target="_blank" rel="noopener">How to create EKS Cluster using Terraform MODULES?</a></p>
+<p><a href="https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html" target="_blank" rel="noopener">AWS document on aws-auth configmap setting</a></p>
+<p><a href="https://blog.lightspin.io/exploiting-eks-authentication-vulnerability-in-aws-iam-authenticator" target="_blank" rel="noopener">Exploiting Authentication in AWS IAM Authenticator for Kubernetes</a></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/2023-07-10-Essential_Prompt_Patterns_for_AI_Interaction/" data-toggle="tooltip" data-placement="top" title="Essential Prompt Patterns for AI Interaction">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/2023-06-12-Swiss_Travel_Notes/" data-toggle="tooltip" data-placement="top" title="Swiss Travel Notes">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Outline</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Introduction</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Why</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">IAM roles for service accounts(IRSA)</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">實作細節</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">AWS IAM Authenticator</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.1.</span> <span class="toc-nav-text">實作細節</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">踩雷過程</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.1.</span> <span class="toc-nav-text">IRSA</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.2.</span> <span class="toc-nav-text">aws-iam-authenticator</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">References</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Devops" title="Devops">Devops</a>
+                        
+                          <a class="tag" href="/tags/#AWS" title="AWS">AWS</a>
+                        
+                          <a class="tag" href="/tags/#K8S" title="K8S">K8S</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+                    
+                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+                    
+                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/qoosuperman">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Anthony Chao 2026 
+                    <br>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-153986590-1';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

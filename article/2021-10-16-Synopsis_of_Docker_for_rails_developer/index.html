@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
+    <meta name="keyword" content="">
+    <meta property="og:image" content="undefined">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>
+        
+          Synopsis of Docker For Rails Developer - Anthony Chao | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2021-10-16-Synopsis_of_Docker_for_rails_developer/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://images.unsplash.com/photo-1632714394526-1e87d08d56c4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1770&amp;q=80')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Rails" title="Rails">Rails</a>
+                            
+                              <a class="tag" href="/tags/#Ruby" title="Ruby">Ruby</a>
+                            
+                              <a class="tag" href="/tags/#Devops" title="Devops">Devops</a>
+                            
+                              <a class="tag" href="/tags/#Docker" title="Docker">Docker</a>
+                            
+                        </div>
+                        <h1>Synopsis of Docker For Rails Developer</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Anthony Chao on
+                            2021-10-16
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Anthony Chao</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2>Intro</h2>
+<p>這篇文章紀錄 <code>Docker For Rails Developer</code> 我認為比較值得注意的內容<br>
+<img src="https://i.imgur.com/wTor1cj.jpg" alt=""></p>
+<p>我認為這本書比較適合剛接觸 Docker，已經有開發 Rails application 的經驗，嘗試把 Rails server 容器化的工程師看</p>
+<p>雖然大多數的概念都是從基礎教起，儘管如此，裡面有提到一些細節還滿實用的，對我來說第一次知道有 <code>docker-machine</code> 這工具可以用，看起來滿方便的</p>
+<p>我沒有根據書的順序整理，而是把覺得重要的地方分成寫 Dockerfile 需要注意的細節 / development / production 環境分別需要注意的事情來做分類</p>
+<h2>Outline</h2>
+<ul>
+<li><a href="#intro">Intro</a></li>
+<li><a href="#details-when-using-docker">Details when using Docker</a></li>
+<li><a href="#create-development-environment-in-container">Create Development environment in container</a></li>
+<li><a href="#run-production-environment">Run production environment</a></li>
+</ul>
+<h2>Details when using Docker</h2>
+<h3>CMD instruction in Dockerfile</h3>
+<p>Dockerfile 裡面的 instruction 很多有兩種形式： <code>Exec</code> form 跟 <code>Shell</code> form</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"bin/rails"</span>, <span class="string">"s"</span>, <span class="string">"-b"</span>, <span class="string">"0.0.0.0"</span>]</span></span><br></pre></td></tr></table></figure>
+<p>這種表示方法是 <code>Exec</code> form</p>
+<p>如果這樣使用，rails server 會是這個 container 裡面的第一個 process(PID 1)，可以確保他正確的接收 unix signals，是比較建議的用法</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CMD</span><span class="bash"> bin/rails s -b 0.0.0.0</span></span><br></pre></td></tr></table></figure>
+<p>這種 form 則是 <code>Shell</code> form，Docker 會用 <code>/bin/sh -c</code> 去執行這些指令，所以他會這樣執行：<code>/bin/sh -c bin/rails s -b 0.0.0.0</code>，這樣一來第一個 process 就不是 rails server 而是 <code>/bin/sh</code></p>
+<p>因為 <code>/bin/sh</code> 不會對他的 subproces 傳訊號，所以要關掉 server 的時候可能會導致一些問題，一般來說比較建議 <code>Exec</code> form</p>
+<h3>dockerignore file</h3>
+<p>可以用 <code>.dockerignore</code> 這個檔案避免一些機密檔案被放到 image 裡面</p>
+<p>以下是通常會放進去的檔案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#.dockerignore</span><br><span class="line"></span><br><span class="line">.git</span><br><span class="line">.gitignore</span><br><span class="line"></span><br><span class="line">log/*</span><br><span class="line"></span><br><span class="line">tmp/*</span><br><span class="line"></span><br><span class="line">*.swp</span><br><span class="line">*.swo</span><br></pre></td></tr></table></figure>
+<h3>Cache</h3>
+<p>當 Dockerfile 其中的步驟改了，這一層 layer 的 cache 就會被 invalidate</p>
+<p>另外對於 <code>COPY</code> 這個指令，只要裡面包含的檔案有改過，cache 也會被 invalidate</p>
+<p>然後 image 的每個 layer 都是根據前一層 layer build 起來，因此越前面的步驟改了，後面的 layer 都要重新 build</p>
+<p>儘管如此，不注意 cache 的時候還是有可能產生問題，可以看看下面的例子</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get update -yqq</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get install -yqq --no-install-recommends nodejs</span></span><br></pre></td></tr></table></figure>
+<p>如果我們想要裝最新的 package，但因為前面 update 的指令沒有變，所以已經裝的 package 都是當時做新版的 package，這通常不是我們要的</p>
+<p>所以 update 跟 install 最好都寫在一起</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get update -yqq &amp;&amp; RUN apt-get install -yqq --no-install-recommends \</span></span><br><span class="line"><span class="bash">  nodejs \</span></span><br><span class="line"><span class="bash">  vim</span></span><br></pre></td></tr></table></figure>
+<p>另外因為前面提到的關係，我們不想要就算只改了 readme，整個 image 也要重新 build</p>
+<p>像是下面這樣</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ruby:<span class="number">2.6</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get update -yqq  &amp;&amp; apt-get install -yqq  --no-install-recommend nodejs</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> . /usr/src/app/</span></span><br><span class="line"><span class="comment"># 因為改了 README 這一個 cache 被 invalidate</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /usr/src/app</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> bundle install</span></span><br><span class="line"><span class="comment"># 因為前面 cache invalidate，所以要重新這步</span></span><br></pre></td></tr></table></figure>
+<p>這時候可以考慮只把 Gemfile 先 copy 過去</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ruby:<span class="number">2.6</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get update -yqq  &amp;&amp; apt-get install -yqq  --no-install-recommend nodejs</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> Gemfile* /usr/src/app</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /usr/src/app</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> bundle install</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> . /usr/src/app/</span></span><br><span class="line"><span class="comment"># 就算改了 README，這一個 cache 被 invalidate，不會影響前面的步驟，gem 就不用重裝</span></span><br></pre></td></tr></table></figure>
+<h2>Create Development environment in container</h2>
+<h3>Run rails server</h3>
+<p>一般在開發環境，我們會這樣跑起 Rails server:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 預設跑起來會聽 localhost 的 3000 port</span></span><br><span class="line">&gt; rails s</span><br></pre></td></tr></table></figure>
+<p>但如果在 container 裡面跑起 server，對於 container 來說來自 host 的 request 是外面的 request 而不是 localhost，所以需要 bind 在 <code>0.0.0.0</code> 這個 IP 上面，表示會聽所有的 IPv4 ip</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; docker run -p 3000:3000 &lt;image_id&gt; bin/rails s -b 0.0.0.0</span><br></pre></td></tr></table></figure>
+<h3>Advanced gem management</h3>
+<p>Bundler 跟 Docker 其實想要嘗試做到類似的事情，但現在的機制讓他們有點尷尬的沒辦法做到原本想要做的</p>
+<p>Bundler 原本的機制是想要安裝還沒安裝的 gem，但因為現在 container 每次都是全新的環境，所以只要 Gemfile 有小變動每次都要裝全部的 gem, 因為他會清掉後面的 cache</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">COPY</span><span class="bash"> Gemfile* /usr/src/app</span></span><br><span class="line"><span class="comment"># 上面有變動就會把下面的 cache 清掉</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /usr/src/app</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> bundle install</span></span><br></pre></td></tr></table></figure>
+<p>如果想要更快的跑起來，而且通常是開發環境才可以考慮這個解法： 把 gem cache 在 mount volume</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">COPY</span><span class="bash"> Gemfile* /usr/src/app</span></span><br><span class="line"><span class="comment"># 上面有變動就會把下面的 cache 清掉</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /usr/src/app</span></span><br><span class="line"><span class="keyword">ENV</span> BUNDLE_PATH /gems</span><br><span class="line"><span class="comment"># 加上這行指定 bundle path</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> bundle install</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">version: &apos;3&apos;</span><br><span class="line">services</span><br><span class="line">  web:</span><br><span class="line">    build: .</span><br><span class="line">    volumes:</span><br><span class="line">      - .:/usr/src/app</span><br><span class="line">      - gem_cache:/gems</span><br><span class="line">...</span><br><span class="line">volumes:</span><br><span class="line">  gem_cache:</span><br></pre></td></tr></table></figure>
+<p>這邊做出一個名為 gem_cache 的 volume，把他 mount 在 container 上，每次要跑 docker-compose 之前先執行</p>
+<p><code>docker-compose exec web bundle install</code> 去更新這個 volume 裡面的 gem，接著就可以正常跑起 server</p>
+<p>這樣做的缺點是如果 gem 的內容有變動，需要自己注意，否則可能會少裝了什麼套件</p>
+<h3>Rails server cant start normally</h3>
+<p>如果我們把 host 的 <code>tmp/pids</code> mount 在本地的 volume 上面，有時候 app 沒有正常關閉可能會遺留 server.pid 這個檔案，他的路徑是 tmp/pids/server.pid</p>
+<p>這時候可以考慮寫在 entrypoint 裡面去解決</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">"./docker_entrypoint.sh"</span>]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker-entrypointy.sh</span></span><br><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"><span class="built_in">set</span> -e</span><br><span class="line"><span class="keyword">if</span> [ -f tmp/pids/server.pid ]; <span class="keyword">then</span></span><br><span class="line">  rm tmp/pids/server.pid</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">exec</span> <span class="string">"<span class="variable">$@</span>"</span></span><br></pre></td></tr></table></figure>
+<h2>Run production environment</h2>
+<h3>env files configuration</h3>
+<p>同時有 production 跟 development 的環境變數，我們的 config 檔可能長這樣：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.env</span><br><span class="line">├── development</span><br><span class="line">│   ├── database</span><br><span class="line">│   └─── web</span><br><span class="line">├── production</span><br><span class="line">│   ├── database</span><br><span class="line">│   └─── web</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#.env/production/web</span><br><span class="line">DATABASEHOST=database</span><br><span class="line">RAILS_ENV=production</span><br><span class="line">SECRET_KEY_BASE=</span><br><span class="line">RAILS_LOG_TO_STDOUT=true</span><br><span class="line">RAILS_SERVE_STATIC_FILES=true</span><br></pre></td></tr></table></figure>
+<p>SECRET_KEY_BASE 這個環境變數設定 key 用來對 rails 裡面用到的需要加密的資料作加密，其中包括用來加密 cookie，所以如果替換這個環境變數會導致用戶需要重新登入(如果使用 cookie 來做登入機制的話)</p>
+<p>Rails 原先預設會把 log 存到 <code>log/&lt;environment&gt;.log</code> 的檔案，設定 RAILS_LOG_TO_STDOUT 讓他 print 到 stdout，這樣可以用 docker logs 去看 log</p>
+<p>database 相關設定放在 <code>.env/production/database</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#.env/production/database</span><br><span class="line">POSTGRES_USER=postgres</span><br><span class="line">POSTGRES_PASSWORD=my-password</span><br><span class="line">POSTGRES_DB=production_db</span><br></pre></td></tr></table></figure>
+<h3>Separate dockerfiles</h3>
+<p>對於 development 跟 production 我們通常會使用不同的 Dockerfile</p>
+<p>因為 production 會把 assets 都先 precompile 好，在 development 則是每次 request 都會重新 compile，所以 Dockerfile 會有點不同</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Dockerfile.production</span></span><br><span class="line"><span class="comment"># 這一行放在 entrypoint 前</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> bin/rails assets:precompile</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">"./docker-entrypoint.sh"</span>]</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h3>create production-like environment with VM</h3>
+<p>docker-machine 是一個 CLI tool，他可以搭配不同的 VM 做出 docker machine</p>
+<p>這裡我們使用最常用的 VirtualBox</p>
+<p>安裝 docker-machine</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">cd</span> /usr/bin</span><br><span class="line">&gt; wget https://github.com/docker/machine/releases/download/v0.13.0/docker-machine-Linux-x86_64</span><br><span class="line">&gt; mv docker-machine-Linux-x86_64 docker-machine</span><br><span class="line">&gt; chmod 755 docker-machine</span><br></pre></td></tr></table></figure>
+<p>在使用 docker-machine 做出環境之前要先安裝 VirtualBox，安裝完之後就可以下面步驟</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; docker-machine create --driver virtualbox <span class="built_in">local</span>-vm-1</span><br><span class="line"><span class="comment"># 檢查有沒有真的開起來</span></span><br><span class="line">&gt; docker-machine ls</span><br><span class="line"><span class="comment"># 可以 ssh 進去</span></span><br><span class="line">&gt; docker-machine ssh <span class="built_in">local</span>-vm-1</span><br><span class="line"><span class="comment"># 可以 ssh 進去執行指令</span></span><br><span class="line">&gt; docker-machine ssh <span class="built_in">local</span>-vm-1 <span class="string">"&lt;command&gt;"</span></span><br></pre></td></tr></table></figure>
+<p>然後我們可以把本地的 docker client 送指令的對象指向 VM 裡面的 docker daemon 而不是 local 的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">eval</span> $(docker-machine env <span class="built_in">local</span>-vm-1)</span><br><span class="line"><span class="comment"># 也可以切換回來 local</span></span><br><span class="line">&gt; <span class="built_in">eval</span> $(docker-machine env -u)</span><br></pre></td></tr></table></figure>
+<p>docker-machine 甚至可以配合不同的 cloud provider 做出 instance</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; docker-machine create \</span><br><span class="line">--driver digitalocean \ ...</span><br><span class="line"></span><br><span class="line">&gt; docker-machine create \</span><br><span class="line">--driver amazonec2 \ ...</span><br></pre></td></tr></table></figure>
+<h3>multi-stage builds</h3>
+<p>從 Docker 17.05 開始，可以在 Dockerfile 裡面寫不只一個 <code>FROM</code> 每一個 FROM 會開始做新的 stage，然後可以用 COPY 去複製前面一個 stage 裡面的產物</p>
+<p>比方說 Rails 就可以複製產生出來的 static files</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/2021-10-17-Docker_CLI_MEMO/" data-toggle="tooltip" data-placement="top" title="Docker command line tool memo">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/2021-10-6-Pundit_Cancancan/" data-toggle="tooltip" data-placement="top" title="實作利用 Pundit 跟 Cancancan 做動態權限管理">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Intro</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Outline</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Details when using Docker</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">CMD instruction in Dockerfile</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">dockerignore file</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">Cache</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Create Development environment in container</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">Run rails server</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.2.</span> <span class="toc-nav-text">Advanced gem management</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.3.</span> <span class="toc-nav-text">Rails server cant start normally</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Run production environment</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.1.</span> <span class="toc-nav-text">env files configuration</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.2.</span> <span class="toc-nav-text">Separate dockerfiles</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.3.</span> <span class="toc-nav-text">create production-like environment with VM</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.4.</span> <span class="toc-nav-text">multi-stage builds</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Rails" title="Rails">Rails</a>
+                        
+                          <a class="tag" href="/tags/#Ruby" title="Ruby">Ruby</a>
+                        
+                          <a class="tag" href="/tags/#Devops" title="Devops">Devops</a>
+                        
+                          <a class="tag" href="/tags/#Docker" title="Docker">Docker</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+                    
+                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+                    
+                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/qoosuperman">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Anthony Chao 2026 
+                    <br>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-153986590-1';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
+    <meta name="keyword" content="">
+    <meta property="og:image" content="undefined">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>
+        
+          Synopsis of Nothing is Something - Anthony Chao | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2023-01-30-Synopsis_of_Nothing_is_Something/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://images.unsplash.com/photo-1597852074816-d933c7d2b988?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1770&amp;q=80')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#SQL" title="SQL">SQL</a>
+                            
+                        </div>
+                        <h1>Synopsis of Nothing is Something</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Anthony Chao on
+                            2023-01-30
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Anthony Chao</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>看了 Sandi Metz 在 RailsConf 2015 的 <a href="https://www.youtube.com/watch?v=OMPfEXIlTVE&amp;t=1808s" target="_blank" rel="noopener">演講</a>，覺得很受啟發，因此想要將這個演講的內容做個摘要紀錄下來，以下代稱 Sandi Metz 為講者</p>
+<h2>Outline</h2>
+<ul>
+<li><a href="#boolean-syntax-in-ruby">Boolean Syntax in Ruby</a></li>
+<li><a href="#send-message-instead-of-conditions">Send Message Instead of Conditions</a></li>
+<li><a href="#null-object">Null Object</a></li>
+<li><a href="#refactor-a-real-example">Refactor a Real Example</a></li>
+<li><a href="#summary">Summary</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+<h2>Boolean Syntax in Ruby</h2>
+<p>講者一開始寫過 Smalltalk 這個接近純 OO 的語言，而這個語言後來啟發了更多像是 Python / Ruby 等語言，在接觸 Ruby 的時候有的部分他覺得很不習慣</p>
+<p>寫 Ruby 要知道 send message 才是正常的寫法，而使用 <code>.</code> 則可以說是 Ruby 提供的語法糖</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.to_s</span><br><span class="line"><span class="comment"># 會等於</span></span><br><span class="line"><span class="number">1</span>.send(<span class="symbol">:to_s</span>)</span><br><span class="line"></span><br><span class="line"><span class="number">1</span> + <span class="number">1</span></span><br><span class="line"><span class="comment"># 會等於</span></span><br><span class="line"><span class="number">1</span>.send(<span class="symbol">:+</span>, <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>上面的東西不令講者感到意外，令他意外的是一些 boolean 的特殊語法</p>
+<p>Smalltalk 的關鍵字有幾種：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">true false nil self super thisContext</span><br></pre></td></tr></table></figure>
+<p>但是 Ruby 則有很多</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if alias and BEGIN def defined? .....</span><br></pre></td></tr></table></figure>
+<p>其中他認為最特別的是 if</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (truthy)</span><br><span class="line">  <span class="comment"># code to eval when 'true'</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="comment"># code to eval when 'false'</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>其實 OO 裡面是討厭 type check 的，應該改用 OO 的方式來做，也就是改用 send message 的方式來做</p>
+<h2>Send Message Instead of Conditions</h2>
+<p>那我們可以如何用 OO 的方式做到 if else 呢？ 我們可以 monkey patch</p>
+<p>true 跟 false 的 class 分別是 TrueClass 跟 FalseClass</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TrueClass</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">if_true</span></span></span><br><span class="line">    <span class="keyword">yield</span></span><br><span class="line">    <span class="keyword">self</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">if_false</span></span></span><br><span class="line">    <span class="keyword">self</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FalseClass</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">if_true</span></span></span><br><span class="line">    <span class="keyword">self</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">if_false</span></span></span><br><span class="line">    <span class="keyword">yield</span></span><br><span class="line">    <span class="keyword">self</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>上面的改寫讓我們可以達到這樣的效果</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">1</span> == <span class="number">1</span>).if_true &#123; puts <span class="string">'evaluated block'</span> &#125;</span><br><span class="line">&gt; <span class="string">'evaluated block'</span></span><br><span class="line"></span><br><span class="line">(<span class="number">1</span> == <span class="number">1</span>).if_false &#123; puts <span class="string">'evaluated block'</span> &#125;</span><br><span class="line"><span class="comment"># block ignored</span></span><br></pre></td></tr></table></figure>
+<p>所以其實我們根本不需要 if</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="number">1</span> == <span class="number">1</span>)</span><br><span class="line">  puts <span class="string">'is true'</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  puts <span class="string">'is false'</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment"># 改寫</span></span><br><span class="line">(<span class="number">1</span> == <span class="number">1</span>).</span><br><span class="line">  if_true &#123; puts <span class="string">'is true'</span> &#125;.</span><br><span class="line">  if_false &#123; puts <span class="string">'is false'</span> &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>I don’t want to change Ruby<br>
+I want to change you</p>
+</blockquote>
+<p>講者強調他並沒有想要大家改成這樣寫，但是他希望大家多想想如果沒有 if 的話該怎麼做，因為他很討厭 conditions</p>
+<h2>Null Object</h2>
+<p>在平常時，我們可能很容易因為下面的情境遇到 NoMethodError</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Animal.find(<span class="string">'pig'</span>)</span><br><span class="line">&gt; <span class="comment"># object</span></span><br><span class="line">Animal.find(<span class="string">''</span>)</span><br><span class="line">&gt; <span class="literal">nil</span></span><br><span class="line"></span><br><span class="line">ids = [<span class="string">'pig'</span>, <span class="string">''</span>, <span class="string">'sheep'</span>]</span><br><span class="line">animals = ids.map &#123; <span class="params">|id|</span> Animal.find(id) &#125;</span><br><span class="line"><span class="comment"># 第二個是 nil</span></span><br><span class="line">animals.each &#123; <span class="params">|animal|</span> puts animal.name &#125;</span><br><span class="line">&gt; NoMethodError</span><br></pre></td></tr></table></figure>
+<p>為了要修正上面的錯誤，我們常常做一些事情像是下面這樣</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">animals.each &#123; <span class="params">|animal|</span></span><br><span class="line">  puts animal.<span class="literal">nil</span>? ? <span class="string">'no animal'</span> : animal.name</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># 上面可以，但有點醜</span></span><br><span class="line">animals.each &#123; <span class="params">|animal|</span></span><br><span class="line">  puts animal &amp;&amp; animal.name</span><br><span class="line">&#125;</span><br><span class="line">animals.each &#123; <span class="params">|animal|</span></span><br><span class="line">  puts animal.try(<span class="symbol">:name</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但我們仔細看看裡面的東西</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">puts animal.try(<span class="symbol">:name</span>)</span><br><span class="line">puts animal.<span class="literal">nil</span>? ? <span class="string">''</span> : animal.name</span><br><span class="line">puts animal == <span class="literal">nil</span> ? <span class="string">''</span> : animal.name</span><br><span class="line">puts animal.is_a?(NilClass) ? <span class="string">''</span> : animal.name</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> animal.is_a?(NilClass)</span><br><span class="line">  puts <span class="string">''</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  puts animal.name</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這不就是講者最討厭的 conditions 嗎 XD</p>
+<p>而講者討厭的原因就是因為這些 condition 會不斷地在 code 裡面繁殖</p>
+<p>他想要的就是單純送一個 message (message centric) 就不用在裡面使用 if 或者三元判斷式</p>
+<p>所以先改成這樣做：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">name</span></span></span><br><span class="line">    ...</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MissingAnimal</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">name</span></span></span><br><span class="line">    <span class="string">'no animal'</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">animals = ids.map &#123; <span class="params">|id|</span> Animal.find(id) <span class="params">||</span> MissingAnimal.new &#125;</span><br><span class="line">animals.each &#123; <span class="params">|animal|</span> puts animal.name &#125;</span><br><span class="line"><span class="comment"># 雖然解決了問題，但在這裡用 MissingAnimal 造成了 dependency(多知道一個 object 的功能)</span></span><br></pre></td></tr></table></figure>
+<p>這就是 Null Object Pattern</p>
+<p>Null Object Pattern 的精神簡短來說就是 Active Nothing(可互動的 nothing)</p>
+<p>為了進一步解決上述 dependency 的問題，需要再包一層物件上去</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GuatenteedAnimal</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">find</span><span class="params">(id)</span></span></span><br><span class="line">    Animal.find(id) <span class="params">||</span> MissingAnimal.new</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">animals = ids.map &#123; <span class="params">|id|</span> GuatenteedAnimal.find(id) &#125;</span><br><span class="line">animals.each &#123; <span class="params">|animal|</span> puts animal.name &#125;</span><br></pre></td></tr></table></figure>
+<p>講者為這個例子做了一個總結</p>
+<blockquote>
+<p>Sometimes nil is nothing<br>
+But if you send it a message, nil is Something<br>
+If you’re talking to nil, then it’s something, stop checking nil</p>
+</blockquote>
+<p>請大家開始相信 believe in nothing，就像 0 這個數字對我們來說的意義一樣</p>
+<p>在有 0 這個概念以前，我們有一些事情是做不到的，有了 0 這個概念之後就變得很方便</p>
+<p>但講者過去一段時間了解到 null object pattern 其實是一個簡單概念的其中一個小例子，接下來會再舉一個例子</p>
+<h2>Refactor a Real Example</h2>
+<p>在這個例子中，一開始的功能是要把歌詞印出來</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">House</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">phrase</span><span class="params">(number)</span></span></span><br><span class="line">    data.last(number).join(<span class="string">''</span>)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">line</span><span class="params">(number)</span></span></span><br><span class="line">    <span class="string">"This is <span class="subst">#&#123;phrase(number)&#125;</span>.\n"</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">recite</span></span></span><br><span class="line">    (<span class="number">1</span>..data.length).map &#123; <span class="params">|i|</span> lin(i)&#125;.join(<span class="string">"\n"</span>)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">data</span></span></span><br><span class="line">    [</span><br><span class="line">      <span class="string">'This is the house that Jack built.'</span></span><br><span class="line">      <span class="string">'This is the malt that lay in the house that Jack built.'</span></span><br><span class="line">      <span class="string">'This is the rat that ate the malt,'</span></span><br><span class="line">      <span class="string">'That lay in the house that Jack built.'</span></span><br><span class="line">      <span class="string">'This is the cat that chased the rat,'</span></span><br><span class="line">      <span class="string">'That ate the malt that lay in the house that Jack built.'</span></span><br><span class="line">      <span class="string">'This is the dog that worried the cat,'</span></span><br><span class="line">      <span class="string">'That chased the rat that ate the malt,'</span></span><br><span class="line">      <span class="string">'That lay in the house that Jack built.'</span></span><br><span class="line">    ]</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這時候新需求來了： New feature =&gt; RandomHouse</p>
+<p>這個需求的具體內容是需要歌詞可以亂序排列，這時候繼承是一個很有吸引力的選擇，只要改一點 code ，下面這樣做就完成了</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RandomHouse</span> &lt; House</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">data</span></span></span><br><span class="line">    @data <span class="params">||</span>= <span class="keyword">super</span>.shuffle</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">RandomHouse.new.prase(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<p>這時候又有新需求來了： New feature =&gt; EchoHouse</p>
+<p>這個需求的具體內容是需要歌詞的同一個句子要重複兩次，首先改一下 House 裡面的內容</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">House</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">phrase</span><span class="params">(number)</span></span></span><br><span class="line">    data.last(number).join(<span class="string">''</span>)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="comment"># 改成</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">phrase</span><span class="params">(number)</span></span></span><br><span class="line">    parts(number).join(<span class="string">''</span>)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">parts</span><span class="params">(number)</span></span></span><br><span class="line">    data.last(number)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這時候繼承還是一個很有吸引力的選擇</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EchoHouse</span> &lt; House</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">parts</span><span class="params">(number)</span></span></span><br><span class="line">    <span class="keyword">super</span>.zip(<span class="keyword">super</span>).flattern</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>現在的繼承狀況是這樣<br>
+<img src="https://i.imgur.com/TWUouOu.png" alt=""></p>
+<p>就在這時候又有新需求來了： New feature =&gt; RandomEchoHouse</p>
+<p>這時候就慘了</p>
+<p>講者請大家試試看，請不要覺得繼續繼承或者拆出 module 共用可以解決你的問題</p>
+<p>比方說繼續使用繼承也會很糟，因為跟 Echo House 的 code 重複了：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RandomEchoHouse</span> &lt; RandomHouse</span></span><br><span class="line"> <span class="function"><span class="keyword">def</span> <span class="title">parts</span><span class="params">(number)</span></span></span><br><span class="line">  <span class="keyword">super</span>.zip(<span class="keyword">super</span>).flatten</span><br><span class="line"> <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這時候更多人的選擇不是像上面一樣只重複部分的 code，而是重複所有的 code</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RandomEchoHouse</span> &lt; House</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">data</span></span></span><br><span class="line">    @data <span class="params">||</span>= <span class="keyword">super</span>.shuffle</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">parts</span><span class="params">(number)</span></span></span><br><span class="line">    <span class="keyword">super</span>.zip(<span class="keyword">super</span>).flatten</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>為什麼這時候會遇到這個困難呢？</p>
+<p>用圖片來說明比較清楚：</p>
+<p><img src="https://i.imgur.com/NPQSIBZ.png" alt=""></p>
+<p>我們可能以為 RandomHouse 只有橘色框框的部分，但其實真正的範圍比我們想像的範圍大，因為綠色部分是繼承而來的</p>
+<p><img src="https://i.imgur.com/T9a2hmg.png" alt=""></p>
+<p>當我們想要兩者的功能但只繼承其中一邊的話是不可能的</p>
+<p>講者為這一段說明留下一句註解：</p>
+<blockquote>
+<p>Inheritance is for specialization, is not for sharing code</p>
+</blockquote>
+<p><strong>那到底該怎麼解決這個問題呢？</strong></p>
+<p>這時候要問問自己一個問題 is Random House a House? ，如果是的話才適用於使用繼承的情境</p>
+<p>不要因為命名是 House 就被騙了，應該要觀察行為來決定</p>
+<p>我們回頭看看 Random House 的行為，我們要觀察他們哪裡不一樣最快的方式就是把他們變的越接近越容易看出來</p>
+<blockquote>
+<p>Reveal how things differ by making them more alike</p>
+</blockquote>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">House</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">data</span></span></span><br><span class="line">    [</span><br><span class="line">      <span class="string">'This is the house that Jack built.'</span></span><br><span class="line">      <span class="string">'This is the malt that lay in the house that Jack built.'</span></span><br><span class="line">      <span class="string">'This is the rat that ate the malt,'</span></span><br><span class="line">      <span class="string">'That lay in the house that Jack built.'</span></span><br><span class="line">      <span class="string">'This is the cat that chased the rat,'</span></span><br><span class="line">      <span class="string">'That ate the malt that lay in the house that Jack built.'</span></span><br><span class="line">      <span class="string">'This is the dog that worried the cat,'</span></span><br><span class="line">      <span class="string">'That chased the rat that ate the malt,'</span></span><br><span class="line">      <span class="string">'That lay in the house that Jack built.'</span></span><br><span class="line">    ]</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RandomHouse</span> &lt; House</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">data</span></span></span><br><span class="line">    @data <span class="params">||</span>= <span class="keyword">super</span>.shuffle</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment"># 改成</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">House</span></span></span><br><span class="line">  DATA =</span><br><span class="line">    [</span><br><span class="line">      <span class="string">'This is the house that Jack built.'</span></span><br><span class="line">      <span class="string">'This is the malt that lay in the house that Jack built.'</span></span><br><span class="line">      <span class="string">'This is the rat that ate the malt,'</span></span><br><span class="line">      <span class="string">'That lay in the house that Jack built.'</span></span><br><span class="line">      <span class="string">'This is the cat that chased the rat,'</span></span><br><span class="line">      <span class="string">'That ate the malt that lay in the house that Jack built.'</span></span><br><span class="line">      <span class="string">'This is the dog that worried the cat,'</span></span><br><span class="line">      <span class="string">'That chased the rat that ate the malt,'</span></span><br><span class="line">      <span class="string">'That lay in the house that Jack built.'</span></span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">data</span></span></span><br><span class="line">    @data <span class="params">||</span>= DATA</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RandomHouse</span> &lt; House</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">data</span></span></span><br><span class="line">    @data <span class="params">||</span>= DATA.shuffle</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>使用表格來做思考，然後什麼改變了就給他一個名字</p>
+<table>
+<thead>
+<tr>
+<th>class</th>
+<th>data</th>
+<th>???</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>House</td>
+<td>DATA</td>
+<td></td>
+</tr>
+<tr>
+<td>RandomHouse</td>
+<td>DATA</td>
+<td>shuffle</td>
+</tr>
+</tbody>
+</table>
+<p>這裡的 ??? 應該填入什麼呢？往他上一層抽象來想的話，比較準確的應該是 order</p>
+<table>
+<thead>
+<tr>
+<th>class</th>
+<th>data</th>
+<th>order!</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>House</td>
+<td>DATA</td>
+<td></td>
+</tr>
+<tr>
+<td>RandomHouse</td>
+<td>DATA</td>
+<td>shuffle</td>
+</tr>
+</tbody>
+</table>
+<p>這時候再重新問一次上面的問題：</p>
+<p>Is Order a House?</p>
+<p>明顯不是，那 Order 是什麼呢？他其實比較接近一個角色(role)，可以說是功能型球員，我們根據這樣的概念來改寫：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DefaultOrder</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">order</span><span class="params">(data)</span></span></span><br><span class="line">    data</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RandomOrder</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">order</span><span class="params">(data)</span></span></span><br><span class="line">    data.shuffle</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>我們現在需要的是把排序的相依從 House 裡面拿出來</p>
+<p>首先改寫一下 House</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">House</span></span></span><br><span class="line">  DATA = [...]</span><br><span class="line">  <span class="keyword">attr_reader</span> <span class="symbol">:data</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">initialize</span></span></span><br><span class="line">    @data = Data</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>然後把對 order 的相依性放進去</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">House</span></span></span><br><span class="line">  DATA = [...]</span><br><span class="line">  <span class="keyword">attr_reader</span> <span class="symbol">:data</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">initialize</span><span class="params">(orderer = DefaultOrder.new)</span></span></span><br><span class="line">    @data = orderer.order(DATA)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這裡的概念就是把不同的東西抽出來，做成 pluggable behavior 的樣子</p>
+<p>更精簡來說：</p>
+<blockquote>
+<p>Inject an object to play the role of the thing that varies</p>
+</blockquote>
+<p>之後使用一樣的方式去改寫 EchoHouse</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">House</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">initialize</span><span class="params">(<span class="symbol">orderer:</span> DefaultOrder.new, <span class="symbol">formatter:</span> DefaultFormatter.new)</span></span></span><br><span class="line">    @formatter = formatter</span><br><span class="line">    @data = orderer.order(DATA)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">parts</span><span class="params">(number)</span></span></span><br><span class="line">    formatter.format(data.last(number))</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DefaultFormatter</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">format</span><span class="params">(parts)</span></span></span><br><span class="line">    parts</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EchoFormatter</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">format</span><span class="params">(parts)</span></span></span><br><span class="line">    parts.zip(parts).flatten</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">puts House.new(<span class="symbol">formatter:</span> EchoFormatter.new).line(<span class="number">12</span>)</span><br></pre></td></tr></table></figure>
+<p>這樣一來就解決了這個新需求的問題</p>
+<p>把上面做的事情一樣一樣列出來的話可以拆成四個步驟：</p>
+<ol>
+<li>Isolate the thing that vary</li>
+<li>Name the concept</li>
+<li>Define the Role</li>
+<li>Inject the player</li>
+</ol>
+<p>而這樣的方式使用到大家在討論 refactor 的兩個概念：composition + dependency injection</p>
+<h2>Summary</h2>
+<p>看完這個 talk 真的受益良多，寫 code 滿容易卡在苦無思考方向，也許這個 talk 是一個很好的思考起點</p>
+<p>另外之前碰到一些感覺需要 refactor 的 code 但不知道從何開始，有些情況應該是照著這樣的邏輯去解掉的</p>
+<h2>References</h2>
+<p><a href="https://www.youtube.com/watch?v=OMPfEXIlTVE&amp;t=1808s" target="_blank" rel="noopener">RailsConf video</a></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/2023-01-30-Synopsis_of_rebuilding_rails/" data-toggle="tooltip" data-placement="top" title="Synopsis of Rebuilding Rails">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/2023-01-01-retrospect_and_prospect_of_2023/" data-toggle="tooltip" data-placement="top" title="Retrospect And Prospect of 2023">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Outline</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Boolean Syntax in Ruby</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Send Message Instead of Conditions</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Null Object</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Refactor a Real Example</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">Summary</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">References</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#SQL" title="SQL">SQL</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+                    
+                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+                    
+                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/qoosuperman">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Anthony Chao 2026 
+                    <br>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-153986590-1';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

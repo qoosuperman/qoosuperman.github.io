@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
+    <meta name="keyword" content="">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1679083216051-aa510a1a2c0e?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=2664&amp;q=80">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>
+        
+          Essential Prompt Patterns for AI Interaction - Anthony Chao | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2023-07-10-Essential_Prompt_Patterns_for_AI_Interaction/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://images.unsplash.com/photo-1679083216051-aa510a1a2c0e?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=2664&amp;q=80')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#AI" title="AI">AI</a>
+                            
+                        </div>
+                        <h1>Essential Prompt Patterns for AI Interaction</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Anthony Chao on
+                            2023-07-10
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Anthony Chao</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2>Introduction</h2>
+<p>最近我在 Coursera 上了 “<a href="https://www.coursera.org/learn/prompt-engineering/home/week/1" target="_blank" rel="noopener">Prompt Engineering for ChatGPT</a>” 的課程，並從中學習到了許多知識，因此我想把主要的學習重點整理出來，以便日後參考</p>
+<p>在這篇文章中，我將結合課程內容和我自己的觀點，主要的內容將圍繞課程中提到的各種 Prompt Engineering pattern，並且大部分的 pattern 會分享我嘗試的範例。</p>
+<p>這是一篇很～長的文章，也許做個書籤，當作工具來使用會比較適合，不建議一次看完。我甚至比較建議直接去上前面提到的 <a href="https://www.coursera.org/learn/prompt-engineering/home/week/1" target="_blank" rel="noopener">課程</a>，此課程雖然免費但我覺得相當有品質！</p>
+<h2>Outline</h2>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#%E4%BB%80%E9%BA%BC%E6%98%AF-prompt">什麼是 Prompt</a></li>
+<li><a href="#root-prompt">Root Prompt</a></li>
+<li><a href="#prompt-%E7%9A%84%E5%BC%B7%E5%BA%A6">Prompt 的強度</a></li>
+<li><a href="#prompt-patterns">Prompt Patterns</a>
+<ul>
+<li><a href="#persona-pattern">Persona Pattern</a></li>
+<li><a href="#prompt-question-refinement-pattern">Prompt Question Refinement Pattern</a></li>
+<li><a href="#cognitive-verifier-pattern">Cognitive Verifier Pattern</a></li>
+<li><a href="#audience-persona-pattern">Audience Persona Pattern</a></li>
+<li><a href="#prompt-flipped-interaction-pattern">Prompt Flipped Interaction Pattern</a></li>
+<li><a href="#few-shot-example-pattern">Few Shot Example Pattern</a></li>
+<li><a href="#chain-of-thoughts-pattern">Chain of Thoughts Pattern</a></li>
+<li><a href="#react-pattern">ReAct Pattern</a></li>
+<li><a href="#gameplay-pattern">Gameplay Pattern</a></li>
+<li><a href="#template-pattern">Template Pattern</a></li>
+<li><a href="#metalanguage-creation-pattern">Metalanguage Creation Pattern</a></li>
+<li><a href="#recipe-pattern">Recipe Pattern</a></li>
+<li><a href="#prompt-alternative-approaches-pattern">Prompt Alternative Approaches Pattern</a></li>
+<li><a href="#ask-for-input-pattern">Ask for input pattern</a></li>
+<li><a href="#prompt-outline-expansion-pattern">Prompt Outline Expansion pattern</a></li>
+<li><a href="#menus-actions-pattern">Menus Actions Pattern</a></li>
+<li><a href="#fact-check-pattern">Fact Check Pattern</a></li>
+<li><a href="#tail-generation-pattern">Tail Generation Pattern</a></li>
+<li><a href="#semantic-filter-pattern">Semantic Filter Pattern</a></li>
+</ul>
+</li>
+</ul>
+<h2>什麼是 Prompt</h2>
+<p>在介紹 Pattern 之前，首先來介紹一下 Prompt</p>
+<p>我直接問 ChatGPT 這個問題，我認為他的回答相當精確：</p>
+<blockquote>
+<p>In summary, the prompt is the input or instruction given to the language model to initiate a conversation or generate a response. It helps to define the context and shape the output of the model.</p>
+</blockquote>
+<p>我們丟給 Large Language Model(ChatGPT 即一種 Large Language Model, 以下簡稱 LLM) 的 input 就稱為 prompt</p>
+<p>隨著我們提供的 prompt 愈來愈多，結合 ChatGPT 的回應，這些對話逐漸形成了一種 “情境”，這些情境對接下來的對話有很大的影響。</p>
+<p>目前，大部分人使用 ChatGPT 的方式是問一個問題並讓 ChatGPT 回答。但 LLM 最初並非設計來重複回答問題的，它的主要功能是透過回應，讓我們提供的 prompt 變得完整。例如，我們給它一段知名歌曲的歌詞，它會嘗試接續下一段歌詞。</p>
+<p>如果我們用這種方式來思考，而不是只透過一個問題試圖獲得 ChatGPT 完全正確的答案，可以讓 ChatGPT 展現更大的價值。</p>
+<blockquote>
+<p>ChatGPT 主要功能是透過回應，讓 prompt 變得完整</p>
+</blockquote>
+<img src="https://hackmd.io/_uploads/BylA5j-Y2.png" alt="" height="50%" width="50%">
+<h2>Root Prompt</h2>
+<p>Root Prompt 是指在開始之前，先給 ChatGPT 一項必須遵循的原則。</p>
+<p>事實上，無論是 ChatGPT 或是如 Bing 這樣的工具，他們應該都藏有一些隱藏的根本提示，例如無法回答 2021 年之後的數據，或是無法提供某些產品序號等等。</p>
+<p>當然目前還有一些人在持續嘗試破解這些 hidden root prompt，像是用感人的故事來騙 Windows 序號:</p>
+<p><img src="https://cdn.hk01.com/di/media/images/dw/20230620/747802489729847296682940.png/QmLuLhw8SVIK4M4mVPx250vRsq24UowrbVPC7W1Twu0?v=w1920" alt=""></p>
+<h2>Prompt 的強度</h2>
+<p>LLM 被設計為具有一定的隨機性，因此，如果我們重複對它提出相同的問題，每次得到的結果通常都會不同。然而，這實際上與提示的強度有關。</p>
+<p>例如 “兩隻老虎” 這個例子。這首歌詞已經被訓練過數千萬次，因此它成為一個強度高的 Prompt，即使我們問了10次，每次都會得到相同的結果。</p>
+<p>但是，如果今天我們將歌詞改為&quot;兩隻兔子&quot;，我們很快就會得到完全不同的回答。這類 Prompt 的強度就很明顯相對較弱：</p>
+<img src="https://hackmd.io/_uploads/By_m3sWY2.png" alt="" height="50%" width="50%">
+<h2>Prompt Patterns</h2>
+<p>就我的個人觀點，Prompt Pattern 就像是程式語言中常見的設計模式 Design Pattern。在初期，並沒有這些模式存在，但隨著大家經驗的積累，一些被認為普遍好用的 Pattern 就被大家所接受，並逐漸形成並流傳</p>
+<p>使用 Pattern 的好處在於省去一些思考的時間。我們可以從人們累積的這些模式中找到剛好可以解決目前問題的那一種，並直接套用。這種方式通常比我們自己憑空思考更為節省時間，且效果也往往更好。</p>
+<p>以下就一一介紹課程中提到的 pattern</p>
+<h3>Persona Pattern</h3>
+<p>在日常生活中，當我們遇到某些問題時，可能會想尋求專家或具有某種特殊技能的人的意見。這時候 Persona Pattern 就非常適用。</p>
+<p>我們會要求 ChatGPT 扮演這個角色，然後向它提問，像是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Act as a kubernetes expert.</span><br><span class="line">Explain what is kubernetes to me.</span><br></pre></td></tr></table></figure>
+<p>使用時，不要被你的想像力所限制，你可以要求它扮演動物甚至是電腦程式:</p>
+<p><img src="https://hackmd.io/_uploads/Hk4kGBNY3.png" alt=""></p>
+<p>網路上甚至也有整理 <a href="https://domyweb.org/chatgpt/" target="_blank" rel="noopener">各種職業的詠唱法</a></p>
+<h3>Prompt Question Refinement Pattern</h3>
+<p>由於我們不知道大型語言模型 (LLM) 是如何被訓練的，因此我們很容易提出一個問題，卻未能得到期望的答案。在這種情況下，我們可以用一個較為廣泛的問題，請求它幫我們精煉出一個更好的問法，從而得到我們想要的結果。</p>
+<p>如果懶得把他生出來的問題再複製貼上去問他，可以加上 <code>Prompt me if I would like to use the better version instead</code></p>
+<p>我的使用範例：<br>
+<img src="https://hackmd.io/_uploads/H1rTPBEY3.png" alt=""></p>
+<h3>Cognitive Verifier Pattern</h3>
+<p>使用此 pattern 的目的是讓 ChatGPT 在被問問題時，會自己提出更多細節的問題，以便能更精確地回答問題。</p>
+<p>在我的想像中，這可以作為我們思考問題時進行 brainstorming 的工具。</p>
+<p>我的使用範例：<br>
+<img src="https://hackmd.io/_uploads/Hy7Sor4Yh.png" alt=""></p>
+<h3>Audience Persona Pattern</h3>
+<p>之前提到過 Persona Pattern ，那是請 ChatGPT 扮演一個角色。</p>
+<p>而這種模式則相反，是將自己塑造成一個指定的角色，然後請 ChatGPT 根據這個角色的特性來調整其回應。</p>
+<p>像是把自己塑造成中二生：<br>
+<img src="https://hackmd.io/_uploads/Synv3BNY3.png" alt=""></p>
+<h3>Prompt Flipped Interaction Pattern</h3>
+<p>在大部分情況下，我們問，而 ChatGPT 回答。然而，這個 pattern 的操作方式則是讓 ChatGPT 持續提問，直到它認為它可以回答這個問題為止。</p>
+<p>這個 pattern 跟 Prompt Cognitive Verifier Pattern 的差異在於，這個 pattern 中， ChatGPT 會不斷提問直到他有辦法回答，而 Prompt Cognitive Verifier Pattern 則是一開始就給你他想額外知道的細節的答案，知道了這些他就有辦法回答你的問題，兩者稍有不同</p>
+<p>比方說請他幫忙診斷網路問題：<br>
+<img src="https://hackmd.io/_uploads/S1D7RrNYn.png" alt=""></p>
+<h3>Few Shot Example Pattern</h3>
+<p>Few Shot Example Pattern 是根據之前提到的 LLM 的特性：LLM 會嘗試透過其回答使我們提供的提示變得完整。</p>
+<p>在此 pattern 中，我們會給 ChatGPT 許多相似的例子，這些例子有一定的規則可以遵循。換句話說，我們是在用我們訂定的規則來教它，像是：</p>
+<img src="https://hackmd.io/_uploads/rJd6ggvK3.png" alt="" height="50%" width="50%">
+<p>有了這樣的規則，也可以讓它自由發想：</p>
+<img src="https://hackmd.io/_uploads/H1IQZxvth.png" alt="" height="50%" width="50%">
+<p>使用這個 pattern 時需要注意，必須給予ChatGPT足夠的資訊量，才能得到我們想要的答案。例如在下面的例子中，如果我們要的是物體的軟硬度，則可以將 “Output” 改為 “surface feeling” 這種字眼，或者給予更多範例讓它知道我們只在乎物體的軟硬度。</p>
+<img src="https://hackmd.io/_uploads/SJ89WlPY2.png" alt="" height="50%" width="50%">
+<h3>Chain of Thoughts Pattern</h3>
+<p>這 pattern 可以視為 Few Shot Example Template 的變形，在此 pattern 中，我們會主動提供幾個思考問題的邏輯給 ChatGPT，然後要求它回答另一個問題。</p>
+<p>這個 pattern 的用途在於，ChatGPT 有時會回答出一些錯誤的答案（尤其在數學問題方面），如果讓它將中間的思考邏輯表達出來，當它的中間邏輯正確時，最後的答案更可能是正確的。</p>
+<p>然而，我個人覺得這個 pattern 似乎較少用武之地。加上現在 ChatGPT 已經被訓練得更聰明，因此很少有需要使用此 pattern 的場合。</p>
+<p>提供課程上的 prompt 做為參考:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Q: I have four bike racers start a race and travel an average of 30mph. They each race for 2hrs. Is the total number of miles ridden by all riders greater than 200?</span><br><span class="line">A: Reasoning - Each rider will ride 30mph x 2hrs = 60 miles. I have four riders. Therefor, the total number of miles ridden by the ridders is 4 x 60 miles = 240 miles. Answer- Yes</span><br><span class="line"></span><br><span class="line">Q: Iam in a space ship without gravity. I have a cup with a needle in it. I move my foot on the bed, knocking over the cup onto the floor. I lift a book up and put it on a desk. Is anything on the floor?</span><br><span class="line">A: Reasoning - &lt;REASONING&gt; Answer - &lt;ANSWER&gt;</span><br></pre></td></tr></table></figure>
+<h3>ReAct Pattern</h3>
+<p>ReAct Pattern 可以看作是 Chain of Thoughts Pattern 的一種變形</p>
+<p>其使用方式是透過一系列的原因（reason）和行動（action）來讓ChatGPT知道它可以使用外部工具來達成目標。</p>
+<p>當它獲得了外部工具提供的資訊後，就可以繼續進行下一步驟。</p>
+<p>然而，這種方法通常需要插件 (plugin) 或是透過讓 ChatGPT 使用自己寫的外部程式，才能發揮最大效益。例如，目前很多人在使用的 <a href="https://python.langchain.com/docs/get_started/introduction.html" target="_blank" rel="noopener">LangChain</a> 據我所知就是使用 ReAct pattern 來寫 prompt。</p>
+<h3>Gameplay Pattern</h3>
+<p>使用遊戲來學習通常可以讓學習效率提升，我們也可以利用這點透過 ChatGPT 進行學習。我們可以給 ChatGPT 一個我們想要學習的主題，並請他設計遊戲給我們。</p>
+<p>這個 pattern 有點像是前面提到的 Flipped Interaction Pattern 的變形，同樣也是由 ChatGPT 提問，我們來回答，但這次更進一步需要 ChatGPT 幫忙想出一個遊戲跟這個遊戲的規則出來</p>
+<p>像是透過 ChatGPT 學習 SQL 語法：<br>
+<img src="https://hackmd.io/_uploads/H1tHiTvK2.png" alt=""><br>
+<img src="https://hackmd.io/_uploads/rk9UsaPtn.png" alt=""></p>
+<h3>Template Pattern</h3>
+<p>Template Pattern 就是讓 ChatGPT 按照你想要的格式去回答，因此需要主動給他一個 template，請他按照這個格式去回答</p>
+<p>通常會給 ChatGPT 一些 placeholders 請他替換掉。但提供 placeholders 的時候要注意最好是有意義的文字，而不是單純的 placeholder</p>
+<p>比方說下面這兩個例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">### Summary: &lt;ONE SENTENCE SUMMARY&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">### Summary: &lt;OUTPUT&gt;</span><br></pre></td></tr></table></figure>
+<p>ChatGPT 可以明顯從 ONE SENTENCE SUMMARY 知道他產生的內容被限定在一個句子的長度</p>
+<p>像是請他按照我要的格式去寫規劃的行程：<br>
+<img src="https://hackmd.io/_uploads/rJnD1AwFh.png" alt=""><br>
+<img src="https://hackmd.io/_uploads/SkAd1CDt3.png" alt=""><br>
+（為什麼他說的好像去北韓旅遊是一件很普通的事情 XD）</p>
+<h3>Metalanguage Creation Pattern</h3>
+<p>Meta Language 通常被用於特定的交流情境。例如消防員在使用對講機通報情況時，由於狀況緊急，他們可能會使用特定的術語，來簡短且精確地傳達信息。</p>
+<p>另一個例子是，我們可能希望用更簡短的方式與 ChatGPT 交流，因此會創造一些新的表達方式。</p>
+<p>這個 Pattern 可以用來教 ChatGPT 學習和理解這些特定的表達方式。這個 pattern 與 Few-Shot Example Pattern 類似，因為它也是通過提供一些範例，讓 LLM 學習和理解新的規則</p>
+<p>範例：做出另一個表達旅遊地點跟天數的語法</p>
+<p><img src="https://hackmd.io/_uploads/HyD7NAwt2.png" alt=""><br>
+<img src="https://hackmd.io/_uploads/SJ4NV0wtn.png" alt=""></p>
+<h3>Recipe Pattern</h3>
+<p>有時候我們知道一個問題的部分答案，這時候可以給 ChatGPT 知道的資訊，要求他把這些資訊拼湊出來變成完整的答案，這樣的方式即 Recipe Pattern</p>
+<p>下面的範例中，我只知道我開車的起點跟終點，還有必須經過哪些中繼站，加上必須達成的條件，請他規劃完整的旅程：<br>
+<img src="https://hackmd.io/_uploads/rkTJUAvt2.png" alt=""></p>
+<h3>Prompt Alternative Approaches Pattern</h3>
+<p>我們可以請 ChatGPT 提供多種不同方法或策略。這可以幫助我們思考，並可能找到最好的解決方案，就像有人在幫忙做 brain strom 一樣。</p>
+<p>像是可以利用這個 pattern 來幫忙想出更好的 prompt:<br>
+<img src="https://hackmd.io/_uploads/HkV2oCPKn.png" alt=""><br>
+<img src="https://hackmd.io/_uploads/SyvajCvK2.png" alt=""></p>
+<h3>Ask for input pattern</h3>
+<p>這個 pattern 與其說是 pattern 更像是一個小技巧</p>
+<p>我們有時候會遇到一種情況：只想讓 ChatGPT 聽完描述，而不做任何回應。但通常 ChatGPT 會過於主動，產生了一些我們不需要的內容。為了解決這種情況，我們可以利用 Ask for Input Pattern 來控制他的行為。</p>
+<p>具體來說，我們只需要在 Prompt 最後加上 <code>Ask me for the first task/question</code> 就可以達到目的</p>
+<p>以上一個例子來改寫的話，就會像下面這樣：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">For every prompt I give you, If there are alternative ways to word a prompt that I give you, list the best alternate wordings . Compare/contrast the pros and cons of each wording.</span><br><span class="line"></span><br><span class="line">Ask me for the first prompt</span><br></pre></td></tr></table></figure>
+<h3>Prompt Outline Expansion pattern</h3>
+<p>這個 pattern 主要適用於需要寫文章、書籍或簡報大綱的時候。</p>
+<p>我們可以提供需要介紹的主題，然後讓 ChatGPT 來構思大綱。接著，又可以要求 ChatGPT 對其中幾點產生具體的內容。</p>
+<p>如果對 ChatGPT 生成的大綱不滿意，也可以自己修改過後，請他針對新版本的內容更新細節</p>
+<p>可能有人會問，為什麼不直接讓 ChatGPT 生成所有內容再進行總結？</p>
+<p>主要是因為 ChatGPT 仍然存在輸入和輸出的限制。它無法直接一次輸出一本書的內容，同樣也不能一次處理超過太大量的文字內容。因此，我們需要一種方法來分段處理，但同時又能將所有的片段組合在一起。</p>
+<p>如果今天我想做一個介紹 Kubernetes 的簡報，我可能會這樣做：<br>
+<img src="https://hackmd.io/_uploads/Bys_gyOF3.png" alt=""><br>
+<img src="https://hackmd.io/_uploads/ByqKxJuFn.png" alt=""><br>
+<img src="https://hackmd.io/_uploads/r12qe1dK2.png" alt=""></p>
+<h3>Menus Actions Pattern</h3>
+<p>當我們需要重複 prompt 某一段話，來讓 ChatGPT 執行特定行為的話，可以考慮使用 Menu Action Pattern。這個 Pattern 將常用的 prompt 轉變成一種術語，將 ChatGPT 塑造成一個能理解這些術語的程式。</p>
+<p>除此之外，如果要打造自動客服系統，我們可以把 Menu Actions Pattern 放置在 Root Prompt。比起讓客戶自由發問，限制客戶的問題必須在這些選項內可能會更能達到我們想要的效果，並提供更精確的回答。</p>
+<p>這個 pattern 有點像是前面提到的 Prompt meta language creation pattern，目的都是要讓 ChatGPT 理解某種術語</p>
+<p>比方說可以把 ChatGPT 塑造成一個管理 todo list 的小程式：<br>
+<img src="https://hackmd.io/_uploads/By6sfydF3.png" alt=""><br>
+<img src="https://hackmd.io/_uploads/HkMAzJdt3.png" alt=""></p>
+<h3>Fact Check Pattern</h3>
+<p>ChatGPT 常被詬病的回答的答案不正確。但實際上 ChatGPT 的主要功能是生成文字，因此，對於其回答的正確性，我們或許不能過於苛求。</p>
+<p>儘管如此，我們有一種工具可以用來輔助我們的判斷，就是 Fact Check Pattern</p>
+<p>這個 pattern 的概念是：我們讓 ChatGPT 生成內容時，我們也可以同時要求它列出這個回答是基於哪些事實或資訊來給出的。</p>
+<p>如果我們檢查這些內容，並發現其中有錯誤的論述，那麼上述生成的內容很可能是錯誤的。</p>
+<p>這些論述可以被視為我們需要至少驗證的事實。更重要的是，這種模式可以幫助我們進入一個思考內容正確性的模式。如果我們更謹慎對比這些論述和內容，雖然可能仍然難以避免某些錯誤，但可以降低錯誤發生的機率。</p>
+<p>以下面的例子來說，我就可以果斷判斷上面的內容不需要理解，因為第五點就明顯跟官方文件提到的不吻合：</p>
+<p><img src="https://hackmd.io/_uploads/SJBX8JOYh.png" alt=""><br>
+<img src="https://hackmd.io/_uploads/HkEELJ_F3.png" alt=""><br>
+<img src="https://hackmd.io/_uploads/rJ648JOFn.png" alt=""></p>
+<h3>Tail Generation Pattern</h3>
+<p>當在設定一個規則的前提下與 ChatGPT 溝通，隨著對話內容增加，ChatGPT 有時會忘記一開始設定的規則。</p>
+<p>這時 Tail Generation Pattern 就非常適合使用，簡單來說，就是讓 ChatGPT 在回答的最後復述一次這個條件或提醒他不要忘記的事項。</p>
+<p>因為 ChatGPT 不斷提醒自己這些規則，有助於確保他會持續遵循這些指示</p>
+<p>以前面 Outline Expander Pattern 的例子做說明，可以像這樣修改  prompt:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Act as an outline expander. Generate a bullet point outline based on the input that I give you and then ask me for which bullet point you should expand on. Create a new outline for the bullet point that I select.</span><br><span class="line">At the end, ask me for what bullet point to expand next. Ask me for what to outline.</span><br></pre></td></tr></table></figure>
+<h3>Semantic Filter Pattern</h3>
+<p>我們可以利用 LLM 的語言分析能力，從一段內容中提取我們需要的資訊，或將不需要的資訊剔除。</p>
+<p>比方說，當提供一段資料時，我們希望能將可能識別出某人身份的敏感資訊移除：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Filter the following information to remove any personally identifying information or information that could potentially be used to re-identify the person.</span><br></pre></td></tr></table></figure>
+<h2>Summary</h2>
+<p>完成這堂課之後，讓我對 prompt 有了更深的認識，並且理解到要有效運用 ChatGPT 這類工具，真的會需要一定程度的想像力與大量的練習</p>
+<p>在練習的過程中，我比較不習慣的部分是大量的閱讀和打字，尤其在 ChatGPT 使用英文的效果遠勝於中文的情況下，需要大量閱讀英文和輸出英文句子，這讓我無法迅速反應。</p>
+<p>目前 Large Language Model 的發展還在初期的階段，我期待它能讓我們的生活更便利。同時，我也希望能追上這股潮流，而不是成為那群無法跟上時代步伐，被取而代之的人。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/2023-10-24-Write_Technical_document/" data-toggle="tooltip" data-placement="top" title="如何撰寫前期規劃技術文件">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/2023-06-29-Identity_Authentication_and_Permission_Management_Strategies_in_AWS_EKS/" data-toggle="tooltip" data-placement="top" title="AWS EKS 中的身份驗證與權限管理策略">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Introduction</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Outline</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">什麼是 Prompt</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Root Prompt</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Prompt 的強度</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">Prompt Patterns</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.1.</span> <span class="toc-nav-text">Persona Pattern</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.2.</span> <span class="toc-nav-text">Prompt Question Refinement Pattern</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.3.</span> <span class="toc-nav-text">Cognitive Verifier Pattern</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.4.</span> <span class="toc-nav-text">Audience Persona Pattern</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.5.</span> <span class="toc-nav-text">Prompt Flipped Interaction Pattern</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.6.</span> <span class="toc-nav-text">Few Shot Example Pattern</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.7.</span> <span class="toc-nav-text">Chain of Thoughts Pattern</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.8.</span> <span class="toc-nav-text">ReAct Pattern</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.9.</span> <span class="toc-nav-text">Gameplay Pattern</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.10.</span> <span class="toc-nav-text">Template Pattern</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.11.</span> <span class="toc-nav-text">Metalanguage Creation Pattern</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.12.</span> <span class="toc-nav-text">Recipe Pattern</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.13.</span> <span class="toc-nav-text">Prompt Alternative Approaches Pattern</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.14.</span> <span class="toc-nav-text">Ask for input pattern</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.15.</span> <span class="toc-nav-text">Prompt Outline Expansion pattern</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.16.</span> <span class="toc-nav-text">Menus Actions Pattern</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.17.</span> <span class="toc-nav-text">Fact Check Pattern</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.18.</span> <span class="toc-nav-text">Tail Generation Pattern</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.19.</span> <span class="toc-nav-text">Semantic Filter Pattern</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">Summary</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#AI" title="AI">AI</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+                    
+                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+                    
+                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/qoosuperman">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Anthony Chao 2026 
+                    <br>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-153986590-1';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

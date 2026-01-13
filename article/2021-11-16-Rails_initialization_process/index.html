@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
+    <meta name="keyword" content="">
+    <meta property="og:image" content="undefined">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>
+        
+          Rails initialization process - Anthony Chao | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2021-11-16-Rails_initialization_process/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://images.unsplash.com/photo-1515185738552-8916b6859d72?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1770&amp;q=80')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Rails" title="Rails">Rails</a>
+                            
+                              <a class="tag" href="/tags/#Ruby" title="Ruby">Ruby</a>
+                            
+                        </div>
+                        <h1>Rails initialization process</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Anthony Chao on
+                            2021-11-16
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Anthony Chao</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1>Intro</h1>
+<p>其實整篇文章，差不多就是 Rails Guide 的翻譯，但要跟著看過一次其實也不是件容易的事，但因為滿想知道啟動過程的，所以就跟著介紹走了一次流程</p>
+<p>先說聲抱歉，寫的滿亂的，真的有興趣的還是建議直接看 Rails Guide 可能比較有條理，這篇偏向給自己看的</p>
+<p>其中如果有些沒有在 Rails guide 看到，就是我自己爬到或者去看其他文章的</p>
+<h2>Files order</h2>
+<p>這裡大致列上啟動過程中 load 檔案的順序</p>
+<ul>
+<li>bin/rails</li>
+<li>config/boot.rb</li>
+<li>rails/commands.rb</li>
+<li>rails/command.rb(source code)</li>
+<li>actionpack/lib/action_dispatch.rb</li>
+<li>rails/commands/server/server_command.rb</li>
+<li>config/application.rb</li>
+<li>Rails::Server#start</li>
+<li><a href="http://config.ru" target="_blank" rel="noopener">config.ru</a></li>
+<li>config/environment.rb</li>
+<li>config/application.rb</li>
+<li>railties/lib/rails/application.rb</li>
+<li>lib/rack/server.rb</li>
+</ul>
+<h2>Process</h2>
+<p>首先我們通常都用 rails 這指令開始，所以從 <code>bin/rails</code> 這個檔案開始</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># bin/rails</span></span><br><span class="line"><span class="comment">#!/usr/bin/env ruby</span></span><br><span class="line">APP_PATH = File.expand_path(<span class="string">'../config/application'</span>, __dir_<span class="number">_</span>)</span><br><span class="line">require_relative <span class="string">"../config/boot"</span></span><br><span class="line"><span class="keyword">require</span> <span class="string">"rails/commands"</span></span><br></pre></td></tr></table></figure>
+<p>其中 <code>APP_PATH</code> 等等在 rails/command 會用到</p>
+<p>接著是 require <code>config/boot</code> 這檔案</p>
+<hr>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#config/boot.rb</span></span><br><span class="line">ENV[<span class="string">'BUNDLE_GEMFILE'</span>] <span class="params">||</span>= File.expand_path(<span class="string">'../Gemfile'</span>, __dir_<span class="number">_</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">require</span> <span class="string">"bundler/setup"</span> <span class="comment"># Set up gems listed in the Gemfile.</span></span><br></pre></td></tr></table></figure>
+<p>Bundler 負責確保你可以找到 Gemfile 裡面的所有 gems</p>
+<p>下面那一行讓所有你寫在 Gemfile 裡面的 gem 可以在 ruby code 裡面使用</p>
+<hr>
+<p>接著要回來看 <code>rails/commands.rb</code> 這檔案</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># rails/commands.rb</span></span><br><span class="line"><span class="keyword">require</span> <span class="string">"rails/command"</span></span><br><span class="line"></span><br><span class="line">aliases = &#123;</span><br><span class="line">  <span class="string">"g"</span>  =&gt; <span class="string">"generate"</span>,</span><br><span class="line">  <span class="string">"d"</span>  =&gt; <span class="string">"destroy"</span>,</span><br><span class="line">  <span class="string">"c"</span>  =&gt; <span class="string">"console"</span>,</span><br><span class="line">  <span class="string">"s"</span>  =&gt; <span class="string">"server"</span>,</span><br><span class="line">  <span class="string">"db"</span> =&gt; <span class="string">"dbconsole"</span>,</span><br><span class="line">  <span class="string">"r"</span>  =&gt; <span class="string">"runner"</span>,</span><br><span class="line">  <span class="string">"t"</span>  =&gt; <span class="string">"test"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">command = ARGV.shift</span><br><span class="line">command = aliases[command] <span class="params">||</span> command</span><br><span class="line"></span><br><span class="line">Rails::Command.invoke command, ARGV</span><br></pre></td></tr></table></figure>
+<hr>
+<p>最後是用 <code>Rails::Command</code> invoke，來看看這裡的 code(有精簡過)</p>
+<p>如果找不到這個 command 會試圖丟給 rake 執行</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Rails</span></span></span><br><span class="line">  <span class="class"><span class="keyword">module</span> <span class="title">Command</span></span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> &lt;&lt; self</span></span><br><span class="line">                 <span class="comment"># full_namespace = 'server'</span></span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">invoke</span><span class="params">(full_namespace, args = [], **config)</span></span></span><br><span class="line">        namespace = full_namespace = full_namespace.to_s</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> char = namespace =~ <span class="regexp">/:(\w+)$/</span></span><br><span class="line">          command_name, namespace = $1, namespace.slice(<span class="number">0</span>, char)</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">          command_name = namespace</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">        command_name, namespace = <span class="string">"help"</span>, <span class="string">"help"</span> <span class="keyword">if</span> command_name.blank? <span class="params">||</span> HELP_MAPPINGS.<span class="keyword">include</span>?(command_name)</span><br><span class="line">        command_name, namespace = <span class="string">"version"</span>, <span class="string">"version"</span> <span class="keyword">if</span> <span class="string">%w( -v --version )</span>.<span class="keyword">include</span>?(command_name)</span><br><span class="line"></span><br><span class="line">        command = find_by_namespace(namespace, command_name)</span><br><span class="line">        <span class="keyword">if</span> command &amp;&amp; command.all_commands[command_name]</span><br><span class="line">          command.perform(command_name, args, config) <span class="comment"># =&gt; 有找到會在這邊執行 </span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">          find_by_namespace(<span class="string">"rake"</span>).perform(full_namespace, args, config) <span class="comment"># =&gt; 找不到 command 會丟給 rake 執行</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>如果 run 的是 rails server 會跑下面的 code</p>
+<p>這段 code 還有 load action_dispatch，在這裡會把 Routing / Session 等等 modules 跟一些 middleware 讀進來</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># railties/lib/rails/commands/server/server_command.rb</span></span><br><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Rails</span></span></span><br><span class="line">  <span class="class"><span class="keyword">module</span> <span class="title">Command</span></span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">ServerCommand</span> &lt; Base <span class="comment"># :nodoc:</span></span></span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">perform</span></span></span><br><span class="line">        extract_environment_option_from_argument  <span class="comment"># &lt;= 把丟進來的參數抽成 env var</span></span><br><span class="line">        set_application_directory!                <span class="comment"># 如果沒有 config.ru 這個檔案，就去 APP_PATH 的上上層啟動 server，讓我們不管在哪個路徑都可以啟動 server</span></span><br><span class="line">        prepare_restart                           <span class="comment"># &lt;= 這步只是把 pid file 移除</span></span><br><span class="line"></span><br><span class="line">        Rails::Server.new(server_options).tap <span class="keyword">do</span> <span class="params">|server|</span></span><br><span class="line">          <span class="comment"># Require application after server sets environment to propagate</span></span><br><span class="line">          <span class="comment"># the --environment option.</span></span><br><span class="line">          <span class="keyword">require</span> APP_PATH                        <span class="comment"># default 是 config/application</span></span><br><span class="line">          Dir.chdir(Rails.application.root)</span><br><span class="line"></span><br><span class="line">          <span class="keyword">if</span> server.serveable?</span><br><span class="line">            print_boot_information(server.server, server.served_url)</span><br><span class="line">            after_stop_callback = -&gt; &#123; say <span class="string">"Exiting"</span> <span class="keyword">unless</span> options[<span class="symbol">:daemon</span>] &#125;</span><br><span class="line">            server.start(after_stop_callback)     <span class="comment"># &lt;= 啟動 server</span></span><br><span class="line">          <span class="keyword">else</span></span><br><span class="line">            say rack_server_suggestion(using)</span><br><span class="line">          <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這裡的 server_options 裡面包括 port / host /config / environment 等等常見的 variable</p>
+<p>Rails::Server 寫在同一個地方，這裡有去 call <code>::Rack::Server</code> 的 initialize，但那裡面也只是設定其他的一些 variable</p>
+<p><code>::Rack::Server</code> 主要負責提供一個 common interface 給所有的 Rack-based application 使用</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># railties/lib/rails/commands/server/server_command.rb</span></span><br><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Rails</span></span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Server</span> &lt; ::<span class="title">Rack::Server</span></span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">initialize</span><span class="params">(options = <span class="literal">nil</span>)</span></span></span><br><span class="line">      @default_options = options <span class="params">||</span> &#123;&#125;</span><br><span class="line">      <span class="keyword">super</span>(@default_options)</span><br><span class="line">      set_environment <span class="comment"># ENV["RAILS_ENV"] ||= options[:environment]</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<hr>
+<p>回到前面的內容</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Rails::Server.new(server_options).tap <span class="keyword">do</span> <span class="params">|server|</span></span><br><span class="line">  <span class="comment"># Require application after server sets environment to propagate</span></span><br><span class="line">  <span class="comment"># the --environment option.</span></span><br><span class="line">  <span class="keyword">require</span> APP_PATH                        <span class="comment"># default 是 config/application</span></span><br><span class="line">  Dir.chdir(Rails.application.root)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> server.serveable?</span><br><span class="line">    print_boot_information(server.server, server.served_url)</span><br><span class="line">    after_stop_callback = -&gt; &#123; say <span class="string">"Exiting"</span> <span class="keyword">unless</span> options[<span class="symbol">:daemon</span>] &#125;</span><br><span class="line">    server.start(after_stop_callback)     <span class="comment"># &lt;= 啟動 server</span></span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    say rack_server_suggestion(using)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>在 new 完之後會去 require <code>APP_PATH</code>，預設是 <code>config/application.rb</code></p>
+<hr>
+<p>在這之後會 call server.start</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Rails</span></span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Server</span> &lt; ::<span class="title">Rack::Server</span></span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">start</span><span class="params">(after_stop_callback = <span class="literal">nil</span>)</span></span></span><br><span class="line">      trap(<span class="symbol">:INT</span>) &#123; exit &#125; <span class="comment"># 如果 ctrl - C 就會 exit process</span></span><br><span class="line">      create_tmp_directories <span class="comment"># 做出 tmp 底下的 cache / pids / sockets 三個 folder</span></span><br><span class="line">      setup_dev_caching <span class="comment"># --dev-caching =&gt; 這參數會 trigger development 環境 cache</span></span><br><span class="line">      log_to_stdout <span class="keyword">if</span> options[<span class="symbol">:log_stdout</span>] <span class="comment"># 這步 wrapped_app 會先 create rack app</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">super</span>()</span><br><span class="line">      <span class="comment"># ...</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    private</span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">setup_dev_caching</span></span></span><br><span class="line">        <span class="keyword">if</span> options[<span class="symbol">:environment</span>] == <span class="string">"development"</span></span><br><span class="line">          Rails::DevCaching.enable_by_argument(options[<span class="symbol">:caching</span>])</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">create_tmp_directories</span></span></span><br><span class="line">        <span class="string">%w(cache pids sockets)</span>.each <span class="keyword">do</span> <span class="params">|dir_to_make|</span></span><br><span class="line">          FileUtils.mkdir_p(File.join(Rails.root, <span class="string">"tmp"</span>, dir_to_make))</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">log_to_stdout</span></span></span><br><span class="line">        wrapped_app <span class="comment"># touch the app so the logger is set up</span></span><br><span class="line"></span><br><span class="line">        console = ActiveSupport::Logger.new(STDOUT)</span><br><span class="line">        console.formatter = Rails.logger.formatter</span><br><span class="line">        console.level = Rails.logger.level</span><br><span class="line"></span><br><span class="line">        <span class="keyword">unless</span> ActiveSupport::Logger.logger_outputs_to?(Rails.logger, STDOUT)</span><br><span class="line">          Rails.logger.extend(ActiveSupport::Logger.broadcast(console))</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>在進 super 之前如果執行 log_to_stdout 會先做出 rack app</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Rack</span></span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Server</span></span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapped_app</span></span></span><br><span class="line">      @wrapped_app <span class="params">||</span>= build_app app</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>首先來看 <code>app</code> 會做什麼事</p>
+<p>在 Rack 裡面這段 code 大致上是下面這樣</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Rack</span></span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Server</span></span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">app</span></span></span><br><span class="line">      @app <span class="params">||</span>= options[<span class="symbol">:builder</span>] ? build_app_from_string : build_app_and_options_from_config</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line"></span><br><span class="line">    private</span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">build_app_and_options_from_config</span></span></span><br><span class="line">        <span class="keyword">if</span> !<span class="symbol">:</span><span class="symbol">:File</span>.exist? options[<span class="symbol">:config</span>] <span class="comment"># options[:config] 的 default 就是 config.ru 這檔案</span></span><br><span class="line">          abort <span class="string">"configuration <span class="subst">#&#123;options[<span class="symbol">:config</span>]&#125;</span> not found"</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">        app, options = Rack::Builder.parse_file(<span class="keyword">self</span>.options[<span class="symbol">:config</span>], opt_parser)</span><br><span class="line">        @options.merge!(options) &#123; <span class="params">|key, old, new|</span> old &#125;</span><br><span class="line">        app</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">build_app_from_string</span></span></span><br><span class="line">        Rack::Builder.new_from_string(<span class="keyword">self</span>.options[<span class="symbol">:builder</span>])</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>其中的 options[:config] 的 default 就是 <code>config.ru</code> 這檔案</p>
+<p>下面又可以知道 <code>Rack::Builder.parse_file(self.options[:config], opt_parser)</code> 第一個回傳值是一個 app instance</p>
+<p>所以就是透過 <a href="http://config.ru" target="_blank" rel="noopener">config.ru</a> 這個檔案為主要起點來 initialize Rails app</p>
+<hr>
+<p><a href="http://config.ru" target="_blank" rel="noopener">config.ru</a> 裡面 deafult 長這樣：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">require_relative <span class="string">"config/environment"</span></span><br><span class="line"></span><br><span class="line">run Rails.application</span><br><span class="line">Rails.application.load_server</span><br></pre></td></tr></table></figure>
+<p>第一行就是 <code>require_relative &quot;config/environment&quot;</code></p>
+<hr>
+<p>如果是用別的 app server 的話，像是 Passenger 也會 require <code>config/environment</code> 這檔案，所以前面實作可能不同，但從這裡開始會是一樣的</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># config/environment.rb</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Load the Rails application.</span></span><br><span class="line">require_relative <span class="string">"application"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Initialize the Rails application.</span></span><br><span class="line">Rails.application.initialize!</span><br></pre></td></tr></table></figure>
+<hr>
+<p>一開始是 require application</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#config/application.rb</span></span><br><span class="line">require_relative <span class="string">"boot"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">require</span> <span class="string">"rails/all"</span></span><br><span class="line">Bundler.<span class="keyword">require</span>(*Rails.groups)</span><br><span class="line"></span><br><span class="line">Dotenv::Railtie.load</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Homework</span></span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Application</span> &lt; Rails::Application</span></span><br><span class="line">    config.load_defaults <span class="number">6.1</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p><code>require_relative &quot;boot&quot;</code> 這一行如果是直接 run <code>rails s</code> 不會有用，因為一開始已經 require 過了，但像是 passenger 這種 app server 沒有 require 過，就會去把 gem require 進來</p>
+<p><code>require &quot;rails/all&quot;</code> 這行會把 rails 的一些 framework 都載進來，也就是真的開始 load Rails 的 code 了</p>
+<hr>
+<p>Rails 真正的核心是 railties</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">"rails"</span></span><br><span class="line"></span><br><span class="line"><span class="string">%w(</span></span><br><span class="line"><span class="string">  active_record/railtie</span></span><br><span class="line"><span class="string">  active_storage/engine</span></span><br><span class="line"><span class="string">  action_controller/railtie</span></span><br><span class="line"><span class="string">  action_view/railtie</span></span><br><span class="line"><span class="string">  action_mailer/railtie</span></span><br><span class="line"><span class="string">  active_job/railtie</span></span><br><span class="line"><span class="string">  action_cable/engine</span></span><br><span class="line"><span class="string">  action_mailbox/engine</span></span><br><span class="line"><span class="string">  action_text/engine</span></span><br><span class="line"><span class="string">  rails/test_unit/railtie</span></span><br><span class="line"><span class="string">  sprockets/railtie</span></span><br><span class="line"><span class="string">)</span>.each <span class="keyword">do</span> <span class="params">|railtie|</span></span><br><span class="line">  <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">require</span> railtie</span><br><span class="line">  <span class="keyword">rescue</span> LoadError</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>Rails engines, I18n and Rails configuration 這些設定都在上面這裡面定義</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># config/application.rb</span></span><br><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">MyApp</span></span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Application</span> &lt; Rails::Application</span></span><br><span class="line">    config.load_defaults <span class="number">6.1</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>剩下的這部分就是看自己有沒有客製定義 Rails::Application 的 configuration ，這部分算是把 Rails load 完跟 application namespace 定義完了</p>
+<hr>
+<p>接著回到 config/environement.rb</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># config/environment.rb</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Load the Rails application.</span></span><br><span class="line">require_relative <span class="string">"application"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Initialize the Rails application.</span></span><br><span class="line">Rails.application.initialize!</span><br></pre></td></tr></table></figure>
+<p>Rails.application.initialize! 這句做了什麼？</p>
+<hr>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># railties/lib/rails/application.rb</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">initialize!</span><span class="params">(group = <span class="symbol">:default</span>)</span></span> <span class="comment">#:nodoc:</span></span><br><span class="line">  raise <span class="string">"Application has been already initialized."</span> <span class="keyword">if</span> @initialized</span><br><span class="line">  run_initializers(group, <span class="keyword">self</span>)</span><br><span class="line">  @initialized = <span class="literal">true</span></span><br><span class="line">  <span class="keyword">self</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># railties/lib/rails/initializable.rb</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run_initializers</span><span class="params">(group = <span class="symbol">:default</span>, *args)</span></span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">if</span> instance_variable_defined?(<span class="symbol">:</span>@ran)</span><br><span class="line">  initializers.tsort_each <span class="keyword">do</span> <span class="params">|initializer|</span></span><br><span class="line">    initializer.run(*args) <span class="keyword">if</span> initializer.belongs_to?(group)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  @ran = <span class="literal">true</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>run_initializers 裡面，會找到所有可以 responsd <code>initializers</code> 這個 method 的 class 的祖先(在 tsort_each 裡面做)</p>
+<p>會把這些祖先按照 name 的順序排列，每個送 <code>run</code> 的 message 給他去執行</p>
+<p>像是 Rails Engine 就會讓所有的 engine 有 initializers 這個 method，所以這些 engine 都會在這時候啟動</p>
+<p>Rails application 有定義 bootstrap, railtie, and finisher initializers:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># railties/lib/rails/application.rb</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">initializers</span> <span class="comment"># :nodoc:</span></span></span><br><span class="line">  Bootstrap.initializers_for(<span class="keyword">self</span>) +</span><br><span class="line">  railties_initializers(<span class="keyword">super</span>) +</span><br><span class="line">  Finisher.initializers_for(<span class="keyword">self</span>)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>Bootstrap 這邊是 prepare 用的，像是準備 logger</p>
+<p>finisher 可能會做一些像是 build middeleware stack 的事情，我們在 initializer 裡面有時候會用到 <code>to_prepare</code> 的 block，這也是在這一部執行</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># railties/lib/rails/application/finisher.rb</span></span><br><span class="line">initializer <span class="symbol">:add_to_prepare_blocks</span> <span class="keyword">do</span> <span class="params">|app|</span></span><br><span class="line">  config.to_prepare_blocks.each <span class="keyword">do</span> <span class="params">|block|</span></span><br><span class="line">    app.reloader.to_prepare(&amp;block)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>要特別注意這裡的 initailizer 並不是我們寫在 <code>config/initiailizers</code> 裡面的那些！</p>
+<p>剛剛都在 server.start 裡面的步驟，終於把寫的 config parse 結束，回到 start 剩下的步驟</p>
+<hr>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Rails</span></span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Server</span> &lt; ::<span class="title">Rack::Server</span></span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">start</span><span class="params">(after_stop_callback = <span class="literal">nil</span>)</span></span></span><br><span class="line">      trap(<span class="symbol">:INT</span>) &#123; exit &#125;</span><br><span class="line">      create_tmp_directories</span><br><span class="line">      setup_dev_caching</span><br><span class="line">      log_to_stdout <span class="keyword">if</span> options[<span class="symbol">:log_stdout</span>] <span class="comment"># &lt;= 剛剛都在這其中有一步是 parse file</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">super</span>() <span class="comment"># &lt;= 現在要來這</span></span><br><span class="line">      <span class="comment"># ...</span></span><br><span class="line">    <span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>Rack Server start 最後一步<br>
+<code>server.run wrapped_app, options, &amp;blk</code></p>
+<p><code>wrapped_app</code> 會 call <code>build_app</code></p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Rack</span></span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Server</span></span></span><br><span class="line">    private</span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">build_app</span><span class="params">(app)</span></span></span><br><span class="line">        middleware[options[<span class="symbol">:environment</span>]].reverse_each <span class="keyword">do</span> <span class="params">|middleware|</span></span><br><span class="line">          middleware = middleware.call(<span class="keyword">self</span>) <span class="keyword">if</span> middleware.respond_to?(<span class="symbol">:call</span>)</span><br><span class="line">          <span class="keyword">next</span> <span class="keyword">unless</span> middleware</span><br><span class="line">          klass, *args = middleware</span><br><span class="line">          app = klass.new(app, *args)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        app</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>在這一步 Rack call 所有的 middlewares</p>
+<p>接著 server 怎麼 run 就要根據不同 server 的實作，像是 puma / passenger 會做得不一樣</p>
+<h2>References</h2>
+<p><a href="https://guides.rubyonrails.org/initialization.html" target="_blank" rel="noopener">Rails guide</a><br>
+<a href="https://bundler.io/v1.12/bundler_setup.html" target="_blank" rel="noopener">Bundler docs</a><br>
+<a href="https://ithelp.ithome.com.tw/articles/10238693" target="_blank" rel="noopener">鐵人賽文章</a></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/2021-11-28-Apps_Script_Intro/" data-toggle="tooltip" data-placement="top" title="Apps Script Intro">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/2021-11-9-Synopsis_of_Responsible_for_Rails/" data-toggle="tooltip" data-placement="top" title="Synopsis of Responsible Rails">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Intro</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Files order</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">Process</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">References</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Rails" title="Rails">Rails</a>
+                        
+                          <a class="tag" href="/tags/#Ruby" title="Ruby">Ruby</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+                    
+                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+                    
+                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/qoosuperman">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Anthony Chao 2026 
+                    <br>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-153986590-1';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
+    <meta name="keyword" content="">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1655694774003-69c69d7ee5bb?q=80&amp;w=2370&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>
+        
+          CircleCI Dynamic Config 介紹 - Anthony Chao | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2024-12-17-CircleCI Dynamic Config 介紹/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://images.unsplash.com/photo-1655694774003-69c69d7ee5bb?q=80&amp;w=2370&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Devops" title="Devops">Devops</a>
+                            
+                        </div>
+                        <h1>CircleCI Dynamic Config 介紹</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Anthony Chao on
+                            2024-12-17
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Anthony Chao</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>最近因為工作需要，接觸了 CircleCI 的 <a href="https://circleci.com/docs/dynamic-config/" target="_blank" rel="noopener">Dynamic Config</a> 功能，使用之後覺得這個功能既強大又非常的有幫助，所以想來好好介紹一下。</p>
+<p>以下會介紹一下這個功能，透過範例來說明他解決了什麼問題，以及我的使用案例跟心得。</p>
+<h2>什麼是 Dynamic Config？</h2>
+<p>簡單來說，Dynamic Config 是透過 <code>.circleci/config.yml</code> 定義的流程（workflows），動態決定接下來的流程，官方稱一開始的設定為 “setup configuration”，而接下來動態產生的設定為 “dynamic configuration”。</p>
+<p>下一個流程的配置（dynamic configuration）可以是事先準備好的檔案內容，也可以是動態產生的設定。</p>
+<p>實際上在一開始的流程中，會產生一個 <code>CIRCLE_CONTINUATION_KEY</code> 的環境變數，用它來打 <a href="https://circleci.com/docs/api/v2/index.html#tag/Pipeline/operation/listPipelines" target="_blank" rel="noopener">Continue a pipeline API</a> 來繼續下個流程（<a href="https://circleci.com/docs/dynamic-config/#how-dynamic-config-works" target="_blank" rel="noopener">ref</a>），但實際上使用的時候並不用知道這些，只需要知道如何使用他們提供的 orb 來完成這些事情即可。</p>
+<h2>Dynamic Config 功能解決了什麼問題？</h2>
+<p>在一般的 CircleCI 使用情境中，我們會在 <code>.circleci/config.yml</code> 中定義自動化流程，在 <a href="https://circleci.com/docs/workflows/#workflows-configuration-examples" target="_blank" rel="noopener">官方文件</a> 中可以看到很多範例</p>
+<p>然而，當流程變得複雜時，就會遇到以下問題：</p>
+<ul>
+<li>流程過於複雜，難以理解。</li>
+<li>所有組件（commands、jobs、workflows）都必須寫在同一個檔案中，導致文件難以閱讀和維護。</li>
+<li>當前後端同時存在於一個專案中，無法根據變動的檔案動態選擇要執行的流程。</li>
+</ul>
+<p>而這些問題都可以透過 Dynamic Config 來解決，以下是一些來自 <a href="https://circleci.com/docs/using-dynamic-configuration/" target="_blank" rel="noopener">官方文件</a> 的範例。</p>
+<h2>範例</h2>
+<h3>動態產生下個流程的 YAML 配置檔案</h3>
+<p>在這個範例中，setup configuration 裡面定義的流程會產生 <code>generated_config.yml</code> 這個檔案，而下個流程就會根據這個檔案來執行，這表示 Dynamic Config 支援憑空生成的配置檔案作為後續的 workflow 設定。</p>
+<p>這裡使用到的 <code>circleci/continuation@1</code> 是一個 Dynamic Config 常常會用到的重要 orb（相當於 CircleCI 中的「套件」），透過它可以方便地串接下一個設定檔。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># .circleci/config.yml</span></span><br><span class="line"><span class="attr">version:</span> <span class="number">2.1</span></span><br><span class="line"><span class="attr">setup:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">orbs:</span></span><br><span class="line">  <span class="attr">continuation:</span> <span class="string">circleci/continuation@1</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">setup:</span></span><br><span class="line">    <span class="attr">executor:</span> <span class="string">continuation/default</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">checkout</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">run:</span> <span class="comment"># run command to run script to generate YAML config</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">Generate</span> <span class="string">config</span></span><br><span class="line">          <span class="attr">command:</span> <span class="string">|</span></span><br><span class="line">            <span class="string">./generate-config</span> <span class="string">&gt;</span> <span class="string">generated_config.yml</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">continuation/continue:</span></span><br><span class="line">          <span class="attr">configuration_path:</span> <span class="string">generated_config.yml</span> <span class="comment"># use newly generated config to continue the pipeline</span></span><br><span class="line"></span><br><span class="line"><span class="attr">workflows:</span></span><br><span class="line">  <span class="attr">my-setup-workflow:</span></span><br><span class="line">    <span class="attr">jobs:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">setup</span></span><br></pre></td></tr></table></figure>
+<h3>根據檔案變動決定要執行的流程</h3>
+<p>在這個範例中，<code>.circleci/config.yml</code> 中定義的 workflow 執行完成後，產生一些參數，根據 <code>.circleci/continue_config.yml</code> 啟動並傳遞參數給下一個 workflow。</p>
+<p>這裡使用了 <a href="https://circleci.com/developer/orbs/orb/circleci/path-filtering" target="_blank" rel="noopener">circleci/path-filtering</a> orb，它能根據檔案變動設置 pipeline 參數，進而動態選擇執行的 workflow。</p>
+<p>例如：</p>
+<ul>
+<li>若 <code>service1/</code> 目錄內的檔案變動，會將 <code>run-build-service-1-job</code> 參數設為 true，執行 <code>service-1</code> workflow。</li>
+<li>若 <code>service2/</code> 目錄內的檔案變動，則執行 <code>service-2</code> workflow。</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># .circleci/config.yml</span></span><br><span class="line"><span class="attr">version:</span> <span class="number">2.1</span></span><br><span class="line"><span class="attr">setup:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="attr">orbs:</span></span><br><span class="line">  <span class="attr">path-filtering:</span> <span class="string">circleci/path-filtering@1</span></span><br><span class="line"></span><br><span class="line"><span class="attr">workflows:</span></span><br><span class="line">  <span class="attr">always-run:</span></span><br><span class="line">    <span class="attr">jobs:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">path-filtering/filter:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">check-updated-files</span></span><br><span class="line">          <span class="attr">mapping:</span> <span class="string">|</span></span><br><span class="line">            <span class="string">service1/.*</span> <span class="string">run-build-service-1-job</span> <span class="literal">true</span></span><br><span class="line">            <span class="string">service2/.*</span> <span class="string">run-build-service-2-job</span> <span class="literal">true</span></span><br><span class="line">          <span class="attr">base-revision:</span> <span class="string">main</span></span><br><span class="line">          <span class="attr">config-path:</span> <span class="string">.circleci/continue_config.yml</span> <span class="comment"># this is the default so not actually required but left in to illustrate options</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># .circleci/continue_config.yml</span></span><br><span class="line"><span class="attr">version:</span> <span class="number">2.1</span></span><br><span class="line"><span class="attr">orbs:</span></span><br><span class="line">  <span class="attr">maven:</span> <span class="string">circleci/maven@1.2.0</span></span><br><span class="line"></span><br><span class="line"><span class="attr">parameters:</span></span><br><span class="line">  <span class="attr">run-build-service-1-job:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">boolean</span></span><br><span class="line">    <span class="attr">default:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">run-build-service-2-job:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">boolean</span></span><br><span class="line">    <span class="attr">default:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="attr">workflows:</span></span><br><span class="line">  <span class="attr">service-1:</span></span><br><span class="line">    <span class="attr">when:</span> <span class="string">&lt;&lt;</span> <span class="string">pipeline.parameters.run-build-service-1-job</span> <span class="string">&gt;&gt;</span></span><br><span class="line">    <span class="attr">jobs:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">maven/test:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">build-service-1</span></span><br><span class="line">          <span class="attr">command:</span> <span class="string">'install -DskipTests'</span></span><br><span class="line">          <span class="attr">app_src_directory:</span> <span class="string">'service1'</span></span><br><span class="line">  <span class="attr">service-2:</span></span><br><span class="line">    <span class="attr">when:</span> <span class="string">&lt;&lt;</span> <span class="string">pipeline.parameters.run-build-service-2-job</span> <span class="string">&gt;&gt;</span></span><br><span class="line">    <span class="attr">jobs:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">maven/test:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">build-service-2</span></span><br><span class="line">          <span class="attr">command:</span> <span class="string">'install -DskipTests'</span></span><br><span class="line">          <span class="attr">app_src_directory:</span> <span class="string">'service2'</span></span><br><span class="line">  <span class="attr">run-integration-tests:</span></span><br><span class="line">    <span class="attr">when:</span></span><br><span class="line">      <span class="attr">or:</span> <span class="string">[&lt;&lt;</span> <span class="string">pipeline.parameters.run-build-service-1-job</span> <span class="string">&gt;&gt;,</span> <span class="string">&lt;&lt;</span> <span class="string">pipeline.parameters.run-build-service-2-job</span> <span class="string">&gt;&gt;]</span></span><br><span class="line">    <span class="attr">jobs:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">maven/test:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">run-integration-tests</span></span><br><span class="line">          <span class="attr">command:</span> <span class="string">'-X verify'</span></span><br><span class="line">          <span class="attr">app_src_directory:</span> <span class="string">'tests'</span></span><br></pre></td></tr></table></figure>
+<h3>根據變動檔案動態產生配置檔案，並把零組件配置在不同檔案</h3>
+<p>這個專案中，我們有兩個目錄，<code>src</code> 和 <code>docs</code>，分別存放程式碼和文件，而他們也有各自定義的流程（workflows）分別定義在 <code>code-config.yml</code> 和 <code>docs-config.yml</code> 中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── .circleci</span><br><span class="line">│   ├── code-config.yml</span><br><span class="line">│   ├── config.yml</span><br><span class="line">│   ├── docs-config.yml</span><br><span class="line">│   ├── no-updates.yml</span><br><span class="line">│   ├── shared</span><br><span class="line">│   │   └── jobs</span><br><span class="line">│   │       ├── any-change.yml</span><br><span class="line">│   │       ├── lint.yml</span><br><span class="line">│   │       └── test.yml</span><br><span class="line">│   │   └── workflows</span><br><span class="line">│   │       ├── run-on-any-change.yml</span><br><span class="line">|   |       └── @shared.yml</span><br><span class="line">├── README.md</span><br><span class="line">├── docs</span><br><span class="line">│   └── my-docs.txt</span><br><span class="line">└── src</span><br><span class="line">    └── my-code.txt</span><br></pre></td></tr></table></figure>
+<p>在這個範例中，透過 <code>circleci config pack</code> 指令，可以把原本分散的 workflows / jobs 重新組合成 <code>.circleci/shared-config.yml</code>。(前面有提到正常情況下，我們會把 workflows / jobs 都定義在 <code>.circleci/config.yml</code> 中，使用這方式就可以分開定義比較複雜的 workflows / jobs)</p>
+<p>接著根據變動的檔案，決定最後動態產生的檔案樣貌（ex. 若 <code>src/</code> 資料夾內檔案有變動，就會動態加上 <code>.circleci/code-config.yml</code> 這個檔案內容）</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="number">2.1</span></span><br><span class="line"><span class="attr">setup:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="attr">parameters:</span></span><br><span class="line">  <span class="attr">always-continue:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">boolean</span></span><br><span class="line">    <span class="attr">default:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">build-code:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">boolean</span></span><br><span class="line">    <span class="attr">default:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">build-docs:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">boolean</span></span><br><span class="line">    <span class="attr">default:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="attr">orbs:</span></span><br><span class="line">  <span class="attr">path-filtering:</span> <span class="string">circleci/path-filtering@1.0.0</span></span><br><span class="line">  <span class="attr">circleci-cli:</span> <span class="string">circleci/circleci-cli@0.1.9</span></span><br><span class="line">  <span class="attr">continuation:</span> <span class="string">circleci/continuation@1.0.0</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">setup:</span></span><br><span class="line">    <span class="attr">executor:</span> <span class="string">path-filtering/default</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">checkout</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># Install the CircleCI CLI</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">circleci-cli/install</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># 把 shared 裡面的內容結合成 shared-config.yml</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">run:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">Generate</span> <span class="string">shared</span> <span class="string">configuration</span></span><br><span class="line">          <span class="attr">command:</span> <span class="string">circleci</span> <span class="string">config</span> <span class="string">pack</span> <span class="string">.circleci/shared</span> <span class="string">&gt;&gt;</span> <span class="string">.circleci/shared-config.yml</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># The mapping will be used to generate the dynamic configuration for all conditions that match.</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">path-filtering/set-parameters:</span></span><br><span class="line">          <span class="attr">base-revision:</span> <span class="string">pack-validate-continue-main</span></span><br><span class="line">          <span class="attr">config-path:</span> <span class="string">.circleci/no-updates.yml</span></span><br><span class="line">          <span class="attr">mapping:</span> <span class="string">|</span></span><br><span class="line">            <span class="string">.*</span> <span class="string">always-continue</span> <span class="literal">true</span> <span class="string">.circleci/shared-config.yml</span></span><br><span class="line">            <span class="string">src/.*</span> <span class="string">build-code</span> <span class="literal">true</span> <span class="string">.circleci/code-config.yml</span></span><br><span class="line">            <span class="string">docs/.*</span> <span class="string">build-docs</span> <span class="literal">true</span> <span class="string">.circleci/docs-config.yml</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># 根據上一部內容產生動態的 config 檔案</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">path-filtering/generate-config</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># 驗證產生的檔案有沒有錯誤（Optionally）</span></span><br><span class="line">      <span class="comment"># <span class="doctag">note:</span> 上一步產生的東西會在 /tmp/generated-config.yml</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">run:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">Validate</span> <span class="string">config</span></span><br><span class="line">          <span class="attr">command:</span> <span class="string">circleci</span> <span class="string">config</span> <span class="string">validate</span> <span class="string">/tmp/generated-config.yml</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># Continue the pipeline with the generated configuration.</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">continuation/continue:</span></span><br><span class="line">          <span class="attr">configuration_path:</span> <span class="string">/tmp/generated-config.yml</span></span><br><span class="line"></span><br><span class="line"><span class="attr">workflows:</span></span><br><span class="line">  <span class="attr">setup-workflow:</span></span><br><span class="line">    <span class="attr">jobs:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">setup</span></span><br></pre></td></tr></table></figure>
+<h2>我用他來幫助我解決了什麼問題？</h2>
+<p>我們原本的流程（workflow）過於複雜，不同 workflow 的啟動條件包含大量條件判斷，讓人難以理解執行邏輯。</p>
+<p>我將 parameters、commands 和 jobs 等基本組件抽離到 <code>shared_config.yml</code>，並且把流程啟動條件判斷拔除，把不同情境的流程分別定義在不同檔案中（檔案名稱本身也加強了可讀性），根據當下情況，產生最終的流程。</p>
+<p>這樣的調整讓整體結構變得簡單易懂的同時，也降低了維護成本。</p>
+<p>調整前後的檔案結構如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># 調整前</span><br><span class="line">.circleci</span><br><span class="line">└──config.yml</span><br><span class="line"></span><br><span class="line"># 調整後</span><br><span class="line">.circleci</span><br><span class="line">├── config.yml</span><br><span class="line">├── config_original.yml</span><br><span class="line">├── shared_config.yml</span><br><span class="line">└── workflows</span><br><span class="line">    ├── pr_workflow.yml</span><br><span class="line">    ├── production_backend_deploy_workflow.yml</span><br><span class="line">    ├── production_frontend_deploy_workflow.yml</span><br><span class="line">    ├── staging_backend_deploy_workflow.yml</span><br><span class="line">    └── staging_frontend_deploy_workflow.yml</span><br></pre></td></tr></table></figure>
+<h2>使用限制</h2>
+<p>Dynamic Config 雖然強大，但也有一些限制，在 <a href="https://circleci.com/docs/dynamic-config/#config-continuation-constraints" target="_blank" rel="noopener">官方文件</a> 的眾多限制中，我想提出兩個我覺得最重要的限制：</p>
+<ol>
+<li>一個完整的 pipeline 中 <code>continue</code> 的動作只能做一次，無法無限串接。</li>
+<li>使用 Dynamic Config 時，setup configuration 中只能啟動一個 workflow（可以透過條件判斷確保只有一個 workflow 被執行）。</li>
+</ol>
+<h2>心得</h2>
+<p>在理解並使用 Dynamic Config 後，我認為這是 CircleCI 使用者都必須了解的功能。</p>
+<p>不像 GitHub Actions 可以將 jobs 和 commands 拆分成多個檔案，CircleCI 原本的單一檔案管理方式非常痛苦。Dynamic Config 的出現，讓工程師能更靈活地拆分和動態控制 pipeline，大大提升了自動化流程的可維護性。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/2024-01-14-Retrospect_And_Prospect_of_2025/" data-toggle="tooltip" data-placement="top" title="Retrospect And Prospect of 2025">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/2024-11-28-用 Ruby 實作 RAG/" data-toggle="tooltip" data-placement="top" title="用 Rails 實作 RAG 初體驗">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">什麼是 Dynamic Config？</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Dynamic Config 功能解決了什麼問題？</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">範例</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">動態產生下個流程的 YAML 配置檔案</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">根據檔案變動決定要執行的流程</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">根據變動檔案動態產生配置檔案，並把零組件配置在不同檔案</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">我用他來幫助我解決了什麼問題？</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">使用限制</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">心得</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Devops" title="Devops">Devops</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+                    
+                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+                    
+                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/qoosuperman">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Anthony Chao 2026 
+                    <br>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-153986590-1';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

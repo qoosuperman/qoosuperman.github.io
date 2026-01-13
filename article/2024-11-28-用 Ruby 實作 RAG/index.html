@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
+    <meta name="keyword" content="">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1473163928189-364b2c4e1135?q=80&amp;w=2370&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>
+        
+          用 Rails 實作 RAG 初體驗 - Anthony Chao | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2024-11-28-用 Ruby 實作 RAG/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://images.unsplash.com/photo-1473163928189-364b2c4e1135?q=80&amp;w=2370&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Rails" title="Rails">Rails</a>
+                            
+                              <a class="tag" href="/tags/#AI" title="AI">AI</a>
+                            
+                        </div>
+                        <h1>用 Rails 實作 RAG 初體驗</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Anthony Chao on
+                            2024-11-28
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Anthony Chao</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>我第一次接觸到 RAG 是在 <a href="https://hwdc.ithome.com.tw/2024" target="_blank" rel="noopener">Hello World Dev Conference</a> 的 workshop 中。雖然 workshop 只是簡單地帶我們實作從一個 PDF 檔案中搜尋內容，但這次體驗讓我了解到目前市場上常見解決方案背後的原理。為了進一步了解 RAG 的運作方式，我決定自己實作一個小小的 side project 試試看。</p>
+<h2>RAG 是什麼？</h2>
+<p>RAG，即 Retrieval-Augmented Generation，是一種結合檢索機制與生成模型的 AI 技術。傳統語言模型雖然功能強大，但其內部知識庫是固定的，可能會隨時間變得過時或不完整。RAG 透過兩個步驟解決這個問題：</p>
+<ul>
+<li>檢索：從外部知識來源（例如資料庫或文件庫）中找到相關且最新的資訊。</li>
+<li>生成：利用檢索到的資訊生成答案，確保回答準確且與當前情境相關。</li>
+</ul>
+<p>這種檢索與生成的結合，使 AI 系統能產出更具時效性的答案，非常適合需要最新資訊的應用場景，例如客服支援、新聞更新或學術研究。目前，檢索步驟通常採用向量搜尋（vector search）技術來尋找相關資料。</p>
+<h2>向量搜尋是什麼？</h2>
+<p>向量資料庫使用向量表示每個物件，以保留資料的語義關係。將語意轉換成向量的過程稱為 embedding，而每個向量對應多維空間中的一個點。例如，在下圖中，香蕉的向量位置會比較靠近蘋果，而雞跟貓的向量位置會比較相近：</p>
+<p><img src="https://hackmd.io/_uploads/HJ9bm5zNke.png" alt="image"></p>
+<p>至於這些向量所在的多維空間到底有多少維度，目前最普遍被使用的 <code>OpenAI text-embedding-3-small</code> 模型提供 1536 維度，而進階的 text-embedding-3-large 模型則提供 3072 維度。這些高維度特性，能帶來更精確的結果。</p>
+<h2>Steps</h2>
+<p>RAG 通常由以下的步驟構成：</p>
+<ul>
+<li><strong>載入</strong>：使用工具（如 langchain 的 Document loader）載入資料。</li>
+<li><strong>分割</strong>：使用 Text Splitter 將大型文件分成小片段，以利於索引及傳入模型處理，因為大型片段難以搜尋且不適合模型的 context window。</li>
+<li><strong>儲存</strong>：需要一個儲存和索引這些片段的地方，以便日後進行搜尋。這通常使用向量資料庫和 embedding 模型來完成。</li>
+<li><strong>檢索</strong>：根據使用者輸入，使用 Retriever 從儲存中獲取相關片段。</li>
+<li><strong>生成</strong>：LLM 利用問題與檢索結果生成答案。</li>
+</ul>
+<p><img src="https://python.langchain.com/assets/images/rag_indexing-8160f90a90a33253d0154659cf7d453f.png" alt=""></p>
+<p><img src="https://python.langchain.com/assets/images/rag_retrieval_generation-1046a4668d6bb08786ef73c56d4f228a.png" alt=""></p>
+<p>在這次的 RAG demo 中，我使用 <a href="https://qoosuperman.github.io/">我的部落格</a> 的文章作為資料來源，並採用 Rails 作為網頁框架，向量資料庫則使用 <a href="https://qdrant.tech/" target="_blank" rel="noopener">Qdrant</a> 提供的免費雲端方案。</p>
+<h2>Ruby Code</h2>
+<h3><strong>載入</strong></h3>
+<p>由於資料來源是 markdown 檔案，載入部分直接使用 Ruby 的 <code>File.read(file_path)</code> 方法。若使用更成熟的框架（如 Langchain），則可支援載入多種來源（如 PDF 或網頁）。</p>
+<h3><strong>分割</strong></h3>
+<p>一般來說，分割會將檔案切成多個小片段並儲存到向量資料庫，同時需維護檔案與資料庫間的關聯，方便日後更新。而為了簡化這個 side project，我只有在文章超過 token 限制時，將文章分段後使用 LLM 進行摘要，再將摘要儲存到向量資料庫中，如此一來我就不用使用另一個資料庫儲存相對應的關聯資訊。雖然這可能導致部分細節遺失，但對於這次 demo 已經足夠。</p>
+<p>我使用的是 <code>langchainrb</code> 套件中的 <code>Chunker::RecursiveText</code> 來進行分段。順帶一提雖然 <code>langchainrb</code> 套件目前功能比 Python 的 Langchain 提供的功能陽春很多，但已能滿足我的大部分需求。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AITextSummarizer</span></span></span><br><span class="line">  CHUNK_SIZE = <span class="number">4000</span></span><br><span class="line">  CHUNK_OVERLAP_SIZE = <span class="number">200</span></span><br><span class="line">  SUMMARY_TOKENS = <span class="number">1000</span> <span class="comment"># Desired length of summary</span></span><br><span class="line">  OPENAI_MODEL = <span class="string">"gpt-4o-mini"</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">initialize</span></span></span><br><span class="line">    @client = OpenAI::Client.new(<span class="symbol">access_token:</span> ENV[<span class="string">"OPENAI_API_KEY"</span>])</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">summarize</span><span class="params">(text)</span></span></span><br><span class="line">    chunks = split_into_chunks(text)</span><br><span class="line">    summaries = chunks.map &#123; <span class="params">|chunk|</span> summarize_chunk(chunk.text) &#125;</span><br><span class="line">    combine_summaries(summaries)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  private</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">split_into_chunks</span><span class="params">(text)</span></span></span><br><span class="line">    Langchain::Chunker::RecursiveText.new(text, <span class="symbol">chunk_size:</span> CHUNK_SIZE, <span class="symbol">chunk_overlap:</span> CHUNK_OVERLAP_SIZE, <span class="symbol">separators:</span> [ <span class="string">"\n"</span> ]).chunks</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">combine_summaries</span><span class="params">(summaries)</span></span></span><br><span class="line">    <span class="keyword">if</span> summaries.size == <span class="number">1</span></span><br><span class="line">      summaries.first</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      combined_summary = summaries.join(<span class="string">"\n\n"</span>)</span><br><span class="line">      summarize_summaries(combined_summary)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">summarize_chunk</span><span class="params">(text)</span></span></span><br><span class="line">    summarize_with_prompt(text, <span class="string">"請把下面這段文字用繁體中文總結到大約 100 字："</span>)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">summarize_summaries</span><span class="params">(text)</span></span></span><br><span class="line">    summarize_with_prompt(text, <span class="string">"請把下面這段文字用繁體中文總結，盡量不要遺漏太多細節："</span>)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">summarize_with_prompt</span><span class="params">(text, prompt)</span></span></span><br><span class="line">    response = @client.chat(</span><br><span class="line">      <span class="symbol">parameters:</span> &#123;</span><br><span class="line">        <span class="symbol">model:</span> OPENAI_MODEL,</span><br><span class="line">        <span class="symbol">messages:</span> [</span><br><span class="line">          &#123; <span class="symbol">role:</span> <span class="string">"system"</span>, <span class="symbol">content:</span> <span class="string">"You are a helpful assistant that summarizes text."</span> &#125;,</span><br><span class="line">          &#123; <span class="symbol">role:</span> <span class="string">"user"</span>, <span class="symbol">content:</span> <span class="string">"<span class="subst">#&#123;prompt&#125;</span>\n\n<span class="subst">#&#123;text&#125;</span>"</span> &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="symbol">max_tokens:</span> SUMMARY_TOKENS</span><br><span class="line">      &#125;</span><br><span class="line">    )</span><br><span class="line">    response.dig(<span class="string">"choices"</span>, <span class="number">0</span>, <span class="string">"message"</span>, <span class="string">"content"</span>)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h3><strong>儲存</strong></h3>
+<p>儲存資料需要嵌入模型（embedding model）將資料轉換為向量，然後將結果存入向量資料庫。在我的實作中，我將文章內容、標題及網址等相關資訊一起存入向量資料庫的 payload（可以想像成 metadata），這樣最後 LLM 回答問題時就可以直接告訴我相關的網址跟文章標題。</p>
+<p>閱讀下面的程式碼前有幾點需要先知道</p>
+<ol>
+<li><code>langchainrb</code> 套件的 <code>Langchain::Vectorsearch::Qdrant</code> 會自動幫忙使用 llm 的 embedding model 轉成向量，所以只要提供使用的 llm API key 即可</li>
+<li>Qdrant 的專有名詞<br>
+a. collection 是用來儲存 points 的集合，可以想像成是 RDBMS 裡面的 table<br>
+b. point 是在向量資料庫的最重要 entity，一個點包含了一個向量跟 payload，可以想像成是 RDBMS 裡面的 row</li>
+<li>使用之後才發現 Qdrant 中 point 的 id 必須遵守幾種可能的格式（<a href="https://qdrant.tech/documentation/concepts/points/" target="_blank" rel="noopener">ref</a>），我這裡使用文章的發布日期轉成 uuid 作為 point 的 id，如此一來同一篇文章更新的時候，同樣的發布日期就可以直接取代舊的 point</li>
+</ol>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">add_point(<span class="symbol">file_name:</span> file_name, <span class="symbol">original_content:</span> content, <span class="symbol">extracted_content:</span> extracted_content)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_point</span><span class="params">(<span class="symbol">file_name:</span>, <span class="symbol">original_content:</span>, <span class="symbol">extracted_content:</span>)</span></span></span><br><span class="line">  Langchain::VectorSearchClient.new(<span class="symbol">collection_name:</span> COLLECTION_NAME).add_point(</span><br><span class="line">    <span class="symbol">content:</span> extracted_content,</span><br><span class="line">    <span class="symbol">id:</span> uuid_for(original_content),</span><br><span class="line">    <span class="symbol">payload:</span> &#123;</span><br><span class="line">      <span class="symbol">title:</span> title_for(original_content),</span><br><span class="line">      <span class="symbol">url:</span> url_for(file_name)</span><br><span class="line">    &#125;</span><br><span class="line">  )</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 目前用建立時間作為 uuid 根據</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">uuid_for</span><span class="params">(content)</span></span></span><br><span class="line">  datetime_str = content.match(<span class="regexp">/^date:\s*(.*)/</span>)[<span class="number">1</span>]</span><br><span class="line">  brief_datetime_str = DateTime.parse(datetime_str)</span><br><span class="line">                                .strftime(<span class="string">"%Y%m%d%H%M%S"</span>)</span><br><span class="line"></span><br><span class="line">  sha1_hash = Digest::SHA1.hexdigest(brief_datetime_str)</span><br><span class="line">  <span class="comment"># to make sha1 match uuid format</span></span><br><span class="line">  <span class="comment"># https://qdrant.tech/documentation/concepts/points/</span></span><br><span class="line">  <span class="string">"<span class="subst">#&#123;sha1_hash[<span class="number">0</span>..<span class="number">7</span>]&#125;</span>-<span class="subst">#&#123;sha1_hash[<span class="number">8</span>..<span class="number">11</span>]&#125;</span>-<span class="subst">#&#123;sha1_hash[<span class="number">12</span>..<span class="number">15</span>]&#125;</span>-<span class="subst">#&#123;sha1_hash[<span class="number">16</span>..<span class="number">19</span>]&#125;</span>-<span class="subst">#&#123;sha1_hash[<span class="number">20</span>..<span class="number">31</span>]&#125;</span>"</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Langchain</span></span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">VectorSearchClient</span></span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">initialize</span><span class="params">(<span class="symbol">collection_name:</span>)</span></span></span><br><span class="line">      <span class="comment"># default openai model: text-embedding-3-small</span></span><br><span class="line">      @qdrant = Langchain::Vectorsearch::Qdrant.new(</span><br><span class="line">        <span class="symbol">url:</span> ENV[<span class="string">"QDRANT_URL"</span>],</span><br><span class="line">        <span class="symbol">api_key:</span> ENV[<span class="string">"QDRANT_API_KEY"</span>],</span><br><span class="line">        <span class="symbol">index_name:</span> collection_name, <span class="comment"># Note: collection name 近似於 RDBMS 的 table name，用來儲存 points</span></span><br><span class="line">        <span class="symbol">llm:</span> Langchain::LLM::OpenAI.new(<span class="symbol">api_key:</span> ENV[<span class="string">"OPENAI_API_KEY"</span>])</span><br><span class="line">      )</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add_point</span><span class="params">(<span class="symbol">content:</span>, <span class="symbol">id:</span>, <span class="symbol">payload:</span> &#123;&#125;)</span></span></span><br><span class="line">      @qdrant.add_texts(</span><br><span class="line">        <span class="symbol">texts:</span> [ content ],</span><br><span class="line">        <span class="symbol">ids:</span> [ id ],</span><br><span class="line">        <span class="symbol">payload:</span> payload</span><br><span class="line">      )</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h3><strong>檢索 &amp; 生成</strong></h3>
+<p><code>langchainrb</code> 套件的 <code>Langchain::Vectorsearch::Qdrant</code> 模組會自動使用 LLM 的 embedding model 把問題轉成向量並進行相似度搜尋。搜尋結果返回後，LLM 將根據問題和檢索資料生成答案。</p>
+<p>以下程式碼中的 k 表示從相似度搜尋中返回的 point 數量，LLM 會以這些 point 的資料作為生成答案的基礎。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">QuestionsController</span> &lt; ApplicationController</span></span><br><span class="line">  RELATED_POSTS_AMOUNT = <span class="number">3</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">create</span></span></span><br><span class="line">    @client = Langchain::VectorSearchClient.new(<span class="symbol">collection_name:</span> <span class="string">"blog"</span>)</span><br><span class="line">    @response = @client.ask(<span class="symbol">question:</span> question_params, <span class="symbol">k:</span> RELATED_POSTS_AMOUNT).completion</span><br><span class="line">    respond_to <span class="keyword">do</span> <span class="params">|format|</span></span><br><span class="line">      format.turbo_stream</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Langchain</span></span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">VectorSearchClient</span></span></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">ask</span><span class="params">(<span class="symbol">question:</span>, <span class="symbol">k:</span>)</span></span></span><br><span class="line">      @qdrant.ask(<span class="symbol">question:</span> question, <span class="symbol">k:</span> k)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h2>Demo</h2>
+<p>以上就是這個小專案中跟 RAG 有關的部分。</p>
+<p>在 UI 實作方面，，我使用 Rails 搭配 <a href="https://turbo.hotwired.dev/" target="_blank" rel="noopener">Turbo</a> 來作出簡單的問答頁面，成果長得像下面這樣：</p>
+<p>問問題的頁面：</p>
+<p><img src="https://hackmd.io/_uploads/S1n071LXJx.png" alt="image"></p>
+<p>LLM 回答的結果：</p>
+<p><img src="https://hackmd.io/_uploads/rkT371Lmkx.png" alt="image"></p>
+<p>從上面的圖片可以看到因為我有給他文章網址，因此他在回答的時候也能提供這部分的資訊。</p>
+<h2>心得</h2>
+<p>實作這個小專案的過程中，我才真正體會到開發一個 RAG 應用程式時需要注意的各種細節。例如，當一篇文章被更新時，如何有效地同步更新向量資料庫中的相關資料，以及針對長篇文章，有哪些分割方法可以使用，而哪些方法的效果大家實驗後覺得較為理想，這些都是值得研究的議題。</p>
+<p>接下來，我計劃進一步學習 LangChain 的使用方式，透過實作幾個小應用來熟悉他。接著希望能深入了解實作細節和所使用的 prompt 等等，可能未來能更靈活地應用到其他專案中。</p>
+<h2>References</h2>
+<p><a href="https://weaviate.io/blog/distance-metrics-in-vector-search" target="_blank" rel="noopener">向量搜尋介紹</a><br>
+<a href="https://python.langchain.com/docs/introduction/" target="_blank" rel="noopener">LangChain document</a></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/2024-12-17-CircleCI Dynamic Config 介紹/" data-toggle="tooltip" data-placement="top" title="CircleCI Dynamic Config 介紹">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/2024-10-24-Rails Turbo 學習心得/" data-toggle="tooltip" data-placement="top" title="Rails Turbo 學習心得">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">RAG 是什麼？</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">向量搜尋是什麼？</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Steps</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Ruby Code</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">載入</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.2.</span> <span class="toc-nav-text">分割</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.3.</span> <span class="toc-nav-text">儲存</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.4.</span> <span class="toc-nav-text">檢索 &amp; 生成</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Demo</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">心得</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">References</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Rails" title="Rails">Rails</a>
+                        
+                          <a class="tag" href="/tags/#AI" title="AI">AI</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+                    
+                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+                    
+                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/qoosuperman">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Anthony Chao 2026 
+                    <br>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-153986590-1';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

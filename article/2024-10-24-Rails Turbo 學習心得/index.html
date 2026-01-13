@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
+    <meta name="keyword" content="">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1467663906983-81383d4802ef?q=80&amp;w=2970&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>
+        
+          Rails Turbo 學習心得 - Anthony Chao | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2024-10-24-Rails Turbo 學習心得/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://images.unsplash.com/photo-1467663906983-81383d4802ef?q=80&amp;w=2970&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Rails" title="Rails">Rails</a>
+                            
+                        </div>
+                        <h1>Rails Turbo 學習心得</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Anthony Chao on
+                            2024-10-24
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Anthony Chao</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2>前言</h2>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*8JQp6XIth7EpK6KsWxLkKA.png" alt="rails turbo"></p>
+<p>最近準備要做個小小的 side project</p>
+<p>快要做到前端的時候想到自己其實還不會用目前 Rails 生態系推薦的 Hotwire 系列工具，因此這兩週就花了些時間研究了一下（如果要學的話推薦學習資源放在最下面）</p>
+<p>以下記錄一下重點跟使用心得</p>
+<h2>Hotwire</h2>
+<p>Hotwire 指的是 <code>HTML over the wire</code>，與傳統 JavaScript 透過 API 獲取 JSON 資料並處理的方式不同，Hotwire 是直接通過 API 獲取 HTML，然後將其渲染在頁面上。</p>
+<p>它包含三個主要框架：</p>
+<ul>
+<li><strong>Turbo：</strong> 負責處理頁面導航和更新，透過伺服器傳送 HTML 來動態更新頁面，並加速連結和表單提交，只更新需要的部分，避免整頁重新載入。</li>
+<li><strong>Stimulus：</strong> 用於處理需要用戶端互動的場景，是一個輕量級的 JavaScript 框架。</li>
+<li><strong>Strada：</strong> 用於將網頁互動升級到原生應用程式。</li>
+</ul>
+<p>在 Rails 中，他認為大部分情境下開發者會使用 Turbo，真的需要寫 Javascript 的時候寫 Stimulus JS，要寫手機作業系統的時候才會用到 strada。</p>
+<p>這篇文章主要在研究 Turbo 的使用方式。</p>
+<h2>Turbo</h2>
+<p>Turbo 又分成三個部分</p>
+<ul>
+<li><strong>Turbo Drive</strong>: 是 Turbo 的核心，它透過攔截連結點擊和表單提交，在背景執行要做的事情來更新頁面，無需整頁重載</li>
+<li><strong>Turbo Frame</strong>: 把頁面拆成多個部分，點擊連結或者送出表單之後，只有特定區域的地方會做更新</li>
+<li><strong>Turbo Streams</strong>: 透過 WebSocket、SSE（Server-Sent Events） 或表單提交傳遞 HTML 片段來更新頁面</li>
+</ul>
+<h3>Turbo Drive</h3>
+<p>Turbo Drive 前一代的祖先是 Turbolink，但那時候只有處理連結，現在 Turbo Drive 額外支援表單的請求</p>
+<p>Turbo Drive 做了幾件事情：</p>
+<ol>
+<li>防止瀏覽器跟隨連結</li>
+<li>使用歷史紀錄 API 更改瀏覽器 URL</li>
+<li>使用 fetch 請求獲取新頁面</li>
+<li>通過替換當前 <code>&lt;body&gt;</code> 元素和合併 <code>&lt;head&gt;</code> 元素的內容來渲染回應的 HTML</li>
+</ol>
+<p>當只替換 <body> 內容時，<head><meta name="generator" content="Hexo 3.9.0"> 標籤內的內容通常不會變動，因此不需要重新下載字體、CSS、JS 等文件，這能加快頁面渲染速度。<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head></body></p>
+<p>然而，當 JS 或 CSS 發生變動時，我們希望能重新載入整個頁面。Turbo Drive 會在每次新請求時，對比當前頁面與回應頁面中 <head><meta name="generator" content="Hexo 3.9.0"> 內標記為 data-turbo-track=“reload” 的 DOM 元素，若發現差異就會重新載入頁面。</head></p>
+<p>所以我們可以看到目前在 Rails layout 中，css / js 都加上了這個屬性</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%#</span> <span class="attr">app</span>/<span class="attr">views</span>/<span class="attr">layouts</span>/<span class="attr">application.html.erb</span> %&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">%=</span> <span class="attr">stylesheet_link_tag</span> "<span class="attr">application</span>", "<span class="attr">data-turbo-track</span>"<span class="attr">:</span> "<span class="attr">reload</span>" %&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">%=</span> <span class="attr">javascript_include_tag</span> "<span class="attr">application</span>", "<span class="attr">data-turbo-track</span>"<span class="attr">:</span> "<span class="attr">reload</span>", <span class="attr">defer:</span> <span class="attr">true</span> %&gt;</span></span><br></pre></td></tr></table></figure>
+<h3>Turbo Frame</h3>
+<p>它透過替換具有相同 ID 的 <code>&lt;turbo-frame&gt;</code> 標籤內容來更新頁面。</p>
+<p>已下面的範例程式碼來說</p>
+<p>_task.html.erb 完全被 turbo frame tag 包住，所以如果點擊 <code>Edit</code> 按鈕會全部被替換掉，而替換的內容就是 edit.html.erb 頁面中有著同樣 id 的 turbo frame tag 的部分</p>
+<details>
+  <summary>範例程式碼</summary>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">%% index.html.erb %%</span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"tasks"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h1</span> <span class="attr">class</span>=<span class="string">"font-bold text-lg mb-7"</span>&gt;</span>Tasks<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"px-5"</span> <span class="attr">data-controller</span>=<span class="string">"tasks"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">%=</span> <span class="attr">render</span> @<span class="attr">tasks</span> %&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">%% _task.html.erb %%</span><br><span class="line"><span class="tag">&lt;<span class="name">turbo-frame</span> <span class="attr">id</span>=<span class="string">"&lt;%= dom_id task %&gt;"</span> <span class="attr">class</span>=<span class="string">"block"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"block mb-2"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">%=</span> <span class="attr">form_with</span>(<span class="attr">model:</span> <span class="attr">task</span>, <span class="attr">class:</span>"<span class="attr">text-lg</span> <span class="attr">inline-block</span> <span class="attr">my-3</span> <span class="attr">w-72</span>") <span class="attr">do</span> |<span class="attr">form</span>| %&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">%=</span> <span class="attr">task.description</span> %&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">%</span> <span class="attr">end</span> %&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">%=</span> <span class="attr">link_to</span> "<span class="attr">Edit</span>", <span class="attr">edit_task_path</span>(<span class="attr">task</span>),</span></span><br><span class="line"><span class="tag">                <span class="attr">class:</span> "<span class="attr">btn</span> <span class="attr">bg-gray-100</span>"</span></span><br><span class="line"><span class="tag">    %&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inline-block ml-2"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">%=</span> <span class="attr">button_to</span> "<span class="attr">Delete</span>", <span class="attr">task_path</span>(<span class="attr">task</span>),</span></span><br><span class="line"><span class="tag">                    <span class="attr">method:</span> <span class="attr">:delete</span>,</span></span><br><span class="line"><span class="tag">                    <span class="attr">data:</span> &#123; "<span class="attr">turbo-frame</span>"<span class="attr">:</span> "<span class="attr">_top</span>" &#125;,</span></span><br><span class="line"><span class="tag">                    <span class="attr">class:</span> "<span class="attr">btn</span> <span class="attr">bg-red-100</span>" %&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">turbo-frame</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">%% edit.html.erb %%</span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h1</span> <span class="attr">class</span>=<span class="string">"font-bold text-2xl mb-3"</span>&gt;</span>Editing Task<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">turbo-frame</span> <span class="attr">id</span>=<span class="string">"&lt;%= dom_id @task %&gt;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">%=</span> <span class="attr">render</span> "<span class="attr">form</span>", <span class="attr">task:</span> @<span class="attr">task</span> %&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">%=</span> <span class="attr">link_to</span> "<span class="attr">Never</span> <span class="attr">Mind</span>", <span class="attr">tasks_path</span>, <span class="attr">class:</span> "<span class="attr">btn</span> <span class="attr">mb-3</span> <span class="attr">bg-gray-100</span>" %&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">turbo-frame</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</details>
+<p>另外若要替換整個頁面，可以使用 <code>data-turbo-frame=&quot;_top&quot;</code> 屬性。</p>
+<p>通常點擊連結之後，會跟包覆著連結的 turbo frame tag 互動，但也可以指定不是包覆這連結的 frame，這時候可以用 <code>data: { turbo_frame: ...}</code> 這個屬性</p>
+<details>
+  <summary>範例程式碼</summary>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">main</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"header"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">h1</span> <span class="attr">class</span>=<span class="string">"font-bold text-2xl inline-block"</span>&gt;</span>Quotes<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">%=</span> <span class="attr">link_to</span> "<span class="attr">New</span> <span class="attr">quote</span>",</span></span><br><span class="line"><span class="tag">                  <span class="attr">new_quote_path</span>,</span></span><br><span class="line"><span class="tag">                  <span class="attr">class:</span> "<span class="attr">btn</span> <span class="attr">btn--primary</span>",</span></span><br><span class="line"><span class="tag">                  <span class="attr">data:</span> &#123; <span class="attr">turbo_frame:</span> <span class="attr">dom_id</span>(<span class="attr">Quote.new</span>) &#125; %&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"mt-4"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">%=</span> <span class="attr">turbo_frame_tag</span> <span class="attr">Quote.new</span> %&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">%=</span> <span class="attr">render</span> @<span class="attr">quotes</span> %&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">main</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</details>
+<h3>Turbo Stream</h3>
+<p>Turbo Stream 可以將 HTML 片段發送到頁面上，替換或修改現有內容。它專門用於在單次請求中更新頁面多個部分的情況。</p>
+<p>跟 turbo frame 的差異有幾點</p>
+<ol>
+<li>Turbo frame 一次只能替換已經存在的 frame，不能做 append / prepend 的動作</li>
+<li>Turbo stream 還可以用 websocket 來更新頁面（當然也可以用 POST request 來更新）</li>
+</ol>
+<p>turbo stream 的核心也是靠 HTML snippet 來實現，但跟 turbo frame 不同，turbo stream tag 中一定包含一個 action，所有的 action 都需要一個 target 來指定對象（只有 refresh 這個 action 不需要）</p>
+<p>這是 turbo stream tag 在 HTML 中的長相：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">turbo-stream</span> <span class="attr">action</span>=<span class="string">"action_to_take"</span> <span class="attr">target</span>=<span class="string">"element_to_update"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"element_to_update"</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- Some more html --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">turbo-stream</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>這裡的實現比較複雜一些，推薦要看使用範例的話直接看 <a href="https://www.hotrails.dev/turbo-rails" target="_blank" rel="noopener">Turbo Rails Tutorial</a> 裡面有滿多的範例</p>
+<h2>心得</h2>
+<p>總算是大致上理解了這套系統如何使用，但在好不容易理解完後，我應該只會在小專案嘗試使用 Turbo</p>
+<p>因為在複雜專案中，前端效果經常是巢狀結構，而要使用 Turbo 處理這種巢狀效果的話想向上維護起來有點困難</p>
+<p>此外，複雜專案中常需重複使用同樣的元件，因此以 component-based 的前端框架會更容易維護</p>
+<h2>References</h2>
+<p><a href="https://courses.writesoftwarewell.com/p/hotwire-handbook" target="_blank" rel="noopener">Hotwire Crash-Course</a><br>
+<a href="https://www.hotrails.dev/turbo-rails" target="_blank" rel="noopener">Turbo Rails Tutorial</a><br>
+<a href="https://www.youtube.com/watch?v=ZEZY_tKNjMo" target="_blank" rel="noopener">卡米哥 demo</a><br>
+<a href="https://turbo.hotwired.dev/handbook/introduction" target="_blank" rel="noopener">Turbo 官方文件</a></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/2024-11-28-用 Ruby 實作 RAG/" data-toggle="tooltip" data-placement="top" title="用 Rails 實作 RAG 初體驗">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/2024-10-14-Shape Up 書摘/" data-toggle="tooltip" data-placement="top" title="Shape Up 書摘">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Hotwire</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Turbo</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">Turbo Drive</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">Turbo Frame</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">Turbo Stream</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">心得</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">References</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Rails" title="Rails">Rails</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+                    
+                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+                    
+                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/qoosuperman">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Anthony Chao 2026 
+                    <br>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-153986590-1';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
+    <meta name="keyword" content="">
+    <meta property="og:image" content="undefined">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>
+        
+          Docker command line tool memo - Anthony Chao | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2021-10-17-Docker_CLI_MEMO/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://images.unsplash.com/photo-1634413656640-0bc2a33be4d1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1856&amp;q=80')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Devops" title="Devops">Devops</a>
+                            
+                              <a class="tag" href="/tags/#Docker" title="Docker">Docker</a>
+                            
+                        </div>
+                        <h1>Docker command line tool memo</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Anthony Chao on
+                            2021-10-17
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Anthony Chao</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1>Docker CLI</h1>
+<h2>Most commonly used</h2>
+<p>這個 cheatsheet 放一些自己比較常用到的 command</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&gt; docker --version</span><br><span class="line">&gt; docker ps</span><br><span class="line">&gt; docker inspect &lt;container id&gt;</span><br><span class="line">&gt; docker logs &lt;container id&gt; -f</span><br><span class="line"></span><br><span class="line"><span class="comment"># 操作 container</span></span><br><span class="line">&gt; docker run &lt;image_id or name&gt;</span><br><span class="line">&gt; docker restart &lt;container id&gt;</span><br><span class="line">&gt; docker pause &lt;container id&gt;</span><br><span class="line">&gt; docker unpause &lt;container id&gt;</span><br><span class="line">&gt; docker <span class="built_in">exec</span> -it &lt;container_id&gt; /bin/bash</span><br><span class="line">&gt; docker stop &lt;container id&gt;</span><br><span class="line">&gt; docker restart &lt;container id&gt;</span><br><span class="line">&gt; docker attach &lt;CONTAINER ID&gt;</span><br><span class="line">&gt; docker container prune</span><br><span class="line"></span><br><span class="line"><span class="comment"># 操作 image</span></span><br><span class="line">&gt; docker build -t &lt;image_name&gt; .</span><br><span class="line">&gt; docker build -f Dockerfile.prod</span><br><span class="line">&gt; docker tag &lt;SOURCE_IMAGE[:TAG]&gt; &lt;TARGET_IMAGE[:TAG]&gt;</span><br><span class="line">&gt; docker images</span><br><span class="line">&gt; docker pull &lt;image name&gt;</span><br><span class="line">&gt; docker rmi &lt;image id&gt;</span><br><span class="line">&gt; docker search &lt;image name&gt;</span><br></pre></td></tr></table></figure>
+<h2>docker commands</h2>
+<p>以下介紹各種不同的 docker command</p>
+<h3><code>run</code></h3>
+<p>使用某個 image 把 container 跑起來</p>
+<h4>run a mysql container up</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; docker run --name &lt;自己取個container名字&gt; -p 3306:3306 -e MYSQL_ROOT_PASSWORD=&lt;密碼&gt; -d mysql:&lt;版本號&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># ex.</span></span><br><span class="line">docker run --name mysql1 -p 3306:3306 -v /var/lib/mysql -e MYSQL_ROOT_PASSWORD=password -d mysql:5.7</span><br></pre></td></tr></table></figure>
+<h4>options</h4>
+<ul>
+<li><code>-d</code> :背景執行</li>
+<li><code>-p</code> :做 port forwarding，<code>-p 8080:80</code> 意思是把主機的8080 port 所有流量轉發到這個Container的80port</li>
+<li><code>-P</code> :做 port forwarding，forward 到一個隨機的主機 port</li>
+<li><code>-i</code> : 互動模式，可以把輸入 forward 到 docker daemon，通常跟 t 一起使用</li>
+<li><code>-t</code> : 給 container 一個偽輸入終端</li>
+<li><code>-v</code> : <code>-v &lt;主機路徑&gt;:&lt;container的對應路徑&gt;</code> 把 container 的路徑映射到主機的路徑，現在建議改用 --mount</li>
+<li><code>--restart=always</code> : 如果 container 遇到例外的情況被 stop 掉，例如是重新開機，docker 會試著重新啟動此 container</li>
+<li><code>--rm</code> : 執行完之後把這個 image 刪除，否則平常跑完 container 都要用 <code>docker rm</code> 把停止的 container 停掉，如果加上這個就少了這步驟</li>
+<li><code>-e</code> : 設定環境變數 ex. <code>-e RAILS_ENV=$RAILS_ENV</code></li>
+</ul>
+<p>最後面有<a href="#supplement">補充說明</a>為什麼需要同時給 <code>-i</code> 跟 <code>-t</code> 兩個參數</p>
+<h3><code>inspect</code></h3>
+<p>可以看到這個 container 詳細資訊</p>
+<p>可以搭配 <code>--format</code> 使用 json path 撈到想要的資料，像是 container 的 ip</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; sudo docker inspect --format=<span class="string">'&#123;&#123;.NetworkSettings.IPAddress&#125;&#125;'</span> 4b0b567b6019</span><br><span class="line">172.17.0.3</span><br></pre></td></tr></table></figure>
+<p>其中很重要的一部分是看這個 container 為何被停掉</p>
+<p>可以看到這個 docker 已經停掉了，exit code 137，然後 <code>OOMKilled</code> 是 false 表示不是因為 memery 不夠被停掉的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&quot;State&quot;: &#123;</span><br><span class="line"> &quot;Status&quot;: &quot;exited&quot;,</span><br><span class="line"> &quot;Running&quot;: false,</span><br><span class="line"> &quot;Paused&quot;: false,</span><br><span class="line"> &quot;Restarting&quot;: false,</span><br><span class="line"> &quot;OOMKilled&quot;: false,</span><br><span class="line"> &quot;Dead&quot;: false,</span><br><span class="line"> &quot;Pid&quot;: 0,</span><br><span class="line"> &quot;ExitCode&quot;: 137,</span><br><span class="line"> &quot;Error&quot;: &quot;&quot;,</span><br><span class="line"> &quot;StartedAt&quot;: &quot;2019-10-21T01:13:51.7340288Z&quot;,</span><br><span class="line"> &quot;FinishedAt&quot;: &quot;2019-10-21T01:13:51.7961614Z&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>更多的 <a href="https://medium.com/better-programming/understanding-docker-container-exit-codes-5ee79a1d58f6" target="_blank" rel="noopener">exit code</a></p>
+<h3><code>prune</code></h3>
+<p>prune 又分成刪除 image 或者刪除 container</p>
+<p>ex. 把所有已經停掉的 container image 移除:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; docker container prune</span><br><span class="line">&gt; sudo docker rm $(sudo docker ps -aq -f state=exited)</span><br></pre></td></tr></table></figure>
+<p>對沒在用的 image 進行刪除：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; docker image prune <span class="comment"># 把 dangling 狀態的 image 砍掉</span></span><br></pre></td></tr></table></figure>
+<p>同時把不需要的 image / container 都砍掉：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; docker system prune</span><br></pre></td></tr></table></figure>
+<h3><code>tag</code></h3>
+<p>我們不可能記住 image 的 sha key 所以需要用 tag 讓他更好記住</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果不給他一個版本，預設會是 latest</span></span><br><span class="line">&gt; docker tag a1234567 myapp</span><br><span class="line">&gt; docker tag a1234567 myapp:1.0</span><br></pre></td></tr></table></figure>
+<h3><code>build</code></h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在有 Dockerfile 的目錄下面執行</span></span><br><span class="line">&gt; docker build .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 也可以給他個名字，之後就可以用這個 tag 直接跑起 container</span></span><br><span class="line">&gt; docker build -t &lt;image_name&gt; . <span class="comment"># 接著就可以 docker run &lt;image_name&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 同時幫一個 image 標注多個 tag</span></span><br><span class="line">&gt; docker build -t myapp -t myapp:1.0 .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 也可以用 -f 指定使用哪一個檔案來 build image</span></span><br><span class="line">&gt; docker build -f Dockerfile.prod</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可以使用 STDIN 來 build image</span></span><br><span class="line">&gt; docker build - &lt; Dockerfile</span><br></pre></td></tr></table></figure>
+<h3><code>logs</code></h3>
+<p>把 container 的 STDOUT 顯示出來</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; docker logs &lt;CONTAINER&gt;</span><br><span class="line">&gt; docker logs -f &lt;CONTAINER&gt; <span class="comment"># 會像是 Linux 的 tail -f 持續更新 log</span></span><br></pre></td></tr></table></figure>
+<h3><code>stop</code></h3>
+<p>如果下這個指令, docker enginer 會送 <code>SIGTERM (-15)</code> 這個指令到 main process, 這個指令會要求 process 把自己正常關掉</p>
+<p>如果 main process 無法處理 -15 指令, 那 docker engine 就會送出 <code>SIGKILL(-9)</code> 指令, 這個情況下, process 有可能會在沒辦法 clean-up 的情況下結束</p>
+<h3><code>commit</code></h3>
+<p>用當下的 container 做出 image</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; docker commit &lt;container ID&gt; &lt;user ID&gt;/&lt;image name&gt;</span><br></pre></td></tr></table></figure>
+<h3><code>restart</code></h3>
+<p>docker restart 結合了 stop 跟start 這兩個指令</p>
+<h3><code>images</code></h3>
+<p>列出已經下載的 image</p>
+<p>所有 docker image 的 id 都是 64hex digit</p>
+<p>預設只會顯示 12hex digit</p>
+<p>加上 <code>--no- trunc</code> 顯示全部 64 數字</p>
+<h3><code>ps</code></h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 顯示所有 active contaienr</span></span><br><span class="line">&gt; docker ps</span><br><span class="line">&gt; docker ps --filter <span class="string">"status=exited"</span></span><br><span class="line"><span class="comment"># 顯示所有包括已經停掉的 container</span></span><br><span class="line">&gt; docker ps -a</span><br></pre></td></tr></table></figure>
+<h3><code>pull</code></h3>
+<p>把映像檔從 Docker Registry 拉下來<br>
+Docker Registry 上面有各種不同的應用程式, 從基本 Linux images 到各種進階 image</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; docker pull ubuntu</span><br></pre></td></tr></table></figure>
+<p>如果沒有特別註明的話, 會下載最新的版本, tag 是 <code>latest</code><br>
+但也可以加上 tag 下載特定版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; docker pull mysql:5.6</span><br></pre></td></tr></table></figure>
+<p>image 的完整命名可以參考 [[image]]</p>
+<h3><code>diff</code></h3>
+<p>可以看我們現在的 container 跟 image 版本的差異</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; docker diff &lt;container id&gt;</span><br><span class="line"></span><br><span class="line">C /home # C 表示 changed</span><br><span class="line">A /home/abc # A 表示 added</span><br><span class="line">A /home/cde</span><br><span class="line">A /home/fgh</span><br><span class="line"># D 表示 deleted</span><br></pre></td></tr></table></figure>
+<h3><code>search</code></h3>
+<p>搜尋映像檔</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker search ubuntu -f is-official=<span class="literal">true</span></span><br><span class="line">docker search &lt;映像檔名稱 ex.ubuntu&gt; -f is-official=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h3><code>attach</code></h3>
+<p>如果我們 detach 一個 container 之後, 我們可以用 attach 回去</p>
+<p>detach 的方法是 <code>control + P</code> 加上 <code>control + Q</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; docker attach [Conatiner id] [container name]</span><br></pre></td></tr></table></figure>
+<h3><code>volume</code></h3>
+<p>把 host 的 volume mount 在 container 上面</p>
+<p>-v 是舊的用法，新的建議使用 --mount</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; docker run \</span><br><span class="line">--mount <span class="built_in">type</span>=&lt;mount <span class="built_in">type</span>&gt;,<span class="built_in">source</span>=&lt;path&gt;,target=&lt;container path&gt; &lt;image name&gt;</span><br><span class="line"><span class="comment"># ex</span></span><br><span class="line">&gt; docker run \</span><br><span class="line">--mount <span class="built_in">type</span>=<span class="built_in">bind</span>,<span class="built_in">source</span>=/data/mysql,target=/var/lib/mysql mysql</span><br></pre></td></tr></table></figure>
+<h3><code>execute</code></h3>
+<p>可以對某個運作中的 container 下指令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; docker <span class="built_in">exec</span> -it &lt;container id&gt; bash</span><br></pre></td></tr></table></figure>
+<h3><code>network</code></h3>
+<p>做一些跟網路有關的操作</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; docker network ls</span><br></pre></td></tr></table></figure>
+<h2>Supplement</h2>
+<p>補充說明：到底為什麼需要給 -i 跟 -t 這兩個參數? 這要從 docker 的架構開始說起，docker 是 client server 的架構，client 只是一層薄的 layer，把要做什麼告訴 docker daemon，而在 windows 或者 mac 裡面，因為沒有 Linux 容器化的科技，所以 docker 需要在電腦上跑一個輕量的 linux 虛擬機，才有辦法把 docker daemon 跑在裡面</p>
+<p>而每個 Unix process 對於 I/O 都有三種 channel: STDIN / STDOUT / STDERR，因為 docker daemon 是不同的 process，所以 如果我們要把 cli 輸入的東西丟給 docker daemon，docker 需要做些事情</p>
+<p>docker run 做的事情只有把 docker daemon 的 output 丟到 client，並不包含把 input 丟給 docker daemon</p>
+<p>所以我們需要明確的說請把 cli 上面的 input forward 到 docker daemon，這就是 <code>-i</code> 這個參數</p>
+<p>但這還不夠，一般來說我們平常用的 cli 都包含終端機模擬器，他會持續等候回應，然後接收像是 <code>ctrl + c</code> 這些訊號，如果不給 <code>-t</code> 這個參數，他預設會跑在 noninteractive mode，只有加了這個參數，才會給我們一個虛擬的終端機</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/2021-10-19-How_to_write_yaml/" data-toggle="tooltip" data-placement="top" title="How to Write YAML">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/2021-10-16-Synopsis_of_Docker_for_rails_developer/" data-toggle="tooltip" data-placement="top" title="Synopsis of Docker For Rails Developer">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Docker CLI</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Most commonly used</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">docker commands</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text">run</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.1.1.</span> <span class="toc-nav-text">run a mysql container up</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.1.2.</span> <span class="toc-nav-text">options</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.2.</span> <span class="toc-nav-text">inspect</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.3.</span> <span class="toc-nav-text">prune</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.4.</span> <span class="toc-nav-text">tag</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.5.</span> <span class="toc-nav-text">build</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.6.</span> <span class="toc-nav-text">logs</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.7.</span> <span class="toc-nav-text">stop</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.8.</span> <span class="toc-nav-text">commit</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.9.</span> <span class="toc-nav-text">restart</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.10.</span> <span class="toc-nav-text">images</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.11.</span> <span class="toc-nav-text">ps</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.12.</span> <span class="toc-nav-text">pull</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.13.</span> <span class="toc-nav-text">diff</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.14.</span> <span class="toc-nav-text">search</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.15.</span> <span class="toc-nav-text">attach</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.16.</span> <span class="toc-nav-text">volume</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.17.</span> <span class="toc-nav-text">execute</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.18.</span> <span class="toc-nav-text">network</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">Supplement</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Devops" title="Devops">Devops</a>
+                        
+                          <a class="tag" href="/tags/#Docker" title="Docker">Docker</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+                    
+                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+                    
+                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/qoosuperman">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Anthony Chao 2026 
+                    <br>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-153986590-1';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

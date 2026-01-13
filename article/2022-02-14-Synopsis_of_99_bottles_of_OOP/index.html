@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
+    <meta name="keyword" content="">
+    <meta property="og:image" content="undefined">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>
+        
+          Synopsis of 99 Bottles of OOP - Anthony Chao | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2022-02-14-Synopsis_of_99_bottles_of_OOP/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://images.unsplash.com/photo-1522133474647-57fc4706cb0e?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2233&amp;q=80')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Ruby" title="Ruby">Ruby</a>
+                            
+                        </div>
+                        <h1>Synopsis of 99 Bottles of OOP</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Anthony Chao on
+                            2022-02-14
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Anthony Chao</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2>Intro</h2>
+<p>這篇文章紀錄 <code>99 Bottles of OOP</code> 這本書中我認為比較值得注意的內容</p>
+<p><img src="https://i.imgur.com/FQurIjc.png" alt=""></p>
+<p>這本書有趣的地方在於，整本書都 focus 在一首歌的歌詞上，要你把怎麼印出這首歌的歌詞寫成程式，在各個章節作者再去鉅細彌遺的描述他是怎麼 refactor / 過程中怎麼思考</p>
+<p>我認為這本書適合剛接觸 design pattern 的人看，如果寫 Ruby 很久了，看這本書怕會覺得無聊</p>
+<p>書裡面對於每個設計的選擇幾乎都有用心去解釋，這樣的好處是可以比較具體知道之後對於各個情況怎麼思考如何選擇，壞處就是看那麽多內心戲有時候會覺得太細節，甚至有少數段落不知所云(也可能是我自己看不懂)</p>
+<h2>Outline</h2>
+<ul>
+<li><a href="#chapter1-rediscovering-simplicity">Rediscovering Simplicity</a></li>
+<li><a href="#chapter2-test-driving-shameless-green">Test Driving Shameless Green</a></li>
+<li><a href="#chapter3-unearthing-concepts">Unearthing Concepts</a></li>
+<li><a href="#chapter4-practicing-horizontal-refactoring">Practicing Horizontal Refactoring</a></li>
+<li><a href="#chapter5-separating-responsibilities">Separating Responsibilities</a></li>
+<li><a href="#chapter6-achieving-openess">Achieving Openess</a></li>
+<li><a href="#chapter7-manufacturing-intelligence">Manufacturing Intelligence</a></li>
+<li><a href="#chapter8-developing-a-programming-aesthetic">Developing a Programming Aesthetic</a></li>
+<li><a href="#chapter9-reaping-the-benefits-of-design">Reaping the Benefits of Design</a></li>
+</ul>
+<h2>Chapter1 Rediscovering Simplicity</h2>
+<ul>
+<li>每個設計背後都要付出代價，所以我們需要再確定自己可以得到好處的時候再付出這些代價，就連 DRY 也是</li>
+<li>在寫程式的時候，我們常常想辦法達到兩個常常是衝突的兩個目標：
+<ol>
+<li>容易理解(concrete enough to understand)</li>
+<li>容易改變(abstract enough to change)</li>
+</ol>
+</li>
+<li>寫程式的時候，可以用下面幾點來做自我評估：
+<ol>
+<li>How difficult was it to write?</li>
+<li>How hard is it to understand?</li>
+<li>How expensive will it be to change?</li>
+</ol>
+</li>
+</ul>
+<h3>method naming principle</h3>
+<p>以下引用原文：</p>
+<blockquote>
+<p>You should name methods not after what they do, but after what they mean, what they represent in the context of your domain</p>
+</blockquote>
+<p>像是這一段</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">beer</span></span></span><br><span class="line">  <span class="string">"beer"</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>如果今天不是 beer 而是另一種飲料，雖然我們只要改掉這個 method 內容，但就會變得很奇怪</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">beer</span></span></span><br><span class="line">  <span class="string">"Kool-Aid"</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>所以他的問題不是出在 DRY 而是出在 method 的 naming，以這裡的 context 來說應該是 beverage 比較適合</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">beverage</span></span></span><br><span class="line">  <span class="string">"beer"</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h2>Chapter2 Test Driving Shameless Green</h2>
+<ul>
+<li>使用 TDD 開發的時候，通常寫第一個測試是最難的，因為會覺得第一個測試很重要，但其實最好的策略就是直接寫下去，寫了之後發現有些測試可能不必要，或者他們本身寫的方向是錯的也都是很常見的事情</li>
+<li>DRY 很重要，但太早採取行動有時候未必利大於弊，這時候可以問自己幾個問題：
+<ol>
+<li>Does the change I’m contemplating make the code harder to understand?<br>
+就算要抽象化，好的抽象是可以讓 code 容易理解的</li>
+<li>What is the future cost of doing nothing now?<br>
+有時候就算現在不去改，他的 cost 在未來是不會增加的，這時候就之後再做吧<br>
+有可能需要改動的那天永遠不會來，或者那天到了會有更多資訊讓你有更明確的方向去改他，不管怎樣，等待是比較好的選擇</li>
+</ol>
+</li>
+</ul>
+<h3>Judge by sender’s point of view</h3>
+<p>下判斷的時候可以用 receiver / sender 的觀點來思考，像是這一段</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">song</span></span></span><br><span class="line">  verses(<span class="number">99</span>, <span class="number">0</span>)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這時候我還需要 song 這個方法嗎？是不是有點多餘</p>
+<p>以下引用原文</p>
+<blockquote>
+<p>Answering this question requires thinking about the problem from the message sender’s point of view. While it’s true that verses(99, 0) and song return the same output, they differ widely in the amount of knowledge they require from the sender. From the sender’s point of view, it is one thing to know that you want all of the lyrics to the “99 Bottles” song, but it is quite another to know how Bottles produces those lyrics.</p>
+</blockquote>
+<p>如果把 <code>song</code> 這個 method 拿掉，使用者需要知道：</p>
+<ol>
+<li>method 的名字是 <code>verses</code></li>
+<li><code>verses</code> method 吃兩個參數</li>
+<li>第一個參數是起點，第二個是終點</li>
+<li>起點是 99 終點是 0</li>
+</ol>
+<p>簡單來說，使用 <code>song</code> 跟 <code>verses(99, 0)</code> 這兩個所需要的知識量是不同的，所以抽出來不失為一個正確的選擇</p>
+<h2>Chapter3 Unearthing Concepts</h2>
+<ul>
+<li>如果要把重複的東西抽出來，可以採用所謂的 <code>flocking rules</code>:
+<ol>
+<li>Select the things that are most alike.</li>
+<li>Find the smallest difference between them.</li>
+<li>Make the simplest change that will remove that difference.</li>
+</ol>
+</li>
+</ul>
+<h3>Strting with open / cloes principle</h3>
+<p>新需求過來的時候，應該要先看看目前的 code 是不是夠 open 到可以容納這個需求，而如果連怎麼讓這段 code open 都想不太到，建議可以從 code smell 開始下手，可以參考下面的流程圖：</p>
+<p><img src="https://i.imgur.com/96URLYQ.png" alt=""></p>
+<h3>method naming</h3>
+<p>書中有一段介紹到method nameing 小技巧：</p>
+<ol>
+<li>new requirement</li>
+</ol>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">xxx</span><span class="params">(num)</span></span></span><br><span class="line">  <span class="keyword">if</span> num == <span class="number">1</span></span><br><span class="line">  <span class="string">'bottle'</span></span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  <span class="string">'bottles'</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>最直覺可能會想到 plurization，但這並不符合這首歌的 context，尤其在新需求裡面，多了一個量詞：six-pack，這可以幫我們更快的刪除 plurization 這選項</p>
+<ol start="2">
+<li>general rule</li>
+</ol>
+<p>general rule =&gt; 我們要命名的 method 應該是 implementation 的上一層抽象，bottle/bottles/six pack 都屬於某個種類，我們應該幫這種類取個屬於這個 domain 的名字，像是下面這樣，如果真的想不出來也可以想出更多屬於這個種類的字幫助思考，像是這樣的表格可以幫助思考：</p>
+<p><img src="https://i.imgur.com/NM6ALZV.png" alt=""></p>
+<p>BTW，有的人可能會在這個例子中用 unit，但 unit 不只是往上一層抽象而是好幾層，在這例子中 container 可能比較適合一些</p>
+<h2>Chapter4 Practicing Horizontal Refactoring</h2>
+<h3>Liskov Substitution Principle</h3>
+<p>Liskov Substitution Principle 的原本定義是，subtypes 一定要可以被 supertypes 兼容</p>
+<p>但我們可以把他的概念再擴大，可以套用在 duck typing 上，每個扮演 duck 的物件一定要可以融入所有可以套用在 duck 身上的 API</p>
+<p>像是下面兩段 code 來試著評斷看看哪種比較好：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quantity</span><span class="params">(number)</span></span></span><br><span class="line">  <span class="keyword">if</span> number == <span class="number">0</span></span><br><span class="line">    <span class="string">"no more"</span></span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    number</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verse</span><span class="params">(number)</span></span></span><br><span class="line">  <span class="keyword">case</span> number</span><br><span class="line">  <span class="keyword">when</span> <span class="number">0</span></span><br><span class="line">    <span class="string">"<span class="subst">#&#123;quantity(number).to_s.capitalize&#125;</span> bottles of beer on the wall, "</span> + <span class="comment"># 這裡有 to_s</span></span><br><span class="line">    ...</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="string">"<span class="subst">#&#123;quantity(number).to_s.capitalize&#125;</span> <span class="subst">#&#123;container(number)&#125;</span> of beer on the wall, "</span> <span class="comment"># 這裡有 to_s</span></span><br><span class="line">    ...</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>還是要這樣比較好？</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quantity</span><span class="params">(number)</span></span></span><br><span class="line">  <span class="keyword">if</span> number == <span class="number">0</span></span><br><span class="line">    <span class="string">"no more"</span></span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    number.to_s <span class="comment"># 這裡有 to_s</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verse</span><span class="params">(number)</span></span></span><br><span class="line">  <span class="keyword">case</span> number</span><br><span class="line">  <span class="keyword">when</span> <span class="number">0</span></span><br><span class="line">    <span class="string">"<span class="subst">#&#123;quantity(number).capitalize&#125;</span> bottles of beer on the wall, "</span> +</span><br><span class="line">    ...</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="string">"<span class="subst">#&#123;quantity(number).capitalize&#125;</span> <span class="subst">#&#123;container(number)&#125;</span> of beer on the wall, "</span></span><br><span class="line">    ...</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>應該是後者比較好，重點在於 quantity 回傳的物件適用於不同的 API，他有時候回傳的物件是 <code>capitalizable</code> 的但有時候不是，這些 knowledge 都算是 dependency，第一種寫法裡，verse 需要知道的東西比較多，而如果 quantity 更可以被信任，則 verse 就可以知道越少</p>
+<p>這個 rule 就是希望 message sender 不用對回傳的東西測試來知道如何反應</p>
+<h2>Chapter5 Separating Responsibilities</h2>
+<p>要繼續 refactor 下去可以問自己下面這些問題：</p>
+<ol>
+<li>有沒有 method 看起來的形狀一樣？ (可以用 squint test 的方式去找)</li>
+<li>有沒有 method 的參數是相同名字？</li>
+<li>這些有相同名字的參數的 method 意義相同嗎? 這最好是順著 code 下去找，常常參數名字一樣，但他們的意義是不一樣的，如果有多個 method 的 argument 意義上一樣(不是名字一樣)，也是一種可以改善的 code smell</li>
+<li>如果要加上 private 你會加在哪裡？</li>
+<li>如果要把這個 class 拆成兩半你會怎麼拆？</li>
+<li>有沒有 method 相依於參數而不是 class 本身？如果有一群 method 是相依在參數本身而不是 class 本身，那他們應該被抽離出來放在一起</li>
+</ol>
+<p>其中有一段滿吸引我的：</p>
+<blockquote>
+<p>As an OO practitioner, when you see a conditional, the hairs on your neck should stand up</p>
+</blockquote>
+<p>這並不是說在 OO 的世界裡面不能有任何 conditional，OO application 要把很多小物件放在一起合作，而要取什麼物件需要知道哪個物件適合，這時候常常會看到 conditional，而選擇正確物件的 conditional 跟選擇行為的 conditional 之間有很大的區別</p>
+<blockquote>
+<p>you should continue to name methods after what they mean, classes can be named after what they are.</p>
+</blockquote>
+<p>因此我們在命名 method 的時候會往上作一層抽象，但 class 則不會</p>
+<h2>Chapter6 Achieving Openess</h2>
+<h3>data clump</h3>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="string">"<span class="subst">#&#123;bottle_number.quantity.capitalize&#125;</span> <span class="subst">#&#123;bottle_number.container&#125;</span> "</span> +</span><br><span class="line"><span class="string">"of beer on the wall, "</span> +</span><br><span class="line"><span class="string">"<span class="subst">#&#123;bottle_number.quantity&#125;</span> <span class="subst">#&#123;bottle_number.container&#125;</span> of beer.\n"</span> +</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>bottle_number.quantity 跟 bottle_number.container 都一起出現，這種 code 算是 data clump 的 smell，表示幾個 data 常常一起出現</p>
+<p>要去除這個 smell 常常是把這個抽出來變成獨立的 class，比較簡單的則是把他們抽出來變成獨立的 method</p>
+<h3>Refactor conditionals</h3>
+<p>主要有兩種方法：</p>
+<ol>
+<li>Replace Conditional with State/Strategy</li>
+<li>Replace Conditional with Polymorphism.</li>
+</ol>
+<p>他們的差異在於後者 Polymorphism 用了繼承，但前者沒有</p>
+<p>Replace Conditional with Polymorphism 會把 default 行為留在 super class 裡面，其他的條件放在特化的 class 中</p>
+<p>polymorphism 的定義是有多個不同的 object 對同一個 message 能夠做出回應</p>
+<p>當採取上面的策略，那有一部分的 code 勢必要選到正確的 class，並做出一個正確的 instance，這種 code 稱之為 factory，而有一些 method name 很適合當作 factory 的 entrypoint，像是 <code>for</code></p>
+<h2>Chapter7 Manufacturing Intelligence</h2>
+<p>這本書裡面我最喜歡這章，很清楚的寫出各種 factory 的可能形狀</p>
+<h3>Extension</h3>
+<p>現在這段 code 長這樣：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BottleNumber</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">for</span><span class="params">(number)</span></span></span><br><span class="line">    <span class="keyword">case</span> number</span><br><span class="line">    <span class="keyword">when</span> <span class="number">0</span></span><br><span class="line">      BottleNumber<span class="number">0</span></span><br><span class="line">    <span class="keyword">when</span> <span class="number">1</span></span><br><span class="line">      BottleNumber1</span><br><span class="line">    <span class="keyword">when</span> <span class="number">6</span></span><br><span class="line">      BottleNumber6</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      BottleNumber</span><br><span class="line">    <span class="keyword">end</span>.new(number)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="comment">#...</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>現在的 code 並沒有對於 extension open，每次有一個特殊的 case，除了加上這個 <code>BottleNumberX</code> 之外，我還要記得在 case when 加上這個 class</p>
+<p>然而因為它有著特殊的命名 pattern，其實我們可以讓她 open for extension</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">for</span><span class="params">(number)</span></span></span><br><span class="line">  <span class="keyword">begin</span></span><br><span class="line">    const_get(<span class="string">"BottleNumber<span class="subst">#&#123;number&#125;</span>"</span>)</span><br><span class="line">  <span class="keyword">rescue</span> NameError</span><br><span class="line">    BottleNumber</span><br><span class="line">  <span class="keyword">end</span>.new(number)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>但這樣做有幾個壞處：</p>
+<ol>
+<li>code 沒有一開始那麼好懂</li>
+<li>之後像是 BottleNumber0 這個 class 就沒有明顯的被哪段 code 引用，所以可能會被其他人不小心刪掉</li>
+<li>如果有人取了一個不符合這個 convention 的名字，那就不會被這段 code 用到</li>
+</ol>
+<p>那這樣到底要不要改呢？ 答案是看情況</p>
+<p>如果你之後從來不用增加 class 數量，那就可以維持原樣，但如果之後要常常增加，那把他 open 跟不段要改這段 factory 比起來應該前者比較划算</p>
+<p>我們要做的事情是減少代價產生，而要花多少代價都是看你遇到的情況</p>
+<p>另一個方向是把 class name 的部分用 key/value 取代 case when 的方式獨立開來並集中</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">for</span><span class="params">(number)</span></span></span><br><span class="line">  Hash.new(BottleNumber).merge(</span><br><span class="line">    <span class="number">0</span> =&gt; BottleNumber<span class="number">0</span>,</span><br><span class="line">    <span class="number">1</span> =&gt; BottleNumber1,</span><br><span class="line">    <span class="number">6</span> =&gt; BottleNumber6)[number].new(number)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這種寫法跟一開始的 case when 比起來也比較難閱讀一點，但跟 metaprogramming 的版本比起來，又可以針對不同數字有不同的 class 命名(不用按照 pattern)，也甚至可以把這個 mapping 寫在檔案裡面或者 db 裡面</p>
+<h3>dispersing choosing logic</h3>
+<p>有時候我們會遇到要選擇哪一個 class 來處理的條件很複雜，這時候可以把選擇的邏輯放在每個 class 裡面，由個別的 class 來決定他要不要負責處理</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BottleNumber</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">for</span><span class="params">(number)</span></span></span><br><span class="line">    [BottleNumber6, BottleNumber1, BottleNumber<span class="number">0</span>, BottleNumber].</span><br><span class="line">      find &#123;<span class="params">|candidate|</span> candidate.handles?(number)&#125;.new(number)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">handles?</span><span class="params">(number)</span></span></span><br><span class="line">    <span class="literal">true</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="comment"># ...</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BottleNumber0</span> &lt; BottleNumber</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">handles?</span><span class="params">(number)</span></span></span><br><span class="line">    number == <span class="number">0</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="comment"># ...</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h3>Self-registering Candidates</h3>
+<p>這個模式裡面，工廠知道有哪些 class 應該要是 candidate，至於要不要執行是每個 class 自己去註冊</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BottleNumber</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">for</span><span class="params">(number)</span></span></span><br><span class="line">    registry.find &#123;<span class="params">|candidate|</span> candidate.handles?(number)&#125;.new(number)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">registry</span></span></span><br><span class="line">    @registry <span class="params">||</span>= []</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">register</span><span class="params">(candidate)</span></span></span><br><span class="line">    registry.prepend(candidate)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  BottleNumber.register(<span class="keyword">self</span>)</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">handles?</span><span class="params">(number)</span></span></span><br><span class="line">    <span class="literal">true</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="comment"># ...</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BottleNumber0</span> &lt; BottleNumber</span></span><br><span class="line">  BottleNumber.register(<span class="keyword">self</span>)</span><br><span class="line">  <span class="comment"># ...</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>我們可以進一步善用 inherited callback 去做到這件事情，這樣在每個 subclass 就不用一定要去寫那一句</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BottleNumber</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">for</span><span class="params">(number)</span></span></span><br><span class="line">    registry.find &#123;<span class="params">|candidate|</span> candidate.handles?(number)&#125;.new(number)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">registry</span></span></span><br><span class="line">    @registry <span class="params">||</span>= [BottleNumber]</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">register</span><span class="params">(candidate)</span></span></span><br><span class="line">    registry.prepend(candidate)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">inherited</span><span class="params">(candidate)</span></span></span><br><span class="line">    register(candidate)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">handles?</span><span class="params">(number)</span></span></span><br><span class="line">    <span class="literal">true</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="comment"># ...</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h2>Chapter8 Developing a Programming Aesthetic</h2>
+<h3>Inverting dependencies</h3>
+<p>目前 Bottles 其中一段長這樣：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bottles</span></span></span><br><span class="line"><span class="comment"># ...</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">verse</span><span class="params">(number)</span></span></span><br><span class="line">    BottleVerse.new(number).lyrics</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>所以 Bottle 跟 BottleVerse 是緊緊相依，而且沒辦法拿到 BottleVerse 以外的物件的歌詞</p>
+<p>其實 bottles 不用知道 BottleVerse 這 class name，可以把 class name 由外面傳進來，這樣就可以減少他的 dependencies</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bottles</span></span></span><br><span class="line">  <span class="keyword">attr_reader</span> <span class="symbol">:verse_template</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">initialize</span><span class="params">(<span class="symbol">verse_template:</span> BottleVerse)</span></span></span><br><span class="line">    @verse_template = verse_template</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="comment"># ...</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">verse</span><span class="params">(number)</span></span></span><br><span class="line">    <span class="comment"># verse_template.new(number).lyrics</span></span><br><span class="line">    BottleVerse.new(number).lyrics</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/jEASPjz.png" alt=""><br>
+<img src="https://i.imgur.com/OC0St3t.png" alt=""><br>
+目前我們做了上圖的兩件事情，一個是先把 BottlbeVerse 從 Bottles 裡面拿出來，接著讓 Bottles 可以跟任何 respond to <code>lyrics</code> 的物件合作</p>
+<p>這種技巧叫做 dependency inversion，其中的重點在於你的 code 應該 dependent on abstractions(version template) 而不是 concretion(BottleVerse)</p>
+<p>DIP(dependency inversion principle) 的原文長這樣</p>
+<blockquote>
+<p>High-level modules should not depend upon low-level modules. Both should depend upon abstractions.<br>
+Abstractions should not depend upon details. Details should depend upon abstractions.</p>
+</blockquote>
+<p>簡單來說，翻譯過來就是，high level 的 class 不應該相依於 lower level class，而應該相依於可以去做事情的多型物件</p>
+<h3>Law of Demeter</h3>
+<p>舉一個違反 LoD 的例子：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span></span></span><br><span class="line">  best_friend.pet.preferred_toy.durability</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>因為 pet 不是跟 Foo 合作的對象，他是 friend 的合作對象，所以這段 code 相依於合作對象的合作對象，如下圖</p>
+<p><img src="https://i.imgur.com/Wz9jfKN.png" alt=""></p>
+<p>簡單說 LoD 就是在一個 method 裡面，message 應該只能送給：</p>
+<ol>
+<li>當作參數傳進去 method 的 object</li>
+<li>可以被 self access 的 object(合作對象)</li>
+</ol>
+<p>有一些看起來很多 <code>.</code> 的句子並不違反 LoD</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'AbCdE'</span>.reverse.gsub(<span class="regexp">/C/</span>, <span class="string">"!"</span>).downcase.chop</span><br></pre></td></tr></table></figure>
+<p>上面的句子並不違反 loD，因為每個回傳的物件都還是對應同樣的 API(而不是因為回傳的都一樣是 String class)</p>
+<p>所以我們應該用 forwarding 或者稱作 delegation 的方式來寫這段 code:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Friend</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">durability_of_preferred_toy</span></span></span><br><span class="line">    preferred_toy.durability</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Toy</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">durability_of_preferred_toy_of_pet</span></span></span><br><span class="line">    pet.durability_of_preferred_toy</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pet</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">durability</span></span></span><br><span class="line">    <span class="number">1</span>.hour</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span></span></span><br><span class="line">  <span class="comment"># Foo now only sends messages to best_friend 20   class Foo</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">durability_of_preferred_toy_of_best_friends_pet</span></span></span><br><span class="line">    best_friend.durability_of_preferred_toy_of_pet</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/DCERmkq.png" alt=""></p>
+<p>用這樣的觀點來看 code:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bottles</span></span></span><br><span class="line"><span class="comment"># ...</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">verse</span><span class="params">(number)</span></span></span><br><span class="line">    verse_template.new(number).lyrics</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>如果以 class 也只是 object 的觀點來看，verse_template 這個 receiver 跟送 new 這個 message 給 reciever 回傳的物件，兩個有不同的 API，因此這段 code 也違反了 LoD</p>
+<h3>Pushing Object Creation to the Edge</h3>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verse</span><span class="params">(number)</span></span></span><br><span class="line">  bottle_number = BottleNumber.<span class="keyword">for</span>(number)</span><br><span class="line"></span><br><span class="line">  <span class="string">"<span class="subst">#&#123;bottle_number&#125;</span> of beer on the wall, "</span>.capitalize +</span><br><span class="line">  <span class="string">"<span class="subst">#&#123;bottle_number&#125;</span> of beer.\n"</span> +</span><br><span class="line">  <span class="string">"<span class="subst">#&#123;bottle_number.action&#125;</span>, "</span> +</span><br><span class="line">  <span class="string">"<span class="subst">#&#123;bottle_number.successor&#125;</span> of beer on the wall.\n"</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>其中如果要說 verse 這段 method 做了什麼，可以說他用 number 做出 BottleNumber 物件，並且用這個物件產生歌詞，有 並且 這兩個字就說明了這個 method 職責不止一個，中間有一行空白，這更證明了這個 method 做了兩件事情</p>
+<p>此外，這個 method 利用 number 的方式是把它變成另一個物件，這在 OO 裡面是個不尋常的事情</p>
+<p>如果你的 code 有在 follow dependency injection，你會發現 object creation 漸漸跟 object use 分開來，object creation 漸漸往邊緣的方向走，object use 會漸漸往更裡面走</p>
+<p>在這個例子中，把 number 變成 BottleNumber 可以在更早的時間點進行(更往邊緣走)</p>
+<h3>About this chapter</h3>
+<p>總結一下這個章節，object oriented programming aesthetic 應該包括下面幾項：</p>
+<ol>
+<li>Put domain behavior on instances.</li>
+<li>Be averse to allowing instance methods to know the names of constants(這裡指 class name).</li>
+<li>Seek to depend on injected abstractions rather than hard-coded concretions.</li>
+<li>Push object creation to the edges, expecting objects to be created in one place and used in another.</li>
+<li>Avoid Demeter violations, using the temptation to create them as a spur to search for deeper abstractions.</li>
+</ol>
+<h2>Chapter9 Reaping the Benefits of Design</h2>
+<h3>ignorable tests</h3>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BottleNumber</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">pronoun</span><span class="params">(number)</span></span></span><br><span class="line">    <span class="string">"it"</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment"># test</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_pronoun</span></span></span><br><span class="line">  assert_equal <span class="string">"it"</span>, BottleNumber1.new(<span class="number">1</span>).pronoun</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>當我們寫測試的時候，好像在重複原本 code 裡面的東西，並沒有真的帶來什麼額外的價值，像這種測試不應該被加上去</p>
+<p>所以我們在講測試覆蓋的時候，應該是 100% 的 code 在 unit test 中要被執行到，而不是 100% 的 puiblic method 要被測試到</p>
+<p>測試應該要讓你有改 code 的空間，而不是對於現在的 implemetation 緊緊相依，當遇到這種測試的時候問問自己是否值得這樣做，然後考慮要不要拿掉這種測試</p>
+<h3>unit test to test multiple classes</h3>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BottleVerse</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">lyrics</span><span class="params">(number)</span></span></span><br><span class="line">    new(BottleNumber.<span class="keyword">for</span>(number)).lyrics</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">attr_reader</span> <span class="symbol">:bottle_number</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">initialize</span><span class="params">(bottle_number)</span></span></span><br><span class="line">    @bottle_number = bottle_number</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">lyrics</span></span></span><br><span class="line">    <span class="string">"<span class="subst">#&#123;bottle_number&#125;</span> of beer on the wall, "</span>.capitalize +</span><br><span class="line">    <span class="string">"<span class="subst">#&#123;bottle_number&#125;</span> of beer.\n"</span> +</span><br><span class="line">    <span class="string">"<span class="subst">#&#123;bottle_number.action&#125;</span>, "</span> +</span><br><span class="line">    <span class="string">"<span class="subst">#&#123;bottle_number.successor&#125;</span> of beer on the wall.\n"</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>在這個例子中，BottleVerse 完全依靠 bottle number 的實作，甚至沒辦法想像如何在沒有 BottleNumber 的情況下運作，而且 BottleNumber 也只有在這裡被用到</p>
+<p>這些特性可以讓我們思考，其實 BottleNumber 就是 BottleVerse 的其中一部分，可以同時在 BottleVerse 的測試裡面測試 BottleNumber 的特性</p>
+<h3>Signals</h3>
+<p>在寫測試的時候，我們可以利用一些暗示達到想要的效果，比方這段：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_song</span></span></span><br><span class="line">  expected =</span><br><span class="line">    <span class="string">"This is verse 47.\n"</span> +</span><br><span class="line">    <span class="string">"\n"</span> +</span><br><span class="line">    <span class="string">"This is verse 46.\n"</span> +</span><br><span class="line">    <span class="string">"\n"</span> +</span><br><span class="line">    <span class="string">"This is verse 45.\n"</span> +</span><br><span class="line">    <span class="string">"\n"</span> +</span><br><span class="line">    <span class="string">"This is verse 44.\n"</span> +</span><br><span class="line">    <span class="string">"\n"</span> +</span><br><span class="line">    <span class="string">"This is verse 43.\n"</span></span><br><span class="line">  assert_equal(</span><br><span class="line">    expected,</span><br><span class="line">    CountdownSong.new(<span class="symbol">verse_template:</span> VerseFake,</span><br><span class="line">                      <span class="symbol">max:</span> <span class="number">47</span>,</span><br><span class="line">                      <span class="symbol">min:</span> <span class="number">43</span>)</span><br><span class="line">      .song)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>其中的 47 跟 43 是質數，這種 <code>Prime Number Signal</code> 他隱含的意思是這個數字本身一點都不重要，只是一個範例</p>
+<p>有的人可能會想為什麼不直接寫註解，但註解常常會跟著 code 的變動 outdated，而這些 signal 跟註解比起來是更為可靠的</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/2022-03-13-Note_about_Jenkins/" data-toggle="tooltip" data-placement="top" title="Note About Jenkins">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/2022-02-2-retrospect_and_prospect_of_2022/" data-toggle="tooltip" data-placement="top" title="Retrospect And Prospect of 2022">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Intro</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Outline</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Chapter1 Rediscovering Simplicity</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">method naming principle</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Chapter2 Test Driving Shameless Green</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">Judge by sender’s point of view</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Chapter3 Unearthing Concepts</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.1.</span> <span class="toc-nav-text">Strting with open / cloes principle</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.2.</span> <span class="toc-nav-text">method naming</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">Chapter4 Practicing Horizontal Refactoring</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.1.</span> <span class="toc-nav-text">Liskov Substitution Principle</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">Chapter5 Separating Responsibilities</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">Chapter6 Achieving Openess</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">8.1.</span> <span class="toc-nav-text">data clump</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">8.2.</span> <span class="toc-nav-text">Refactor conditionals</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">9.</span> <span class="toc-nav-text">Chapter7 Manufacturing Intelligence</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">9.1.</span> <span class="toc-nav-text">Extension</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">9.2.</span> <span class="toc-nav-text">dispersing choosing logic</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">9.3.</span> <span class="toc-nav-text">Self-registering Candidates</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">10.</span> <span class="toc-nav-text">Chapter8 Developing a Programming Aesthetic</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">10.1.</span> <span class="toc-nav-text">Inverting dependencies</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">10.2.</span> <span class="toc-nav-text">Law of Demeter</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">10.3.</span> <span class="toc-nav-text">Pushing Object Creation to the Edge</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">10.4.</span> <span class="toc-nav-text">About this chapter</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">11.</span> <span class="toc-nav-text">Chapter9 Reaping the Benefits of Design</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">11.1.</span> <span class="toc-nav-text">ignorable tests</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">11.2.</span> <span class="toc-nav-text">unit test to test multiple classes</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">11.3.</span> <span class="toc-nav-text">Signals</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Ruby" title="Ruby">Ruby</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+                    
+                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+                    
+                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/qoosuperman">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Anthony Chao 2026 
+                    <br>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-153986590-1';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
+    <meta name="keyword" content="">
+    <meta property="og:image" content="undefined">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>
+        
+          Note About Jenkins - Anthony Chao | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2022-03-13-Note_about_Jenkins/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://images.unsplash.com/photo-1508028922235-7b9a1b690358?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1770&amp;q=80')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Jenkins" title="Jenkins">Jenkins</a>
+                            
+                        </div>
+                        <h1>Note About Jenkins</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Anthony Chao on
+                            2022-03-13
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Anthony Chao</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2>Intro</h2>
+<p>最近幾個禮拜碰了很多 Jenkins，覺得眉角滿多的，覺得值得做一篇記錄下來，其中尤其環境變數這邊碰到滿多出乎意料的狀況，記錄下來才不會忘記然後重踩一次坑</p>
+<h2>Outline</h2>
+<ul>
+<li><a href="#environment-variable">Environment variable</a></li>
+<li><a href="#credentails">Credentails</a></li>
+<li><a href="#conditions">Conditions</a></li>
+<li><a href="#docker">Docker</a></li>
+<li><a href="#build-other-job-in-a-pipeline">Build other job in a pipeline</a></li>
+<li><a href="#tips">Tips</a></li>
+</ul>
+<h2>Environment variable</h2>
+<h3>Automated exported variables</h3>
+<p>有一些環境變數會自動被放到 Jenkins 執行環境中，像是 BUILD_ID / JOB_NAME 等等，可以參考<a href="https://www.jenkins.io/doc/book/pipeline/jenkinsfile/#using-environment-variables" target="_blank" rel="noopener">官網</a></p>
+<p>另外放在這個 pipeline 裡面的 parameters 也都會自動被 export 出來</p>
+<h3>How to use</h3>
+<p>使用環境變數，可以清楚地在前面加上 env. 來拿，或者直接呼叫變數名字也可以</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">node &#123;</span><br><span class="line">  sh <span class="string">"echo $&#123;env.MY_VARIABLE&#125;"</span></span><br><span class="line">  sh <span class="string">"echo $&#123;MY_VARIABLE&#125;"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3>Scope</h3>
+<p>environment variables 可以設定在全域也可以設定在 stage 裡面，如果在 stage 裡面就只有那個 stage 可以用到</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    environment &#123;</span><br><span class="line">        ENVIRONMENT = <span class="string">"$&#123;params.Environment&#125;"</span></span><br><span class="line">    &#125;</span><br><span class="line">    stages &#123;</span><br><span class="line">      environment &#123;</span><br><span class="line">        ENVIRONMENT2 = <span class="string">"$&#123;params.Environment2&#125;"</span></span><br><span class="line">      &#125;</span><br><span class="line">      stage(<span class="string">'Setting1'</span>) &#123;</span><br><span class="line">        steps &#123;</span><br><span class="line">          script &#123;</span><br><span class="line">            sh <span class="string">"echo $&#123;ENVIRONMENT&#125;"</span>  <span class="comment">// OK</span></span><br><span class="line">            sh <span class="string">"echo $&#123;ENVIRONMENT2&#125;"</span>  <span class="comment">// OK</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    stages &#123;</span><br><span class="line">      stage(<span class="string">'Setting1'</span>) &#123;</span><br><span class="line">        steps &#123;</span><br><span class="line">          script &#123;</span><br><span class="line">            sh <span class="string">"echo $&#123;ENVIRONMENT&#125;"</span>  <span class="comment">// OK</span></span><br><span class="line">            sh <span class="string">"echo $&#123;ENVIRONMENT2&#125;"</span>  <span class="comment">// empty</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>如果不想在全域設定環境變數污染環境，可以用 <a href="https://www.jenkins.io/doc/pipeline/steps/workflow-basic-steps/#withenv-set-environment-variables" target="_blank" rel="noopener">withEnv</a></p>
+<p>下面的例子使用單引號，表示這個 env 是 shell 拿到的</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">node &#123;</span><br><span class="line">  withEnv([<span class="string">'MYTOOL_HOME=/usr/local/mytool'</span>]) &#123;</span><br><span class="line">    sh <span class="string">'$MYTOOL_HOME/bin/start'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>還有另一個設定環境變數的方式 <code>env.&lt;變數名字&gt;=</code>，但如果使用 <code>env.</code> 的方式設定，那也是有 scope 限制，跟使用最外面的 environment 設定的效果不同</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">node &#123;</span><br><span class="line">  env.MY_VARIABLE = <span class="string">'test'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果不會在執行的環境裡面被使用，就盡量不要環境變數，畢竟 export 這麼多環境變數可能影響程式的行為</p>
+<p>如果需要全域的變數而不是環境變數的話，建議在最前面全域的地方宣告之後，後面再去定義</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> TASK_NUM = <span class="string">''</span></span><br><span class="line"><span class="keyword">def</span> Image</span><br><span class="line">node &#123;</span><br><span class="line">  TASK_NUM = <span class="string">'test'</span></span><br><span class="line">  Image = docker.image(<span class="string">'myimage'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3>Case preserving</h3>
+<p>這個地方我覺得滿雷的，如果前面已經有一個變數，後面要再去定義另一個變數，他們拼起來一樣只有大小寫不同的時候，就會去改變原本的變數而不是宣告另一個變數</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent &#123; label <span class="string">'myec2'</span> &#125;</span><br><span class="line">    parameters &#123;</span><br><span class="line">        choice(<span class="string">name:</span> <span class="string">'Environment'</span>, <span class="string">choices:</span> [<span class="string">'develop'</span>])</span><br><span class="line">    &#125;</span><br><span class="line">    environment &#123;</span><br><span class="line">        ENVIRONMENT = <span class="string">'production'</span></span><br><span class="line">        TASK_NAME = <span class="string">'my_task'</span></span><br><span class="line">    &#125;</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Settings'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                script &#123;</span><br><span class="line">                  <span class="comment">// Environment 從 develop 被改成 production</span></span><br><span class="line">                  <span class="comment">// 並不會去宣告另一個 ENVIRONMENT 的變數</span></span><br><span class="line">                  sh <span class="string">'echo $ENVIRONMENT'</span> <span class="comment">// empty</span></span><br><span class="line">                  sh <span class="string">'echo $TASK_NAME'</span>   <span class="comment">// 'my_task'</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2>Credentails</h2>
+<p>credentials 有分成多個種類，可以參考<a href="https://www.jenkins.io/doc/book/using/using-credentials/" target="_blank" rel="noopener">這裡</a></p>
+<p>我比較常用的有 <code>Secret text</code> 跟 <code>Username and password</code> 這兩種</p>
+<p><code>Secret text</code> 使用起來跟前面的環境變數滿像的，拿到的時候就是一個字串</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">stage (<span class="string">'Secrets'</span>) &#123;</span><br><span class="line">    environment &#123;</span><br><span class="line">        TEXT = credentials(<span class="string">'SECRET_TEXT'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    steps &#123;</span><br><span class="line">        sh <span class="string">"cp $TEXT .env"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Username and password</code> 自動會拿到兩組字串，變數會是後面加上 <code>_USR</code> 跟 <code>_PSW</code> 的 suffix</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">stage (<span class="string">'Secrets'</span>) &#123;</span><br><span class="line">    environment &#123;</span><br><span class="line">        TEXT = credentials(<span class="string">'SECRET_USER_PASS'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    steps &#123;</span><br><span class="line">        script &#123;</span><br><span class="line">          <span class="keyword">def</span> GIT_CREDENTIAL = <span class="string">"https://$&#123;TEXT_USR&#125;:$&#123;TEXT_PSW&#125;xxx.git"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>withCredentials</code> 跟 <code>withEnv</code> 的使用方法差不多，但後面要註記使用的 credential 的種類</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">withCredentials([usernamePassword(</span><br><span class="line"><span class="symbol">  credentialsId:</span> <span class="string">'TEXT'</span>,</span><br><span class="line"><span class="symbol">  usernameVariable:</span> <span class="string">'TEXT_USR'</span>,</span><br><span class="line"><span class="symbol">  passwordVariable:</span> <span class="string">'TEXT_PSW'</span>)]) &#123;</span><br><span class="line">  <span class="keyword">def</span> url = <span class="string">"https://$&#123;GIT_USR&#125;:$&#123;GIT_PSW&#125;xxx.git"</span></span><br><span class="line">  sh <span class="string">"git clone $&#123;url&#125;"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2>Conditions</h2>
+<p>condition 可以讓我們來定義達到某個條件的時候這一步再去執行</p>
+<p>jenkinsfile 的 <a href="https://www.jenkins.io/doc/book/pipeline/syntax/#when" target="_blank" rel="noopener">condition</a> 有滿多種可以用</p>
+<p>我比較常用到的有兩種： <code>environment</code> 跟 <code>expression</code></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">stage(<span class="string">'my stage'</span>)</span><br><span class="line">    when &#123;</span><br><span class="line">        <span class="comment">// 當 REPO_NAME 這個環境變數等於 'my repo' 才去執行</span></span><br><span class="line">        environment <span class="string">name:</span> <span class="string">'REPO_NAME'</span>, <span class="string">value:</span> <span class="string">'my repo'</span></span><br><span class="line">    &#125;</span><br><span class="line">    steps &#123;</span><br><span class="line">      ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>expression 相較之下是比較萬用一點</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 當 params.CopyFromDevelop 有東西才去執行</span></span><br><span class="line">when &#123;</span><br><span class="line">    expression &#123; params.CopyFromDevelop &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 也可以用 regular expression</span></span><br><span class="line">when &#123;</span><br><span class="line">  expression &#123; params.AdditionalTypes =~ <span class="regexp">/another/</span> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2>Docker</h2>
+<p>在容器化越來越流行之下，Jenkins 也整合了很多 docker 的功能</p>
+<p>下面的範例示範怎麼把 image 從某個 ECR 拉下來再放到另一個 ECR repo</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">stage(<span class="string">'Pull image'</span>) &#123;</span><br><span class="line">    steps &#123;</span><br><span class="line">        script &#123;</span><br><span class="line">            <span class="keyword">def</span> CopiedImage</span><br><span class="line">            docker.withRegistry(<span class="string">"https://xxxx.dkr.ecr.ap-south-1.amazonaws.com"</span>, <span class="string">"ecr:ap-south-1:aws-instance-role"</span>) &#123;</span><br><span class="line">                sh <span class="string">"docker pull xxxx.dkr.ecr.ap-south-1.amazonaws.com/my-repo:develop"</span></span><br><span class="line">                CopiedImage = docker.image(<span class="string">"xxxx.dkr.ecr.ap-south-1.amazonaws.com/my-repo:develop"</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            docker.withRegistry(<span class="string">"https://xxxx2.dkr.ecr.ap-south-1.amazonaws.com"</span>, <span class="string">"ecr:ap-south-1:another-role"</span>) &#123;</span><br><span class="line">                CopiedImage.push(<span class="string">"another_tag"</span>)</span><br><span class="line">                <span class="keyword">def</span> new_tag = <span class="string">"another_tag"</span> + <span class="string">'-'</span> + <span class="keyword">new</span> Date().format(<span class="string">'yyyyMMdd-HHmmss'</span>)</span><br><span class="line">                CopiedImage.push(new_tag)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另外也可以把 container 當作 agent 直接在上面執行 job 內容(但 image 需要在這之前先拉到要執行的 slave node)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent &#123;</span><br><span class="line">        docker &#123;</span><br><span class="line">            customWorkspace <span class="string">'/root'</span></span><br><span class="line">            image <span class="string">'my_image'</span></span><br><span class="line">            label <span class="string">'tool'</span> <span class="comment">// 指定執行的 slave node</span></span><br><span class="line">            args  <span class="string">"--entrypoint='' -v /etc/passwd:/etc/passwd:ro -e ENVIRONEMT=debug"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>當然也支援直接跑 container 起來，甚至可以用巢狀結構來執行</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">docker.image(<span class="string">'mysql:5.7'</span>).withRun(<span class="string">'-e MYSQL_ALLOW_EMPTY_PASSWORD=yes -p 3306:3306'</span>) &#123; mysql -&gt;</span><br><span class="line">    docker.image(<span class="string">'redis'</span>).withRun(<span class="string">'-p 6379:6379'</span>) &#123; redis -&gt;</span><br><span class="line">        <span class="keyword">def</span> image = docker.image(<span class="string">'my_image'</span>)</span><br><span class="line"></span><br><span class="line">        image.inside(<span class="string">"-u root"</span>)&#123;</span><br><span class="line">            <span class="comment">// wait until mysql server up</span></span><br><span class="line">            sh <span class="string">'while ! mysqladmin ping -u root -h 127.0.0.1; do sleep 1; done'</span></span><br><span class="line">            sh <span class="string">"cd my_dir &amp;&amp; bundle exec rake db:migrate"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>現在的 slave 也可以直接跑在 container 裡面，但如果 job 裡面又會用到 container，通常會用 docker in docker 的方式來進行，只要把 host 的 <code>/var/run/docker.sock</code> mount 到 slave container 裡面的 <code>/var/run/docker.sock</code> 就可以用原本 host 的 docker daemon</p>
+<p>看到滿多文章都有介紹的，像是<a href="https://www.gss.com.tw/blog/jenkins-docker" target="_blank" rel="noopener">這篇</a></p>
+<h2>Build other job in a pipeline</h2>
+<p>可以在 job 裡面呼叫別的 job</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">stage(<span class="string">'deploy'</span>)&#123;</span><br><span class="line">    steps &#123;</span><br><span class="line">        build <span class="string">job:</span> <span class="string">'build image'</span>,</span><br><span class="line"><span class="symbol">            parameters:</span> [</span><br><span class="line">                string(<span class="string">name:</span> <span class="string">'Environment'</span>, <span class="string">value:</span> params.ENVIRONMENT),</span><br><span class="line">                booleanParam(<span class="string">name:</span> <span class="string">'WithCache'</span>, <span class="string">value:</span> <span class="literal">false</span>)</span><br><span class="line">            ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2>Tips</h2>
+<p>在 Jenkins GUI 上面 create jobs 的時候可以空 build 一次，如果沒有文法錯誤，雖然失敗但就會幫忙把 parameters 的部分建出來</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/2022-04-06-Dealing_activerecord_polymorphic_relation_with_namespace/" data-toggle="tooltip" data-placement="top" title="Dealing ActiveRecord Polymorphic Relation With Namespace">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/2022-02-14-Synopsis_of_99_bottles_of_OOP/" data-toggle="tooltip" data-placement="top" title="Synopsis of 99 Bottles of OOP">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Intro</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Outline</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Environment variable</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">Automated exported variables</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">How to use</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">Scope</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.4.</span> <span class="toc-nav-text">Case preserving</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Credentails</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Conditions</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">Docker</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">Build other job in a pipeline</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">Tips</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Jenkins" title="Jenkins">Jenkins</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+                    
+                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+                    
+                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/qoosuperman">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Anthony Chao 2026 
+                    <br>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-153986590-1';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

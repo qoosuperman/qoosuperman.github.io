@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
+    <meta name="keyword" content="">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1536925155833-43e9c2b2f499?q=80&amp;w=2670&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>
+        
+          Retrospect And Prospect of 2024 - Anthony Chao | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://qoosuperman.github.io/article/2024-01-01-Retrospect_And_Prospect_of_2024/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://images.unsplash.com/photo-1536925155833-43e9c2b2f499?q=80&amp;w=2670&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Life" title="Life">Life</a>
+                            
+                        </div>
+                        <h1>Retrospect And Prospect of 2024</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Anthony Chao on
+                            2024-01-07
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Anthony Chao</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>今年跟前面剛轉職的兩三年來說，算是比較不同的一年。</p>
+<p>過去會很容易資訊焦慮，會強迫自己不能太過懶散，需要主動吸收新知 &amp; 持續學習不間斷。但自從下半年以來，一方面可能工作上的事情略微繁重，下班後已經沒有什麼精力，另一方面可能也是這種緊繃的心態持續太久，覺得自己需要適度的放鬆一下。</p>
+<p>結果就是，在這下半年中，不管是跟朋友相處，或是打電動的時間都有大幅的增加～這樣休息帶來的好心情讓我覺得似乎已經準備好面對 2024 了！</p>
+<p>以下條列回顧一下 2023 玩的遊戲 / 目標 / 看過的課程與書籍 / 值得紀錄的事情，並列出 2024 目標</p>
+<h2>回顧 2022 的目標</h2>
+<ul>
+<li>[v] 工作更上手<br>
+只能說，自認為應該算是滿上手的了吧。</li>
+<li>[ ] 保持學習熱忱<br>
+算是半完成，前半年還是很有動力學習一些東西，但後來慢慢沒有辦法持續。</li>
+<li>[ ] 再更多喝水 &amp; 再更多的運動習慣<br>
+算是半完成，自從我買了一個超大水壺放在辦公室之後，喝水就明顯有幫助，但運動方面還是有待加強，可能需要固定的運動群體來讓自己有比較強烈的動機。</li>
+<li>[v] 比過去的自己更不拖延<br>
+這點自認為有達到，覺得我後來的半年執行每週回顧的動作又幫助到我比較不拖延，後面會再細講。</li>
+</ul>
+<h2>Games</h2>
+<p>今年玩的遊戲：</p>
+<ol>
+<li>潛水員戴夫</li>
+<li>怪獸列車</li>
+<li>博德之門 3</li>
+<li>薩爾達傳說 2</li>
+</ol>
+<p>今年玩的遊戲中，最喜歡的是博德之門 3，再來是潛水員戴夫，這兩款遊戲都讓我體會到開發者對於遊戲滿滿的愛。</p>
+<p>潛水員戴夫是個像素風格的捕魚遊戲，早上要去海裡潛水打魚，晚上又要去壽司店幫忙上菜或者倒飲料。這款遊戲不管是劇情還是遊戲方式都很胡鬧，裡面的遊戲方式包括彈幕射擊 / 動作遊戲 / 料理遊戲，感覺是開發者想得到的遊戲方式都放進去，劇情方面也是很天馬行空，但就不劇透了，總之這款遊戲真心推薦。</p>
+<p>博德之門則是我看過自由度最高的遊戲，遊戲裡面你看得到每個物件幾乎都可以互動，而且劇情的分支也是多到難以想像。這些自由度是我以前完全沒辦法想像的，身為工程師我更無法想像做這款遊戲的工程師為了這樣的自由度要修掉多少 bug，真的是心中非常有愛的團隊才做得出來吧！？他可能不是個大家一眼就會喜歡的遊戲，畫風也沒有說非常精緻，但沈浸的感覺對我來說是數一數二，劇本長度也非常有誠意，完全是精神時光屋一般的存在。</p>
+<h2>課程與書籍</h2>
+<ul>
+<li>
+<p>Prompt Engineering for ChatGPT<br>
+這線上課程非常推薦！在目前這年代如何跟 AI 溝通應該算是基礎能力的一種了，而這堂課就是在教你一些跟 AI 溝通的模式，幫助更快得到需要的結果。</p>
+</li>
+<li>
+<p>Rebuilding Rails<br>
+這本書的心得在前面講過，看完之後是覺得沒有非常推薦閱讀，但初學 Rails 的人可以從裡面更了解 Rails 一些～</p>
+</li>
+</ul>
+<p>今年比較多著重在寫 code / 研究工作相關的 project 上面，所以比較偏零散地閱讀，接下來的這一年應該會開始回歸讀一些軟性的書籍，希望可以同時增進自己的軟實力。</p>
+<h2>值得紀錄的事情</h2>
+<h3>養成每週回顧的習慣</h3>
+<p>大概在半年前開始常常覺得沒有很確定下一週的計畫讓人心煩，又或者沒注意到某個事件即將發生，突然在隔天行事曆跑出來讓我覺得不知所措。<br>
+因此最近半年，我幾乎都會在每週做個回顧，裡面包括每週例行要做的一些事項，像是整理桌面 / 整理下週的代辦事項 / 紀錄過去一周完成了哪些事情等等。<br>
+執行了約半年，我覺得在每週的剛開始就知道下週的目標對我來說滿有幫助的！未來希望可以持續下去。</p>
+<h3>跟老婆去了瑞士</h3>
+<p>老婆因為工作的關係，幾乎每年都會去瑞士出差，他也一直很希望可以跟我到瑞士旅遊，終於我們在今年實現了這個願望！我們初次體驗了滑翔傘 / 世界知名的冰河列車，又可以做我們最愛的健行活動，同時看著跟台灣截然不同的山景。</p>
+<p>最近朋友分享了 “記憶股息” 概念，覺得非常有道理，直接在這邊引述他的話:</p>
+<blockquote>
+<p>與股票股息相似，指的是當越早在人生中創造越多的回憶，這些回憶就會在往後提供快樂的情緒。例如，你可能曾經跟朋友到許多地方旅行，而這些回憶就會藏在你的腦海裡。日常中當你看見一些旅行片段、聽到朋友提及這段體驗時，就會勾起你當初的回憶，讓你感到快樂與溫馨。而這些「因回憶而收穫的快樂」，就是記憶股息的體現。</p>
+</blockquote>
+<p>看到這段話，讓我想起之前跟老婆蜜月去秘魯跟這次去瑞士兩段旅程，雖然這段日子都只在生命中佔據少少的一部分，但卻常常在我的心中浮現這些日子的回憶，以後一定要跟老婆再去更多地方！</p>
+<h3>規模堪比求婚之驚喜派對</h3>
+<p>今年年底幫某位壽星規劃了史上最盛大的驚喜派對，現在想想也是覺得非常瘋狂。因為知道這個壽星每年生日都會跟他的國中同學一起過，所以就私下去聯絡這位國中同學，並在壽星出國期間舉辦了秘密會議。生日當天還有三波驚喜（驚嚇？），分別是剛進來的拉砲 / 後來玩遊戲才有的生日禮物 / 晚上 12 點後送上我們一行人花了快半年接龍完成的小說精裝本。經過這次才知道原來生日派對可以辦到這樣的規模，因為非常花時間與精力，所以也奉勸各位不要輕易嘗試。</p>
+<h3>弄牙齒</h3>
+<p>今年也花了超多時間去看牙醫 &amp; 弄牙齒，以前刷牙習慣不好導致蛀牙一堆，導致現在看牙非常之痛苦，每次都要忍受牙醫器械發出的高頻聲音真的很不舒服，看完牙之後也會呈現精神耗弱的狀態，比較難繼續做其他事情。今年開始有改變刷牙習慣 &amp; 開始使用電動牙刷，希望未來可以不用再遭受這種痛苦。</p>
+<p>今年還有其他很多值得紀錄的事情，我就列在下面：</p>
+<ul>
+<li>跟哥一起去看了小時候最愛的灌籃高手電影版</li>
+<li>跟長輩一起去了東京</li>
+<li>絞盡腦汁想了老婆生日驚喜的解謎遊戲</li>
+<li>看了 Mr.Big 的告別演唱會</li>
+<li>爬了玉山</li>
+<li>規劃了 server 架構的轉移(工作上)</li>
+</ul>
+<h2>2024 的目標</h2>
+<ul>
+<li>一座百岳</li>
+<li>培養學習熱忱</li>
+<li>培養運動習慣</li>
+<li>上木工的線上課程，並自己做一個傢俱</li>
+<li>跟朋友維繫感情</li>
+</ul>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/2024-01-16-管控不如預期 書摘/" data-toggle="tooltip" data-placement="top" title="管控不如預期 書摘">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/2023-10-24-Write_Technical_document/" data-toggle="tooltip" data-placement="top" title="如何撰寫前期規劃技術文件">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">回顧 2022 的目標</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Games</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">課程與書籍</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">值得紀錄的事情</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">養成每週回顧的習慣</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.2.</span> <span class="toc-nav-text">跟老婆去了瑞士</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.3.</span> <span class="toc-nav-text">規模堪比求婚之驚喜派對</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.4.</span> <span class="toc-nav-text">弄牙齒</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">2024 的目標</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Life" title="Life">Life</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
+                    
+                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
+                    
+                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/qoosuperman">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Anthony Chao 2026 
+                    <br>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-153986590-1';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
