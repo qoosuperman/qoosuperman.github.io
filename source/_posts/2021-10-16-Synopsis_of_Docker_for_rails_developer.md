@@ -10,9 +10,6 @@ tags:
 - Rails
 - Docker
 - Devops
-catagories:
-- Rails
-- Devops
 updateDate: 2021-10-16 22:26:24
 # top: 1
 description: Synopsis of Docker For Rails Developer

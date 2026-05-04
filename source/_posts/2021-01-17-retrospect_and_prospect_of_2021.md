@@ -7,8 +7,6 @@ subtitle: ""
 header-img: "https://images.unsplash.com/photo-1610120563075-05bceb1c81a1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80"
 tags:
 - Life
-catagories:
-- Life
 updateDate: 2021-01-17 22:26:24
 # top: 1
 

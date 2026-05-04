@@ -7,9 +7,6 @@ subtitle: ""
 header-img: "https://images.unsplash.com/photo-1652944234451-7ac52e1fe6ce?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770"
 tags:
 - Rails
-catagories:
-- Ruby
-- Rails
 updateDate: 2022-5-19 22:26:24
 # top: 0
 description: What does counter culture do

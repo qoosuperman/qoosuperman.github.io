@@ -10,8 +10,6 @@ tags:
 - Devops
 - Jenkins
 - Docker
-catagories:
-- Devops
 updateDate: 2021-03-01 22:26:24
 # top: 1
 

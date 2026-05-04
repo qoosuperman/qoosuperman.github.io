@@ -8,8 +8,6 @@ header-img: "https://images.unsplash.com/photo-1606874136628-58da356227e9?ixid=M
 tags:
 - Rails
 - Cache
-catagories:
-- Rails
 updateDate: 2021-02-25 22:26:24
 # top: 1
 

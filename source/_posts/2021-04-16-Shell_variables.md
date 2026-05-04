@@ -7,8 +7,6 @@ subtitle: ""
 header-img: "https://images.unsplash.com/photo-1616244013240-227ec9abfefb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"
 tags:
 - Shell
-catagories:
-- Shell
 updateDate: 2021-04-16 22:26:24
 # top: 1
 

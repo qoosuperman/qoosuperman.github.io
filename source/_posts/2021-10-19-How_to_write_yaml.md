@@ -7,8 +7,6 @@ subtitle: ""
 header-img: "https://images.unsplash.com/photo-1633306946374-d64e9fca8734?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1770&q=80"
 tags:
 - Devops
-catagories:
-- Devops
 updateDate: 2021-10-19 22:26:24
 # top: 1
 description: How to Write YAML

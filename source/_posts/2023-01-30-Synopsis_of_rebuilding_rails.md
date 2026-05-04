@@ -8,8 +8,6 @@ header-img: "https://images.unsplash.com/photo-1615746360032-1ecf87f250fb?ixlib=
 tags:
 - Ruby
 - Rails
-catagories:
-- Rails
 updateDate: 2023-02-13 22:26:24
 # top: 0
 description: Synopsis of Rebuilding Rails

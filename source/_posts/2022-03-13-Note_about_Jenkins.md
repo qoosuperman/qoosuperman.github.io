@@ -7,8 +7,6 @@ subtitle: ""
 header-img: "https://images.unsplash.com/photo-1508028922235-7b9a1b690358?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
 tags:
 - Jenkins
-catagories:
-- Devops
 updateDate: 2022-3-13 22:26:24
 # top: 1
 description: Note About Jenkins

@@ -7,8 +7,6 @@ subtitle: ""
 header-img: "https://images.unsplash.com/photo-1628438273202-a26e785d044f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1791&q=80"
 tags:
 - Elixir
-catagories:
-- Elixir
 updateDate: 2021-08-20 22:26:24
 # top: 1
 description: Basic things for Elixir

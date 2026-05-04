@@ -8,8 +8,6 @@ header-img: "https://images.unsplash.com/photo-1515185738552-8916b6859d72?ixid=M
 tags:
 - Ruby
 - Rails
-catagories:
-- Rails
 updateDate: 2021-11-16 22:26:24
 # top: 1
 description: Rails initialization process

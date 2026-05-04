@@ -8,8 +8,6 @@ header-img: "https://images.unsplash.com/photo-1593642634524-b40b5baae6bb?ixlib=
 tags:
 - Apps Script
 - Javascript
-catagories:
-- Javascript
 updateDate: 2021-11-28 22:26:24
 # top: 1
 description: Apps Script Introduction

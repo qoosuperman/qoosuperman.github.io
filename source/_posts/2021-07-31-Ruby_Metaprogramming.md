@@ -7,8 +7,6 @@ subtitle: ""
 header-img: "https://images.unsplash.com/photo-1627637819794-fba32f82be16?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1789&q=80"
 tags:
 - Ruby
-catagories:
-- Ruby
 updateDate: 2021-07-31 22:26:24
 # top: 1
 description: Synopsis of Ruby Metaprgramming

@@ -8,8 +8,6 @@ header-img: "https://images.unsplash.com/photo-1634413656640-0bc2a33be4d1?ixid=M
 tags:
 - Docker
 - Devops
-catagories:
-- Devops
 updateDate: 2021-10-17 22:26:24
 # top: 1
 description: Docker command line tool memo

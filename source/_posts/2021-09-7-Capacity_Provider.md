@@ -8,8 +8,6 @@ header-img: "https://images.unsplash.com/photo-1630872146677-5a4cefb1afce?ixid=M
 tags:
 - AWS
 - Devops
-catagories:
-- Devops
 updateDate: 2021-09-7 22:26:24
 # top: 1
 description: aws capacity provider

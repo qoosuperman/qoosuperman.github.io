@@ -7,8 +7,6 @@ subtitle: ""
 header-img: "https://images.unsplash.com/photo-1574804225567-c04d11d6bc33?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1568&q=80"
 tags:
 - Javascript
-catagories:
-- Javascript
 updateDate: 2019-12-05 22:26:24
 # top: 1
 

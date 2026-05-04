@@ -8,8 +8,6 @@ header-img: "https://images.unsplash.com/photo-1632213702844-1e0615781374?ixid=M
 tags:
 - Ruby
 - Rails
-catagories:
-- Rails
 updateDate: 2021-10-6 22:26:24
 # top: 1
 description: pundit cancancan for dynamic permission control

@@ -8,9 +8,6 @@ header-img: "https://images.unsplash.com/photo-1629831676333-8e33b2d7cdd9?ixid=M
 tags:
 - SSH
 - Shell
-catagories:
-- SSH
-- Shell
 updateDate: 2021-08-25 22:26:24
 # top: 1
 description: Ssh Tunnel

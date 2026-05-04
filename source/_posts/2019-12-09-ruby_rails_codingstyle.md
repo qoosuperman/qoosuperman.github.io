@@ -7,8 +7,6 @@ subtitle: ""
 header-img: "https://images.unsplash.com/photo-1570928688583-976174742576?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"
 tags:
 - Ruby
-catagories:
-- Ruby
 updateDate: 2019-12-09 22:26:24
 # top: 1
 

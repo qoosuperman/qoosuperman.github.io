@@ -7,8 +7,6 @@ subtitle: ""
 header-img: "https://images.unsplash.com/photo-1463078488370-efa8ff1efb34?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1674&q=80"
 tags:
 - Life
-catagories:
-- Life
 updateDate: 2023-06-12 22:26:24
 # top: 0
 description: Swiss Travel Notes

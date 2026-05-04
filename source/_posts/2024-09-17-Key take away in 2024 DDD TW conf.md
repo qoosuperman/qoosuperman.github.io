@@ -7,8 +7,6 @@ subtitle: ""
 header-img: "https://anthony-public-images.s3.ap-northeast-1.amazonaws.com/0_article_images/2024_DDD_TW_conf.jpg"
 tags:
   - Developer
-catagories:
-  - Developer
 updateDate: 2024-09-17 22:26:24
 # top: 0
 og_image: "https://anthony-public-images.s3.ap-northeast-1.amazonaws.com/0_article_images/2024_DDD_TW_conf.jpg"

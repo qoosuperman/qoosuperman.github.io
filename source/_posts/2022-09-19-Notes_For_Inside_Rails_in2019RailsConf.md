@@ -8,8 +8,6 @@ header-img: "https://images.unsplash.com/photo-1495573258723-2c7be7a646ce?ixlib=
 tags:
 - Ruby
 - Rails
-catagories:
-- Ruby
 updateDate: 2022-9-19 22:26:24
 # top: 0
 description: Notes for Inside Rails in 2019 RailsConf

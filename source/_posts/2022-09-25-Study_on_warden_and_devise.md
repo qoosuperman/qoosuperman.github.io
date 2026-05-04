@@ -8,8 +8,6 @@ header-img: "https://images.unsplash.com/photo-1613264520739-c2eb038e8404?ixlib=
 tags:
 - Ruby
 - Rails
-catagories:
-- Ruby
 updateDate: 2022-9-25 22:26:24
 # top: 0
 description: How Gem Warden Works

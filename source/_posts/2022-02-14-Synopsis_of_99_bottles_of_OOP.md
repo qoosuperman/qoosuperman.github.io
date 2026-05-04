@@ -7,8 +7,6 @@ subtitle: ""
 header-img: "https://images.unsplash.com/photo-1522133474647-57fc4706cb0e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2233&q=80"
 tags:
 - Ruby
-catagories:
-- Ruby
 updateDate: 2022-2-14 22:26:24
 # top: 1
 description: Synopsis of 99 Bottles of OOP

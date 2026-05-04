@@ -7,8 +7,6 @@ subtitle: ""
 header-img: "https://images.unsplash.com/photo-1600623050499-84929aad17c9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
 tags:
 - Devops
-catagories:
-- Devops
 updateDate: 2022-5-29 22:26:24
 # top: 0
 description: Iptables introduction

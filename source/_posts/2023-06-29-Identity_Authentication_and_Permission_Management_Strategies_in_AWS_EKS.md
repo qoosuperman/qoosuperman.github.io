@@ -9,8 +9,6 @@ tags:
 - Devops
 - AWS
 - K8S
-catagories:
-- Devops
 updateDate: 2023-06-29 22:26:24
 # top: 0
 description: Identity Authentication and Permission Management Strategies in AWS EKS

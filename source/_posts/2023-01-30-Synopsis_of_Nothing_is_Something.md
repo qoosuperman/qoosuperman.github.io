@@ -7,8 +7,6 @@ subtitle: ""
 header-img: "https://images.unsplash.com/photo-1597852074816-d933c7d2b988?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
 tags:
 - SQL
-catagories:
-- SQL
 updateDate: 2023-01-30 22:26:24
 # top: 0
 description: Synopsis of Nothing is Something

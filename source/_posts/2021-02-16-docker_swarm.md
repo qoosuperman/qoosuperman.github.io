@@ -8,8 +8,6 @@ header-img: "https://images.unsplash.com/photo-1610062070518-55e6a3d3a290?ixid=M
 tags:
 - Devops
 - Docker
-catagories:
-- Devops
 updateDate: 2021-02-16 22:26:24
 # top: 1
 

@@ -8,8 +8,6 @@ header-img: "https://images.unsplash.com/photo-1608283833336-5fb6f919e5ea?ixlib=
 tags:
 - Ruby
 - Rails
-catagories:
-- Rails
 updateDate: 2023-03-27 22:26:24
 # top: 0
 description: Steps to Upgrade Rails

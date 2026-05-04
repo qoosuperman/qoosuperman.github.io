@@ -9,8 +9,6 @@ tags:
 - Devops
 - AWS
 - Docker
-catagories:
-- Devops
 updateDate: 2021-03-18 22:26:24
 # top: 1
 

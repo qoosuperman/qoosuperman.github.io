@@ -7,8 +7,6 @@ subtitle: ""
 header-img: "https://images.unsplash.com/photo-1604869515882-4d10fa4b0492?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
 tags:
 - Ruby
-catagories:
-- Ruby
 updateDate: 2022-8-10 22:26:24
 # top: 0
 description: Synopsis of To Thread or Not To Thread

@@ -7,8 +7,6 @@ subtitle: ""
 header-img: "https://images.unsplash.com/photo-1649239085201-5a6d724fd6af?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
 tags:
 - Jenkins
-catagories:
-- Devops
 updateDate: 2022-4-06 22:26:24
 # top: 1
 description: Dealing ActiveRecord Polymorphic Relation With Namespace

@@ -9,9 +9,6 @@ tags:
 - Ruby
 - Rails
 - Devops
-catagories:
-- Rails
-- Devops
 updateDate: 2021-11-09 22:26:24
 # top: 1
 description: Synopsis of Responsible Rails

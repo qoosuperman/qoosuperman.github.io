@@ -9,10 +9,6 @@ tags:
 - Regular Expression
 - Ruby
 - Shell
-catagories:
-- Regular Expression
-- Ruby
-- Shell
 updateDate: 2021-08-22 22:26:24
 # top: 1
 description: regular expression
