@@ -1,3 +1,7 @@
-public/
+/public/
 .vscode
 node_modules/
+
+# Astro
+astro/dist/
+astro/.astro/
