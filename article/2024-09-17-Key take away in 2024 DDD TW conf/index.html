@@ -1,225 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<!-- Head tag -->
-<head><meta name="generator" content="Hexo 3.9.0">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
-    <meta name="keyword" content="">
-    <meta property="og:image" content="https://anthony-public-images.s3.ap-northeast-1.amazonaws.com/0_article_images/2024_DDD_TW_conf.jpg">
-    <link rel="shortcut icon" href="/img/ironman-draw.png">
-    <!-- Place this tag in your head or just before your close body tag. -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <title>
-        
-          Key Take Away from 2024 DDD TW Conf - Anthony Chao | Blog
-        
-    </title>
-
-    <link rel="canonical" href="https://qoosuperman.github.io/article/2024-09-17-Key take away in 2024 DDD TW conf/">
-
-    <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/beantech.min.css">
-
-    <link rel="stylesheet" href="/css/donate.css">
-
-    <!-- Pygments Highlight CSS -->
-    <link rel="stylesheet" href="/css/highlight.css">
-
-    <link rel="stylesheet" href="/css/widget.css">
-
-    <link rel="stylesheet" href="/css/rocket.css">
-
-    <link rel="stylesheet" href="/css/signature.css">
-
-    <link rel="stylesheet" href="/css/toc.css">
-
-    <!-- Custom Fonts -->
-    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
-    <!-- Hux change font-awesome CDN to qiniu -->
-    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-
-    <!-- Hux Delete, sad but pending in China
-    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
-    css'>
-    -->
-
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <!-- ga & ba script hoook -->
-    <script></script>
-<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
-</head>
-
-
-<!-- hack iOS CSS :active style -->
-<body ontouchstart="">
-	<!-- Modified by Yu-Hsuan Yen -->
-<!-- Post Header -->
-<style type="text/css">
-    header.intro-header{
-        
-            background-image: url('https://anthony-public-images.s3.ap-northeast-1.amazonaws.com/0_article_images/2024_DDD_TW_conf.jpg')
-            /*post*/
-        
-    }
-    
-</style>
-
-<header class="intro-header" >
-    <!-- Signature -->
-    <div id="signature">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                
-                    <div class="post-heading">
-                        <div class="tags">
-                            
-                              <a class="tag" href="/tags/#Developer" title="Developer">Developer</a>
-                            
-                        </div>
-                        <h1>Key Take Away from 2024 DDD TW Conf</h1>
-                        <h2 class="subheading"></h2>
-                        <span class="meta">
-                            Posted by Anthony Chao on
-                            2024-09-17
-                        </span>
-                    </div>
-                
-
-
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-
-	
-    <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">Anthony Chao</a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <!-- Known Issue, found by Hux:
-            <nav>'s height woule be hold on by its content.
-            so, when navbar scale out, the <nav> will cover tags.
-            also mask any touch event of tags, unfortunately.
-        -->
-        <div id="huxblog_navbar">
-            <div class="navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="/">Home</a>
-                    </li>
-
-                    
-
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/archive/">Archive</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/tags/">Tags</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-                    
-                </ul>
-            </div>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container -->
-</nav>
-<script>
-    // Drop Bootstarp low-performance Navbar
-    // Use customize navbar with high-quality material design animation
-    // in high-perf jank-free CSS3 implementation
-    var $body   = document.body;
-    var $toggle = document.querySelector('.navbar-toggle');
-    var $navbar = document.querySelector('#huxblog_navbar');
-    var $collapse = document.querySelector('.navbar-collapse');
-
-    $toggle.addEventListener('click', handleMagic)
-    function handleMagic(e){
-        if ($navbar.className.indexOf('in') > 0) {
-        // CLOSE
-            $navbar.className = " ";
-            // wait until animation end.
-            setTimeout(function(){
-                // prevent frequently toggle
-                if($navbar.className.indexOf('in') < 0) {
-                    $collapse.style.height = "0px"
-                }
-            },400)
-        }else{
-        // OPEN
-            $collapse.style.height = "auto"
-            $navbar.className += " in";
-        }
-    }
-</script>
-
-
-    <!-- Main Content -->
-    <!-- Modify by Yu-Hsuan Yen -->
-
-<!-- Post Content -->
-<article>
-    <div class="container">
-        <div class="row">
-
-            <!-- Post Container -->
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                post-container">
-
-                <p>上週參加了 2024 台灣領域驅動設計年會，覺得收穫滿滿！</p>
+<!DOCTYPE html><html lang="zh-TW"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.2.1"><link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><title>Key Take Away from 2024 DDD TW Conf | Anthony Chao</title><meta name="description" content="Key Take Away from 2024 DDD TW Conf"><link rel="canonical" href="https://qoosuperman.github.io/article/2024-09-17-Key%20take%20away%20in%202024%20DDD%20TW%20conf/"><meta property="og:title" content="Key Take Away from 2024 DDD TW Conf | Anthony Chao"><meta property="og:description" content="Key Take Away from 2024 DDD TW Conf"><meta property="og:url" content="https://qoosuperman.github.io/article/2024-09-17-Key%20take%20away%20in%202024%20DDD%20TW%20conf/"><meta property="og:image" content="https://anthony-public-images.s3.ap-northeast-1.amazonaws.com/0_article_images/2024_DDD_TW_conf.jpg"><link rel="alternate" type="application/rss+xml" title="Anthony Chao" href="/rss.xml"><link rel="stylesheet" href="/_astro/BaseLayout.DzLgA5XB.css"></head> <body class="bg-white text-neutral-900 antialiased"> <header class="border-b border-neutral-200"> <div class="mx-auto max-w-3xl px-6 py-6 flex items-center justify-between"> <a href="/" class="font-semibold text-lg">Anthony Chao</a> <nav class="flex gap-6 text-sm text-neutral-600"> <a href="/" class="hover:text-neutral-900">Home</a> <a href="/about" class="hover:text-neutral-900">About</a> <a href="/tags" class="hover:text-neutral-900">Tags</a> <a href="/archive" class="hover:text-neutral-900">Archive</a> <a href="/rss.xml" class="hover:text-neutral-900">RSS</a> </nav> </div> </header> <main class="mx-auto max-w-7xl px-6 py-10">   <div class="lg:grid lg:grid-cols-[1fr_minmax(0,45rem)_1fr] lg:gap-8"> <div class="hidden lg:block"></div> <article class="mx-auto min-w-0 max-w-3xl lg:max-w-none"> <img src="https://anthony-public-images.s3.ap-northeast-1.amazonaws.com/0_article_images/2024_DDD_TW_conf.jpg" alt="" class="w-full h-64 object-cover rounded-lg mb-8" loading="eager"> <header class="mb-8"> <h1 class="text-3xl font-bold leading-tight">Key Take Away from 2024 DDD TW Conf</h1>  <div class="mt-3 text-sm text-neutral-500 flex flex-wrap gap-x-4 gap-y-1"> <time datetime="2024-09-17T22:26:24.000Z">2024-09-17</time>  <span class="flex flex-wrap gap-2"> <a href="/tags/Developer/" class="hover:text-neutral-900">#Developer</a> </span> </div> </header> <div class="prose prose-neutral max-w-none">  <p>上週參加了 2024 台灣領域驅動設計年會，覺得收穫滿滿！</p>
 <p>有些議程專門給剛開始接觸 DDD 的新手，像是說明 DDD 裡面提供的 design pattern 如何運用，也有人在講自己專案中導入 DDD 的實戰經驗，更多的是分享自己的一些見解（ex. 團隊拓墣 / 開發者體驗 …etc）</p>
 <p>另外比較特別的還有 panel discussion 找一些專家討論遺留工作負載這個議題</p>
 <p>這篇文章中挑了兩場演講記錄一些重要的 take away 分享給看到這篇文章的大家，同時也作為自己往後的 memo（註：礙於知識產權，不方便直接分享投影片截圖出來）</p>
-<h2>開發者體驗(DevEx)</h2>
+<h2 id="開發者體驗devex">開發者體驗(DevEx)</h2>
 <p>開發者體驗的廣義定義為：視開發者為 End user，將工作過程的技術協作與團隊協作看做產品與服務，關注 developer 在使用中的感知與反應；致力於消除這些產品與服務所帶來的摩擦力，進而能夠快速交付價值並獲得回饋</p>
 <p>開發者體驗不佳的結果：</p>
 <ul>
@@ -237,7 +20,7 @@
 <li>回饋循環</li>
 <li>認知負荷</li>
 </ol>
-<h3>心流狀態</h3>
+<h3 id="心流狀態">心流狀態</h3>
 <p>影響心流狀態的因素非常多．包括但不限於：</p>
 <ul>
 <li>心理安全（ex. 公司總是處在不穩定狀態，也很難進入心流）</li>
@@ -253,7 +36,7 @@
 <li>即時回饋：在行動中，能夠持續獲得反饋是關鍵。</li>
 <li>專注於當下：心流的實現需要你全神貫注於當下的活動。消除外界的干擾，專注於眼前的任務，將有助於你快速進入心流狀態​。可以使用單核工作法 / 番茄工作法</li>
 </ul>
-<h3>認知負荷</h3>
+<h3 id="認知負荷">認知負荷</h3>
 <p>包括但不限於：</p>
 <ul>
 <li>程式碼複雜性</li>
@@ -268,7 +51,7 @@
 </ul>
 <p>講者認為，認知升級是人類（工程師）最好的投資，對於工程師來說，認知升級意味著不斷更新知識結構、拓展思維方式以及提升問題解決能力，這些都是在職業生涯中取得長遠成功的關鍵。</p>
 <p>講者又認為，解決認知負荷最好的方式是找到 mentor，不管是在專案內，或者人生中，一定要找到人生的 mentor 解決認知負荷</p>
-<h3>回饋循環</h3>
+<h3 id="回饋循環">回饋循環</h3>
 <p>包括但不限於：</p>
 <ul>
 <li>自動化測試速度</li>
@@ -276,10 +59,10 @@
 <li>程式碼 review 週期時間</li>
 <li>任務切換次數</li>
 </ul>
-<h2>新專案使用 DDD 的經驗談</h2>
+<h2 id="新專案使用-ddd-的經驗談">新專案使用 DDD 的經驗談</h2>
 <p>在做產品的時候，往往不是領域專家的知識變成產品，而是開發者心中的想像變成產品</p>
 <p>而 DDD 的主要目的是為了減少產生出來的產品跟 PM 心目中產品的落差，所以雖然 DDD 介紹了很多工具，但他的開發啟動是從跟領域專家的對話開始</p>
-<h3>講者導入之後的心得</h3>
+<h3 id="講者導入之後的心得">講者導入之後的心得</h3>
 <ol>
 <li>業務複雜度高的情況下用 DDD 不一定變慢，且更快得到驗證</li>
 <li>Ubiquitos language 是有意義的追求
@@ -297,7 +80,7 @@
 <li>跟領域專家一起定義 scope 是專案成功的關鍵之一</li>
 <li>實際情況往往會超出書本的定義，這時候仰賴當事人跟團體決策，不用執著在 DDD 的教條，要懂得妥協</li>
 </ol>
-<h3>Architectural Decision Records(ADR)</h3>
+<h3 id="architectural-decision-recordsadr">Architectural Decision Records(ADR)</h3>
 <ul>
 <li>用於記錄「架構決策」</li>
 <li>架構就是跟重要的事情有關的事物</li>
@@ -306,7 +89,7 @@
 <li>寫什麼？架構設計、使用新套件、命名規範…</li>
 <li>何時寫？只要有疑慮，就寫 (by Shopify Engineering)</li>
 </ul>
-<h3>整理軟體缺陷的來源</h3>
+<h3 id="整理軟體缺陷的來源">整理軟體缺陷的來源</h3>
 <p>軟體缺陷來源主要有四種</p>
 <ol>
 <li>Programmer errors</li>
@@ -397,333 +180,8 @@
 <li>又或者從使用者 Feedback 獲得更多資訊</li>
 </ol>
 </li>
-</ul>
-
-                
-
-                <hr>
-                <!-- Pager -->
-                <ul class="pager">
-                    
-                        <li class="previous">
-                            <a href="/article/2024-10-14-Shape Up 書摘/" data-toggle="tooltip" data-placement="top" title="Shape Up 書摘">&larr; Previous Post</a>
-                        </li>
-                    
-                    
-                        <li class="next">
-                            <a href="/article/2024-06-17-Hokaido_Travel_Notes/" data-toggle="tooltip" data-placement="top" title="Hokaido Travel Notes">Next Post &rarr;</a>
-                        </li>
-                    
-                </ul>
-
-                <br>
-
-                <!--打赏-->
-                
-                <!--打赏-->
-
-                <br>
-                <!--分享-->
-                
-                <!--分享-->
-                <br>                       
-                
-                <!-- require APlayer -->
-                
-
-                <!-- duoshuo Share start -->
-                
-                <!-- 多说 Share end-->
-
-                <!-- 多说评论框 start -->
-                
-                <!-- 多说评论框 end -->
-
-                <!-- disqus comment start -->
-                
-                <!-- disqus comment end -->
-
-                
-
-            </div>
-            
-            <!-- Tabe of Content -->
-            <!-- Table of Contents -->
-
-  
-    
-      <aside id="sidebar">
-        <div id="toc" class="toc-article">
-        <strong class="toc-title">Contents</strong>
-        
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">開發者體驗(DevEx)</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">心流狀態</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">認知負荷</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">回饋循環</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">新專案使用 DDD 的經驗談</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">講者導入之後的心得</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">Architectural Decision Records(ADR)</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">整理軟體缺陷的來源</span></a></li></ol></li></ol>
-        
-        </div>
-      </aside>
-    
-
-                
-            <!-- Sidebar Container -->
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                sidebar-container">
-
-                <!-- Featured Tags -->
-                
-                <section>
-                    <!-- no hr -->
-                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-                    <div class="tags">
-                       
-                          <a class="tag" href="/tags/#Developer" title="Developer">Developer</a>
-                        
-                    </div>
-                </section>
-                
-
-                <!-- Friends Blog -->
-                
-                <hr>
-                <h5>FRIENDS</h5>
-                <ul class="list-inline">
-
-                    
-                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
-                    
-                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
-                    
-                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
-                    
-                </ul>
-                
-            </div>
-        </div>
-    </div>
-</article>
-
-
-
-
-
-
-
-
-<!-- async load function -->
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
-</script>
-<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
-<script>
-    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
-        anchors.options = {
-          visible: 'hover',
-          placement: 'left',
-          icon: 'ℬ'
-        };
-        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
-    })
-</script>
-<style>
-    /* place left on bigger screen */
-    @media all and (min-width: 800px) {
-        .anchorjs-link{
-            position: absolute;
-            left: -0.75em;
-            font-size: 1.1em;
-            margin-top : -0.1em;
-        }
-    }
-</style>
-
-
-<!-- chrome Firefox 中文锚点定位失效-->
-<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
-<!-- smooth scroll behavior polyfill  -->
-<script type="text/javascript" src="/js/smoothscroll.js"></script>
-<script>
-        $('#toc').on('click','a',function(a){
-            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
-            // console.log(window.navigator.userAgent,isChrome)
-                // if(isChrome) {
-                    // console.log(a.currentTarget.outerHTML);
-                    // console.log($(a.currentTarget).attr("href"));
-                    //跳转到指定锚点
-                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
-                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
-                // }
-        })  
-</script>
-
-
-    <!-- Footer -->
-    <!-- Footer -->
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <ul class="list-inline text-center">
-                
-                    <li>
-                        <a href="/atom.xml">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
-                
-                
-
-                
-
-                
-
-                
-                    <li>
-                        <a target="_blank"  href="https://github.com/qoosuperman">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
-
-                
-
-                </ul>
-                <p class="copyright text-muted">
-                    Copyright &copy; Anthony Chao 2026 
-                    <br>
-                    
-                </p>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<!-- jQuery -->
-<script src="/js/jquery.min.js"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="/js/bootstrap.min.js"></script>
-
-<!-- Custom Theme JavaScript -->
-<script src="/js/hux-blog.min.js"></script>
-
-
-<!-- async load function -->
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
-</script>
-
-<!-- 
-     Because of the native support for backtick-style fenced code blocks 
-     right within the Markdown is landed in Github Pages, 
-     From V1.6, There is no need for Highlight.js, 
-     so Huxblog drops it officially.
-
-     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
-     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
--->
-<!--
-    <script>
-        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
-            hljs.initHighlightingOnLoad();
-        })
-    </script>
-    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
--->
-
-
-<!-- jquery.tagcloud.js -->
-<script>
-    // only load tagcloud.js in tag.html
-    if($('#tag_cloud').length !== 0){
-        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
-            $.fn.tagcloud.defaults = {
-                //size: {start: 1, end: 1, unit: 'em'},
-                color: {start: '#bbbbee', end: '#0085a1'},
-            };
-            $('#tag_cloud a').tagcloud();
-        })
-    }
-</script>
-
-<!--fastClick.js -->
-<script>
-    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
-        var $nav = document.querySelector("nav");
-        if($nav) FastClick.attach($nav);
-    })
-</script>
-
-
-<!-- Google Analytics -->
-
-
-<script>
-    // dynamic User by Hux
-    var _gaId = 'UA-153986590-1';
-    var _gaDomain = 'yoursite';
-
-    // Originial
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', _gaId, _gaDomain);
-    ga('send', 'pageview');
-</script>
-
-
-
-
-<!-- Baidu Tongji -->
-
-<script>
-    // dynamic User by Hux
-    var _baId = 'xxx';
-
-    // Originial
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?" + _baId;
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-</script>
-
-
-
-
-
-
-	<a id="rocket" href="#top" class=""></a>
-	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
-    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
-<!-- Image to hack wechat -->
-<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
-
-</body>
-
-</html>
+</ul>  </div> </article> <aside class="hidden lg:block"> <nav class="sticky top-10 max-h-[calc(100vh-5rem)] overflow-y-auto" aria-label="Contents"> <h2 class="text-sm font-semibold uppercase tracking-widest text-neutral-400">
+Contents
+</h2> <ul class="mt-4 space-y-2 text-sm"> <li class> <a href="#開發者體驗devex" class="block leading-snug text-neutral-600 hover:text-neutral-900"> <span class="text-neutral-400">1. </span> 開發者體驗(DevEx) </a> </li><li class="pl-4"> <a href="#心流狀態" class="block leading-snug text-neutral-600 hover:text-neutral-900">  心流狀態 </a> </li><li class="pl-4"> <a href="#認知負荷" class="block leading-snug text-neutral-600 hover:text-neutral-900">  認知負荷 </a> </li><li class="pl-4"> <a href="#回饋循環" class="block leading-snug text-neutral-600 hover:text-neutral-900">  回饋循環 </a> </li><li class> <a href="#新專案使用-ddd-的經驗談" class="block leading-snug text-neutral-600 hover:text-neutral-900"> <span class="text-neutral-400">2. </span> 新專案使用 DDD 的經驗談 </a> </li><li class="pl-4"> <a href="#講者導入之後的心得" class="block leading-snug text-neutral-600 hover:text-neutral-900">  講者導入之後的心得 </a> </li><li class="pl-4"> <a href="#architectural-decision-recordsadr" class="block leading-snug text-neutral-600 hover:text-neutral-900">  Architectural Decision Records(ADR) </a> </li><li class="pl-4"> <a href="#整理軟體缺陷的來源" class="block leading-snug text-neutral-600 hover:text-neutral-900">  整理軟體缺陷的來源 </a> </li> </ul> </nav> </aside> </div>  </main> <footer class="border-t border-neutral-200 mt-20"> <div class="mx-auto max-w-3xl px-6 py-8 text-sm text-neutral-500">
+© 2026 Anthony Chao
+</div> </footer> </body></html>

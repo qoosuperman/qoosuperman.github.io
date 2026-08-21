@@ -1,606 +1,253 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<!-- Head tag -->
-<head><meta name="generator" content="Hexo 3.9.0">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Anthony&#39;s Blog, about Ruby / Rails / Devops">
-    <meta name="keyword" content="">
-    <meta property="og:image" content="undefined">
-    <link rel="shortcut icon" href="/img/ironman-draw.png">
-    <!-- Place this tag in your head or just before your close body tag. -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <title>
-        
-          JS30 day23 Speech Synthesis - Anthony Chao | Blog
-        
-    </title>
-
-    <link rel="canonical" href="https://qoosuperman.github.io/article/2019-11-24-JS30_day23/">
-
-    <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/beantech.min.css">
-
-    <link rel="stylesheet" href="/css/donate.css">
-
-    <!-- Pygments Highlight CSS -->
-    <link rel="stylesheet" href="/css/highlight.css">
-
-    <link rel="stylesheet" href="/css/widget.css">
-
-    <link rel="stylesheet" href="/css/rocket.css">
-
-    <link rel="stylesheet" href="/css/signature.css">
-
-    <link rel="stylesheet" href="/css/toc.css">
-
-    <!-- Custom Fonts -->
-    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
-    <!-- Hux change font-awesome CDN to qiniu -->
-    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-
-    <!-- Hux Delete, sad but pending in China
-    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
-    css'>
-    -->
-
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <!-- ga & ba script hoook -->
-    <script></script>
-<link rel="alternate" href="/atom.xml" title="Anthony Chao" type="application/atom+xml">
-</head>
-
-
-<!-- hack iOS CSS :active style -->
-<body ontouchstart="">
-	<!-- Modified by Yu-Hsuan Yen -->
-<!-- Post Header -->
-<style type="text/css">
-    header.intro-header{
-        
-            background-image: url('https://images.unsplash.com/photo-1569271532860-dd35503aaf1f?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1951&amp;q=80')
-            /*post*/
-        
-    }
-    
-</style>
-
-<header class="intro-header" >
-    <!-- Signature -->
-    <div id="signature">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                
-                    <div class="post-heading">
-                        <div class="tags">
-                            
-                              <a class="tag" href="/tags/#Javascript" title="Javascript">Javascript</a>
-                            
-                        </div>
-                        <h1>JS30 day23 Speech Synthesis</h1>
-                        <h2 class="subheading"></h2>
-                        <span class="meta">
-                            Posted by Anthony Chao on
-                            2019-11-24
-                        </span>
-                    </div>
-                
-
-
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-
-	
-    <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">Anthony Chao</a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <!-- Known Issue, found by Hux:
-            <nav>'s height woule be hold on by its content.
-            so, when navbar scale out, the <nav> will cover tags.
-            also mask any touch event of tags, unfortunately.
-        -->
-        <div id="huxblog_navbar">
-            <div class="navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="/">Home</a>
-                    </li>
-
-                    
-
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/archive/">Archive</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/tags/">Tags</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-                    
-                </ul>
-            </div>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container -->
-</nav>
-<script>
-    // Drop Bootstarp low-performance Navbar
-    // Use customize navbar with high-quality material design animation
-    // in high-perf jank-free CSS3 implementation
-    var $body   = document.body;
-    var $toggle = document.querySelector('.navbar-toggle');
-    var $navbar = document.querySelector('#huxblog_navbar');
-    var $collapse = document.querySelector('.navbar-collapse');
-
-    $toggle.addEventListener('click', handleMagic)
-    function handleMagic(e){
-        if ($navbar.className.indexOf('in') > 0) {
-        // CLOSE
-            $navbar.className = " ";
-            // wait until animation end.
-            setTimeout(function(){
-                // prevent frequently toggle
-                if($navbar.className.indexOf('in') < 0) {
-                    $collapse.style.height = "0px"
-                }
-            },400)
-        }else{
-        // OPEN
-            $collapse.style.height = "auto"
-            $navbar.className += " in";
-        }
-    }
-</script>
-
-
-    <!-- Main Content -->
-    <!-- Modify by Yu-Hsuan Yen -->
-
-<!-- Post Content -->
-<article>
-    <div class="container">
-        <div class="row">
-
-            <!-- Post Container -->
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                post-container">
-
-                <h1>JS30 day23 - Speech Synthesis</h1>
-<h2>作業內容</h2>
-<p>最近做的都跟聲音有關，雖然概念上不複雜但我覺得 Google 能把這個東西實作出來放在瀏覽器真的太猛了吧 =  =，這個作業自己覺得比較難的部分是理解整個 google 系統是怎麼把聲音的資訊結合成物件<br>
+<!DOCTYPE html><html lang="zh-TW"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.2.1"><link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><title>JS30 day23 Speech Synthesis | Anthony Chao</title><meta name="description" content><link rel="canonical" href="https://qoosuperman.github.io/article/2019-11-24-JS30_day23/"><meta property="og:title" content="JS30 day23 Speech Synthesis | Anthony Chao"><meta property="og:description" content><meta property="og:url" content="https://qoosuperman.github.io/article/2019-11-24-JS30_day23/"><meta property="og:image" content="https://images.unsplash.com/photo-1569271532860-dd35503aaf1f?ixlib=rb-1.2.1&#38;ixid=eyJhcHBfaWQiOjEyMDd9&#38;auto=format&#38;fit=crop&#38;w=1951&#38;q=80"><link rel="alternate" type="application/rss+xml" title="Anthony Chao" href="/rss.xml"><link rel="stylesheet" href="/_astro/BaseLayout.DzLgA5XB.css"></head> <body class="bg-white text-neutral-900 antialiased"> <header class="border-b border-neutral-200"> <div class="mx-auto max-w-3xl px-6 py-6 flex items-center justify-between"> <a href="/" class="font-semibold text-lg">Anthony Chao</a> <nav class="flex gap-6 text-sm text-neutral-600"> <a href="/" class="hover:text-neutral-900">Home</a> <a href="/about" class="hover:text-neutral-900">About</a> <a href="/tags" class="hover:text-neutral-900">Tags</a> <a href="/archive" class="hover:text-neutral-900">Archive</a> <a href="/rss.xml" class="hover:text-neutral-900">RSS</a> </nav> </div> </header> <main class="mx-auto max-w-7xl px-6 py-10">   <div class="lg:grid lg:grid-cols-[1fr_minmax(0,45rem)_1fr] lg:gap-8"> <div class="hidden lg:block"></div> <article class="mx-auto min-w-0 max-w-3xl lg:max-w-none"> <img src="https://images.unsplash.com/photo-1569271532860-dd35503aaf1f?ixlib=rb-1.2.1&#38;ixid=eyJhcHBfaWQiOjEyMDd9&#38;auto=format&#38;fit=crop&#38;w=1951&#38;q=80" alt="" class="w-full h-64 object-cover rounded-lg mb-8" loading="eager"> <header class="mb-8"> <h1 class="text-3xl font-bold leading-tight">JS30 day23 Speech Synthesis</h1>  <div class="mt-3 text-sm text-neutral-500 flex flex-wrap gap-x-4 gap-y-1"> <time datetime="2019-11-24T22:26:24.000Z">2019-11-24</time>  <span class="flex flex-wrap gap-2"> <a href="/tags/Javascript/" class="hover:text-neutral-900">#Javascript</a> </span> </div> </header> <div class="prose prose-neutral max-w-none">  <h1 id="js30-day23---speech-synthesis">JS30 day23 - Speech Synthesis</h1>
+<h2 id="作業內容">作業內容</h2>
+<p>最近做的都跟聲音有關，雖然概念上不複雜但我覺得 Google 能把這個東西實作出來放在瀏覽器真的太猛了吧 =  =，這個作業自己覺得比較難的部分是理解整個 google 系統是怎麼把聲音的資訊結合成物件
 <img src="https://i.imgur.com/wyvNVW8.png" alt=""></p>
-<h2>學到什麼</h2>
+<h2 id="學到什麼">學到什麼</h2>
 <ul>
 <li>
 <p>JS</p>
 <ol>
 <li><code>SpeechSynthesisUtterance()</code> 物件為 Web Speech API 中代表一發音的需求，翻成白話文就是一段話的資訊，例如內容，語言、音調、聲音、速率等，我們可以透過 console log 看看這個物件的組成：</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SpeechSynthesisUtterance &#123;text: &quot;&quot;, lang: &quot;&quot;, voice: null, volume: -1, rate: -1, …&#125;</span><br></pre></td></tr></table></figure>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>SpeechSynthesisUtterance {text: "", lang: "", voice: null, volume: -1, rate: -1, …}</span></span></code></pre>
 <p>發出聲音的方式是用下面的方式來說：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SpeechSynthesis.speak(<span class="xml"><span class="tag">&lt;<span class="name">SpeechSynthesisUtterance實體</span>&gt;</span>)</span></span><br></pre></td></tr></table></figure>
-<p>上面這句的 <code>SpeechSynthesis</code> 介面是語音合成伺服器的控制器，可透過其來取得可使用的語音合成資訊，並播放或暫停發音等相關功能<br>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="js"><code><span class="line"><span style="color:#E1E4E8">SpeechSynthesis.</span><span style="color:#B392F0">speak</span><span style="color:#E1E4E8">(&#x3C;</span><span style="color:#79B8FF">SpeechSynthesisUtterance實體</span><span style="color:#E1E4E8">>)</span></span></code></pre>
+<p>上面這句的 <code>SpeechSynthesis</code> 介面是語音合成伺服器的控制器，可透過其來取得可使用的語音合成資訊，並播放或暫停發音等相關功能
 <br></p>
 <ol start="2">
-<li><code>speechSynthesis.addEventListener('voiceschanged', populatVoices)</code><br>
-voiceschanged 事件是當 <code>SpeechSynthesis.getVoices()</code> 改變時被觸發，它也是 SpeechSynthesis 唯一的一個事件。<br>
-這裡會被觸發，Bos 是說因為 SpeechSynthesis 被讀取所以觸發了這個事件<br>
-<br></li>
+<li><code>speechSynthesis.addEventListener('voiceschanged', populatVoices)</code>
+voiceschanged 事件是當 <code>SpeechSynthesis.getVoices()</code> 改變時被觸發，它也是 SpeechSynthesis 唯一的一個事件。
+這裡會被觸發，Bos 是說因為 SpeechSynthesis 被讀取所以觸發了這個事件
+<br>
+</li>
 <li><code>SpeechSynthesis.getVoices()</code>：取得一陣列，其中包含目前所有的 SpeechSynthesisVoice 物件，其裡頭的屬性為當下環境支援的所有發音資訊，晚點必須選擇其中一個給 msg 這個實體才有辦法發出聲音</li>
 </ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">populateVoices</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  voices = <span class="keyword">this</span>.getVoices()</span><br><span class="line">  <span class="built_in">console</span>.log(voices)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="js"><code><span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> populateVoices</span><span style="color:#E1E4E8">(){</span></span>
+<span class="line"><span style="color:#E1E4E8">  voices </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> this</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">getVoices</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">  console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(voices)</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
 <p><img src="https://i.imgur.com/hq4T4iD.png" alt=""></p>
-<p>參考資料：<a href="https://ithelp.ithome.com.tw/articles/10196799" target="_blank" rel="noopener">https://ithelp.ithome.com.tw/articles/10196799</a></p>
+<p>參考資料：<a href="https://ithelp.ithome.com.tw/articles/10196799">https://ithelp.ithome.com.tw/articles/10196799</a></p>
 <ol start="4">
 <li>現在要做出在下拉選單選擇不同語言就要發出不同語言的聲音</li>
 </ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setVoice</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  msg.voice = voices.find(<span class="function"><span class="params">voice</span> =&gt;</span> voice.name === <span class="keyword">this</span>.value)</span><br><span class="line">&#125;</span><br><span class="line">voicesDropdown.addEventListener(<span class="string">'change'</span>, setVoice)</span><br></pre></td></tr></table></figure>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="js"><code><span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> setVoice</span><span style="color:#E1E4E8">(){</span></span>
+<span class="line"><span style="color:#E1E4E8">  msg.voice </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> voices.</span><span style="color:#B392F0">find</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">voice</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> voice.name </span><span style="color:#F97583">===</span><span style="color:#79B8FF"> this</span><span style="color:#E1E4E8">.value)</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"><span style="color:#E1E4E8">voicesDropdown.</span><span style="color:#B392F0">addEventListener</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'change'</span><span style="color:#E1E4E8">, setVoice)</span></span></code></pre>
 <ol start="5">
 <li>做出切換語言同時直接中段前一個然後發聲音</li>
 </ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setVoice</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  msg.voice = voices.find(<span class="function"><span class="params">voice</span> =&gt;</span> voice.name === <span class="keyword">this</span>.value)</span><br><span class="line">  toggle()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">toggle</span>(<span class="params">startOver = true</span>)</span>&#123;</span><br><span class="line">  speechSynthesis.cancel()</span><br><span class="line">  <span class="keyword">if</span> (startOver)&#123;</span><br><span class="line">    speechSynthesis.speak(msg)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="js"><code><span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> setVoice</span><span style="color:#E1E4E8">(){</span></span>
+<span class="line"><span style="color:#E1E4E8">  msg.voice </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> voices.</span><span style="color:#B392F0">find</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">voice</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> voice.name </span><span style="color:#F97583">===</span><span style="color:#79B8FF"> this</span><span style="color:#E1E4E8">.value)</span></span>
+<span class="line"><span style="color:#B392F0">  toggle</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> toggle</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">startOver</span><span style="color:#F97583"> =</span><span style="color:#79B8FF"> true</span><span style="color:#E1E4E8">){</span></span>
+<span class="line"><span style="color:#E1E4E8">  speechSynthesis.</span><span style="color:#B392F0">cancel</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#F97583">  if</span><span style="color:#E1E4E8"> (startOver){</span></span>
+<span class="line"><span style="color:#E1E4E8">    speechSynthesis.</span><span style="color:#B392F0">speak</span><span style="color:#E1E4E8">(msg)</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
 <ol start="6">
 <li>監聽 scroll bar 跟 text 變化</li>
 </ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setOption</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name, <span class="keyword">this</span>.value);</span><br><span class="line">  msg[$&#123;<span class="keyword">this</span>.name&#125;] = <span class="keyword">this</span>.value;</span><br><span class="line">  toggle();</span><br><span class="line">&#125;</span><br><span class="line">options.forEach(<span class="function"><span class="params">option</span> =&gt;</span> &#123;</span><br><span class="line">  option.addEventListener(<span class="string">'change'</span>, setOption)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="js"><code><span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> setOption</span><span style="color:#E1E4E8">(){</span></span>
+<span class="line"><span style="color:#E1E4E8">  console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">this</span><span style="color:#E1E4E8">.name, </span><span style="color:#79B8FF">this</span><span style="color:#E1E4E8">.value);</span></span>
+<span class="line"><span style="color:#E1E4E8">  msg[${this.name}] </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> this</span><span style="color:#E1E4E8">.value;</span></span>
+<span class="line"><span style="color:#B392F0">  toggle</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"><span style="color:#E1E4E8">options.</span><span style="color:#B392F0">forEach</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">option</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">  option.</span><span style="color:#B392F0">addEventListener</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'change'</span><span style="color:#E1E4E8">, setOption)</span></span>
+<span class="line"><span style="color:#E1E4E8">})</span></span></code></pre>
 <p><img src="https://i.imgur.com/eO8xkik.png" alt=""></p>
 <ol start="7">
 <li>綁定 stopButton 事件的時候注意不能這樣寫</li>
 </ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stopButton.addEventListener(<span class="string">'click'</span>, toggle(<span class="literal">false</span>))</span><br></pre></td></tr></table></figure>
-<p>這樣會只有在一開始的時候觸發一次，按鍵本身沒作用，所以有兩種寫法<br>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="js"><code><span class="line"><span style="color:#E1E4E8">stopButton.</span><span style="color:#B392F0">addEventListener</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'click'</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">toggle</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">false</span><span style="color:#E1E4E8">))  </span></span></code></pre>
+<p>這樣會只有在一開始的時候觸發一次，按鍵本身沒作用，所以有兩種寫法
 <code>bind()</code> 會生成一個新的綁定函式，第一個值是 this 的值，後面的才是第 1,2,3…個參數</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">stopButton.addEventListener(<span class="string">'click'</span>, toggle.bind(<span class="literal">null</span>, <span class="literal">false</span>))  </span><br><span class="line"><span class="comment">// 或者</span></span><br><span class="line">stopButton.addEventListener(<span class="string">'click'</span>, () =&gt; toggle(<span class="literal">false</span>))</span><br></pre></td></tr></table></figure>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="js"><code><span class="line"><span style="color:#E1E4E8">stopButton.</span><span style="color:#B392F0">addEventListener</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'click'</span><span style="color:#E1E4E8">, toggle.</span><span style="color:#B392F0">bind</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">null</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">false</span><span style="color:#E1E4E8">))  </span></span>
+<span class="line"><span style="color:#6A737D">// 或者</span></span>
+<span class="line"><span style="color:#E1E4E8">stopButton.</span><span style="color:#B392F0">addEventListener</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'click'</span><span style="color:#E1E4E8">, () </span><span style="color:#F97583">=></span><span style="color:#B392F0"> toggle</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">false</span><span style="color:#E1E4E8">))  </span></span></code></pre>
 <ol start="8">
 <li>經過自己分析之後，發出聲音的步驟可以拆解如下如下</li>
 </ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1.把瀏覽器可以發出的聲音列出來，放在下拉選單(window 會比 mac 少)，這邊的 this 是 speechSynthesis</span></span><br><span class="line">voices = <span class="keyword">this</span>.getVoices()</span><br><span class="line"><span class="comment">//2.根據使用者選的下拉選單，把指定的這個 vioce 物件塞回去給 SpeechSynthesisUtterance 生出來的實體 msg</span></span><br><span class="line">msg.voice = voices.find(<span class="function"><span class="params">voice</span> =&gt;</span> voice.name === <span class="keyword">this</span>.value)</span><br><span class="line"><span class="comment">//3.根據 input 不同改變這段 msg 的內容 / 速度 / 音高 </span></span><br><span class="line">msg[<span class="keyword">this</span>.name] = <span class="keyword">this</span>.value </span><br><span class="line"><span class="comment">//4.包裝成 toggle function 發出聲音，如果傳入的參數是 false 就可以不發出聲音</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">toggle</span>(<span class="params">startOver = true</span>)</span>&#123;</span><br><span class="line">  speechSynthesis.cancel()</span><br><span class="line">  <span class="keyword">if</span> (startOver)&#123;</span><br><span class="line">    speechSynthesis.speak(msg)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="js"><code><span class="line"><span style="color:#6A737D">//1.把瀏覽器可以發出的聲音列出來，放在下拉選單(window 會比 mac 少)，這邊的 this 是 speechSynthesis</span></span>
+<span class="line"><span style="color:#E1E4E8">voices </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> this</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">getVoices</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#6A737D">//2.根據使用者選的下拉選單，把指定的這個 vioce 物件塞回去給 SpeechSynthesisUtterance 生出來的實體 msg</span></span>
+<span class="line"><span style="color:#E1E4E8">msg.voice </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> voices.</span><span style="color:#B392F0">find</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">voice</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> voice.name </span><span style="color:#F97583">===</span><span style="color:#79B8FF"> this</span><span style="color:#E1E4E8">.value)</span></span>
+<span class="line"><span style="color:#6A737D">//3.根據 input 不同改變這段 msg 的內容 / 速度 / 音高 </span></span>
+<span class="line"><span style="color:#E1E4E8">msg[</span><span style="color:#79B8FF">this</span><span style="color:#E1E4E8">.name] </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> this</span><span style="color:#E1E4E8">.value </span></span>
+<span class="line"><span style="color:#6A737D">//4.包裝成 toggle function 發出聲音，如果傳入的參數是 false 就可以不發出聲音</span></span>
+<span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> toggle</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">startOver</span><span style="color:#F97583"> =</span><span style="color:#79B8FF"> true</span><span style="color:#E1E4E8">){</span></span>
+<span class="line"><span style="color:#E1E4E8">  speechSynthesis.</span><span style="color:#B392F0">cancel</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#F97583">  if</span><span style="color:#E1E4E8"> (startOver){</span></span>
+<span class="line"><span style="color:#E1E4E8">    speechSynthesis.</span><span style="color:#B392F0">speak</span><span style="color:#E1E4E8">(msg)</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
 </li>
 </ul>
-<p>參考資料：<br>
-<a href="https://github.com/wesbos/JavaScript30" target="_blank" rel="noopener">https://github.com/wesbos/JavaScript30</a></p>
-<h2>code 內容：</h2>
+<p>參考資料：
+<a href="https://github.com/wesbos/JavaScript30">https://github.com/wesbos/JavaScript30</a></p>
+<h2 id="code-內容">code 內容：</h2>
 <p>HTML:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"voiceinator"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">      <span class="tag">&lt;<span class="name">h1</span>&gt;</span>The Voiceinator 5000<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"></span><br><span class="line">      <span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">"voice"</span> <span class="attr">id</span>=<span class="string">"voices"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">""</span>&gt;</span>Select A Voice<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"></span><br><span class="line">      <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"rate"</span>&gt;</span>Rate:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"rate"</span> <span class="attr">type</span>=<span class="string">"range"</span> <span class="attr">min</span>=<span class="string">"0"</span> <span class="attr">max</span>=<span class="string">"3"</span> <span class="attr">value</span>=<span class="string">"1"</span> <span class="attr">step</span>=<span class="string">"0.1"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">      <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"pitch"</span>&gt;</span>Pitch:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line"></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"pitch"</span> <span class="attr">type</span>=<span class="string">"range"</span> <span class="attr">min</span>=<span class="string">"0"</span> <span class="attr">max</span>=<span class="string">"2"</span> <span class="attr">step</span>=<span class="string">"0.1"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">textarea</span> <span class="attr">name</span>=<span class="string">"text"</span>&gt;</span>Hello! I love JavaScript 👍<span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"stop"</span>&gt;</span>Stop!<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"speak"</span>&gt;</span>Speak<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="html"><code><span class="line"><span style="color:#E1E4E8">&#x3C;</span><span style="color:#85E89D">div</span><span style="color:#B392F0"> class</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"voiceinator"</span><span style="color:#E1E4E8">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">      &#x3C;</span><span style="color:#85E89D">h1</span><span style="color:#E1E4E8">>The Voiceinator 5000&#x3C;/</span><span style="color:#85E89D">h1</span><span style="color:#E1E4E8">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">      &#x3C;</span><span style="color:#85E89D">select</span><span style="color:#B392F0"> name</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"voice"</span><span style="color:#B392F0"> id</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"voices"</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">        &#x3C;</span><span style="color:#85E89D">option</span><span style="color:#B392F0"> value</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">""</span><span style="color:#E1E4E8">>Select A Voice&#x3C;/</span><span style="color:#85E89D">option</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">      &#x3C;/</span><span style="color:#85E89D">select</span><span style="color:#E1E4E8">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">      &#x3C;</span><span style="color:#85E89D">label</span><span style="color:#B392F0"> for</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"rate"</span><span style="color:#E1E4E8">>Rate:&#x3C;/</span><span style="color:#85E89D">label</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">      &#x3C;</span><span style="color:#85E89D">input</span><span style="color:#B392F0"> name</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"rate"</span><span style="color:#B392F0"> type</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"range"</span><span style="color:#B392F0"> min</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"0"</span><span style="color:#B392F0"> max</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"3"</span><span style="color:#B392F0"> value</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"1"</span><span style="color:#B392F0"> step</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"0.1"</span><span style="color:#E1E4E8">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">      &#x3C;</span><span style="color:#85E89D">label</span><span style="color:#B392F0"> for</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"pitch"</span><span style="color:#E1E4E8">>Pitch:&#x3C;/</span><span style="color:#85E89D">label</span><span style="color:#E1E4E8">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">      &#x3C;</span><span style="color:#85E89D">input</span><span style="color:#B392F0"> name</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"pitch"</span><span style="color:#B392F0"> type</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"range"</span><span style="color:#B392F0"> min</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"0"</span><span style="color:#B392F0"> max</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"2"</span><span style="color:#B392F0"> step</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"0.1"</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">      &#x3C;</span><span style="color:#85E89D">textarea</span><span style="color:#B392F0"> name</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"text"</span><span style="color:#E1E4E8">>Hello! I love JavaScript 👍&#x3C;/</span><span style="color:#85E89D">textarea</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">      &#x3C;</span><span style="color:#85E89D">button</span><span style="color:#B392F0"> id</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"stop"</span><span style="color:#E1E4E8">>Stop!&#x3C;/</span><span style="color:#85E89D">button</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">      &#x3C;</span><span style="color:#85E89D">button</span><span style="color:#B392F0"> id</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"speak"</span><span style="color:#E1E4E8">>Speak&#x3C;/</span><span style="color:#85E89D">button</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">&#x3C;</span><span style="color:#85E89D">option</span><span style="color:#B392F0"> value</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">""</span><span style="color:#E1E4E8">>&#x3C;/</span><span style="color:#85E89D">option</span><span style="color:#E1E4E8">></span></span></code></pre>
 <p>CSS:</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">html</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">*, *<span class="selector-pseudo">:before</span>, *<span class="selector-pseudo">:after</span> &#123;</span><br><span class="line">  <span class="attribute">box-sizing</span>: inherit;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">font-family</span>: sans-serif;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#3BC1AC</span>;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">min-height</span>: <span class="number">100vh</span>;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">background-image</span>:</span><br><span class="line">  <span class="built_in">radial-gradient</span>(circle at <span class="number">100%</span> <span class="number">150%</span>, #<span class="number">3</span>BC1AC <span class="number">24%</span>, #<span class="number">42</span>D2BB <span class="number">25%</span>, #<span class="number">42</span>D2BB <span class="number">28%</span>, #<span class="number">3</span>BC1AC <span class="number">29%</span>, #<span class="number">3</span>BC1AC <span class="number">36%</span>, #<span class="number">42</span>D2BB <span class="number">36%</span>, #<span class="number">42</span>D2BB <span class="number">40%</span>, transparent <span class="number">40%</span>, transparent),</span><br><span class="line">  <span class="built_in">radial-gradient</span>(circle at <span class="number">0</span>    <span class="number">150%</span>, #<span class="number">3</span>BC1AC <span class="number">24%</span>, #<span class="number">42</span>D2BB <span class="number">25%</span>, #<span class="number">42</span>D2BB <span class="number">28%</span>, #<span class="number">3</span>BC1AC <span class="number">29%</span>, #<span class="number">3</span>BC1AC <span class="number">36%</span>, #<span class="number">42</span>D2BB <span class="number">36%</span>, #<span class="number">42</span>D2BB <span class="number">40%</span>, transparent <span class="number">40%</span>, transparent),</span><br><span class="line">  <span class="built_in">radial-gradient</span>(circle at <span class="number">50%</span>  <span class="number">100%</span>, #<span class="number">42</span>D2BB <span class="number">10%</span>, #<span class="number">3</span>BC1AC <span class="number">11%</span>, #<span class="number">3</span>BC1AC <span class="number">23%</span>, #<span class="number">42</span>D2BB <span class="number">24%</span>, #<span class="number">42</span>D2BB <span class="number">30%</span>, #<span class="number">3</span>BC1AC <span class="number">31%</span>, #<span class="number">3</span>BC1AC <span class="number">43%</span>, #<span class="number">42</span>D2BB <span class="number">44%</span>, #<span class="number">42</span>D2BB <span class="number">50%</span>, #<span class="number">3</span>BC1AC <span class="number">51%</span>, #<span class="number">3</span>BC1AC <span class="number">63%</span>, #<span class="number">42</span>D2BB <span class="number">64%</span>, #<span class="number">42</span>D2BB <span class="number">71%</span>, transparent <span class="number">71%</span>, transparent),</span><br><span class="line">  <span class="built_in">radial-gradient</span>(circle at <span class="number">100%</span> <span class="number">50%</span>, #<span class="number">42</span>D2BB <span class="number">5%</span>, #<span class="number">3</span>BC1AC <span class="number">6%</span>, #<span class="number">3</span>BC1AC <span class="number">15%</span>, #<span class="number">42</span>D2BB <span class="number">16%</span>, #<span class="number">42</span>D2BB <span class="number">20%</span>, #<span class="number">3</span>BC1AC <span class="number">21%</span>, #<span class="number">3</span>BC1AC <span class="number">30%</span>, #<span class="number">42</span>D2BB <span class="number">31%</span>, #<span class="number">42</span>D2BB <span class="number">35%</span>, #<span class="number">3</span>BC1AC <span class="number">36%</span>, #<span class="number">3</span>BC1AC <span class="number">45%</span>, #<span class="number">42</span>D2BB <span class="number">46%</span>, #<span class="number">42</span>D2BB <span class="number">49%</span>, transparent <span class="number">50%</span>, transparent),</span><br><span class="line">  <span class="built_in">radial-gradient</span>(circle at <span class="number">0</span>    <span class="number">50%</span>, #<span class="number">42</span>D2BB <span class="number">5%</span>, #<span class="number">3</span>BC1AC <span class="number">6%</span>, #<span class="number">3</span>BC1AC <span class="number">15%</span>, #<span class="number">42</span>D2BB <span class="number">16%</span>, #<span class="number">42</span>D2BB <span class="number">20%</span>, #<span class="number">3</span>BC1AC <span class="number">21%</span>, #<span class="number">3</span>BC1AC <span class="number">30%</span>, #<span class="number">42</span>D2BB <span class="number">31%</span>, #<span class="number">42</span>D2BB <span class="number">35%</span>, #<span class="number">3</span>BC1AC <span class="number">36%</span>, #<span class="number">3</span>BC1AC <span class="number">45%</span>, #<span class="number">42</span>D2BB <span class="number">46%</span>, #<span class="number">42</span>D2BB <span class="number">49%</span>, transparent <span class="number">50%</span>, transparent);</span><br><span class="line">  <span class="attribute">background-size</span>:<span class="number">100px</span> <span class="number">50px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.voiceinator</span> &#123;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">2rem</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">50rem</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">1rem</span>;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">  <span class="attribute">background</span>: white;</span><br><span class="line">  <span class="attribute">overflow</span>: hidden;</span><br><span class="line">  <span class="attribute">z-index</span>: <span class="number">1</span>;</span><br><span class="line">  <span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">5px</span> <span class="number">5px</span> <span class="built_in">rgba</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0.1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">h1</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="built_in">calc</span>(<span class="number">100%</span> + <span class="number">4rem</span>);</span><br><span class="line">  <span class="attribute">margin</span>: -<span class="number">2rem</span> <span class="number">0</span> <span class="number">2rem</span> -<span class="number">2rem</span>;</span><br><span class="line">  <span class="attribute">padding</span>: .<span class="number">5rem</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="number">#ffc600</span>;</span><br><span class="line">  <span class="attribute">border-bottom</span>: <span class="number">5px</span> solid <span class="number">#F3C010</span>;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">5rem</span>;</span><br><span class="line">  <span class="attribute">font-weight</span>: <span class="number">100</span>;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">'Pacifico'</span>, cursive;</span><br><span class="line">  <span class="attribute">text-shadow</span>: <span class="number">3px</span> <span class="number">3px</span> <span class="number">0</span> <span class="number">#F3C010</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.voiceinator</span> <span class="selector-tag">input</span>,</span><br><span class="line"><span class="selector-class">.voiceinator</span> <span class="selector-tag">button</span>,</span><br><span class="line"><span class="selector-class">.voiceinator</span> <span class="selector-tag">select</span>,</span><br><span class="line"><span class="selector-class">.voiceinator</span> <span class="selector-tag">textarea</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">10px</span> <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">2rem</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="number">#F7F7F7</span>;</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">textarea</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">20rem</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">input</span><span class="selector-attr">[type=<span class="string">"select"</span>]</span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.voiceinator</span> <span class="selector-tag">button</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="number">#ffc600</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">49%</span>;</span><br><span class="line">  <span class="attribute">float</span>: left;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">'Pacifico'</span>, cursive;</span><br><span class="line">  <span class="attribute">margin-bottom</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">2rem</span>;</span><br><span class="line">  <span class="attribute">border-bottom</span>: <span class="number">5px</span> solid <span class="number">#F3C010</span>;</span><br><span class="line">  <span class="attribute">cursor</span>: pointer;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.voiceinator</span> <span class="selector-tag">button</span><span class="selector-pseudo">:active</span> &#123;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">2px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.voiceinator</span> <span class="selector-tag">button</span><span class="selector-pseudo">:nth-of-type(1)</span> &#123;</span><br><span class="line">  <span class="attribute">margin-right</span>: <span class="number">2%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="css"><code><span class="line"><span style="color:#85E89D">html</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#79B8FF">  font-size</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">10</span><span style="color:#F97583">px</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  box-sizing</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">border-box</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">*</span><span style="color:#E1E4E8">, </span><span style="color:#85E89D">*</span><span style="color:#B392F0">:before</span><span style="color:#E1E4E8">, </span><span style="color:#85E89D">*</span><span style="color:#B392F0">:after</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#79B8FF">  box-sizing</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">inherit</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">body</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#79B8FF">  margin</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  padding</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  font-family</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">sans-serif</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  background-color</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  display</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">flex</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  min-height</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">100</span><span style="color:#F97583">vh</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  align-items</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">center</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF">  background-image</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#79B8FF">  radial-gradient</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">circle</span><span style="color:#F97583"> at</span><span style="color:#79B8FF"> 100</span><span style="color:#F97583">%</span><span style="color:#79B8FF"> 150</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 24</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 25</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 28</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 29</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 36</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 36</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 40</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">transparent</span><span style="color:#79B8FF"> 40</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">transparent</span><span style="color:#E1E4E8">),</span></span>
+<span class="line"><span style="color:#79B8FF">  radial-gradient</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">circle</span><span style="color:#F97583"> at</span><span style="color:#79B8FF"> 0</span><span style="color:#79B8FF">    150</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 24</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 25</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 28</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 29</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 36</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 36</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 40</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">transparent</span><span style="color:#79B8FF"> 40</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">transparent</span><span style="color:#E1E4E8">),</span></span>
+<span class="line"><span style="color:#79B8FF">  radial-gradient</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">circle</span><span style="color:#F97583"> at</span><span style="color:#79B8FF"> 50</span><span style="color:#F97583">%</span><span style="color:#79B8FF">  100</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 10</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 11</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 23</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 24</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 30</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 31</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 43</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 44</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 50</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 51</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 63</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 64</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 71</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">transparent</span><span style="color:#79B8FF"> 71</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">transparent</span><span style="color:#E1E4E8">),</span></span>
+<span class="line"><span style="color:#79B8FF">  radial-gradient</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">circle</span><span style="color:#F97583"> at</span><span style="color:#79B8FF"> 100</span><span style="color:#F97583">%</span><span style="color:#79B8FF"> 50</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 5</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 6</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 15</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 16</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 20</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 21</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 30</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 31</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 35</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 36</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 45</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 46</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 49</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">transparent</span><span style="color:#79B8FF"> 50</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">transparent</span><span style="color:#E1E4E8">),</span></span>
+<span class="line"><span style="color:#79B8FF">  radial-gradient</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">circle</span><span style="color:#F97583"> at</span><span style="color:#79B8FF"> 0</span><span style="color:#79B8FF">    50</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 5</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 6</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 15</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 16</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 20</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 21</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 30</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 31</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 35</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 36</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#3BC1AC</span><span style="color:#79B8FF"> 45</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 46</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">#42D2BB</span><span style="color:#79B8FF"> 49</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">transparent</span><span style="color:#79B8FF"> 50</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">transparent</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#79B8FF">  background-size</span><span style="color:#E1E4E8">:</span><span style="color:#79B8FF">100</span><span style="color:#F97583">px</span><span style="color:#79B8FF"> 50</span><span style="color:#F97583">px</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">.voiceinator</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#79B8FF">  padding</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">2</span><span style="color:#F97583">rem</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  width</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">50</span><span style="color:#F97583">rem</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  margin</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0</span><span style="color:#79B8FF"> auto</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  border-radius</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">1</span><span style="color:#F97583">rem</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  position</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">relative</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  background</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">white</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  overflow</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">hidden</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  z-index</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  box-shadow</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0</span><span style="color:#79B8FF"> 0</span><span style="color:#79B8FF"> 5</span><span style="color:#F97583">px</span><span style="color:#79B8FF"> 5</span><span style="color:#F97583">px</span><span style="color:#79B8FF"> rgba</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">,</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">,</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">,</span><span style="color:#79B8FF">0.1</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">h1</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#79B8FF">  width</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">calc</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">100</span><span style="color:#F97583">%</span><span style="color:#F97583"> +</span><span style="color:#79B8FF"> 4</span><span style="color:#F97583">rem</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#79B8FF">  margin</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">-2</span><span style="color:#F97583">rem</span><span style="color:#79B8FF"> 0</span><span style="color:#79B8FF"> 2</span><span style="color:#F97583">rem</span><span style="color:#79B8FF"> -2</span><span style="color:#F97583">rem</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  padding</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">.5</span><span style="color:#F97583">rem</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  background</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">#ffc600</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  border-bottom</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">5</span><span style="color:#F97583">px</span><span style="color:#79B8FF"> solid</span><span style="color:#79B8FF"> #F3C010</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  text-align</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">center</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  font-size</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">5</span><span style="color:#F97583">rem</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  font-weight</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">100</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  font-family</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">'Pacifico'</span><span style="color:#E1E4E8">, cursive;</span></span>
+<span class="line"><span style="color:#79B8FF">  text-shadow</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">3</span><span style="color:#F97583">px</span><span style="color:#79B8FF"> 3</span><span style="color:#F97583">px</span><span style="color:#79B8FF"> 0</span><span style="color:#79B8FF"> #F3C010</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">.voiceinator</span><span style="color:#85E89D"> input</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#B392F0">.voiceinator</span><span style="color:#85E89D"> button</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#B392F0">.voiceinator</span><span style="color:#85E89D"> select</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#B392F0">.voiceinator</span><span style="color:#85E89D"> textarea</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#79B8FF">  width</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">100</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  display</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">block</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  margin</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">10</span><span style="color:#F97583">px</span><span style="color:#79B8FF"> 0</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  padding</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">10</span><span style="color:#F97583">px</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  border</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  font-size</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">2</span><span style="color:#F97583">rem</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  background</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">#F7F7F7</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  outline</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">textarea</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#79B8FF">  height</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">20</span><span style="color:#F97583">rem</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">input</span><span style="color:#E1E4E8">[</span><span style="color:#B392F0">type</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"select"</span><span style="color:#E1E4E8">] {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">.voiceinator</span><span style="color:#85E89D"> button</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#79B8FF">  background</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">#ffc600</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  border</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  width</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">49</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  float</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">left</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  font-family</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">'Pacifico'</span><span style="color:#E1E4E8">, cursive;</span></span>
+<span class="line"><span style="color:#79B8FF">  margin-bottom</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  font-size</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">2</span><span style="color:#F97583">rem</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  border-bottom</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">5</span><span style="color:#F97583">px</span><span style="color:#79B8FF"> solid</span><span style="color:#79B8FF"> #F3C010</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  cursor</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">pointer</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#79B8FF">  position</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">relative</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">.voiceinator</span><span style="color:#85E89D"> button</span><span style="color:#B392F0">:active</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#79B8FF">  top</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">2</span><span style="color:#F97583">px</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">.voiceinator</span><span style="color:#85E89D"> button</span><span style="color:#B392F0">:nth-of-type</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#79B8FF">  margin-right</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">2</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span></code></pre>
 <p>JS:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> msg = <span class="keyword">new</span> SpeechSynthesisUtterance();</span><br><span class="line"><span class="keyword">let</span> voices = [];</span><br><span class="line"><span class="keyword">const</span> voicesDropdown = <span class="built_in">document</span>.querySelector(<span class="string">'[name="voice"]'</span>);</span><br><span class="line"><span class="keyword">const</span> options = <span class="built_in">document</span>.querySelectorAll(<span class="string">'[type="range"], [name="text"]'</span>);</span><br><span class="line"><span class="keyword">const</span> speakButton = <span class="built_in">document</span>.querySelector(<span class="string">'#speak'</span>);</span><br><span class="line"><span class="keyword">const</span> stopButton = <span class="built_in">document</span>.querySelector(<span class="string">'#stop'</span>);</span><br><span class="line">msg.text = <span class="built_in">document</span>.querySelector(<span class="string">'[name="text"]'</span>).value</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">populateVoices</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  voices = <span class="keyword">this</span>.getVoices()</span><br><span class="line">  <span class="keyword">const</span> voiceOptions = voices</span><br><span class="line">    .map( <span class="function"><span class="params">voice</span> =&gt;</span> &#123; <span class="keyword">return</span> <span class="string">`&lt;option value="<span class="subst">$&#123;voice.name&#125;</span>"&gt;<span class="subst">$&#123;voice.name&#125;</span>(<span class="subst">$&#123;voice.lang&#125;</span>)&lt;/option&gt;`</span>&#125;)</span><br><span class="line">    .join(<span class="string">''</span>)</span><br><span class="line">  voicesDropdown.innerHTML = voiceOptions</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setVoice</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  msg.voice = voices.find(<span class="function"><span class="params">voice</span> =&gt;</span> voice.name === <span class="keyword">this</span>.value)</span><br><span class="line">  toggle()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">toggle</span>(<span class="params">startOver = true</span>)</span>&#123;</span><br><span class="line">  speechSynthesis.cancel()</span><br><span class="line">  <span class="keyword">if</span> (startOver)&#123;</span><br><span class="line">    speechSynthesis.speak(msg)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setOption</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  msg[<span class="keyword">this</span>.name] = <span class="keyword">this</span>.value;</span><br><span class="line">  toggle();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">speechSynthesis.addEventListener(<span class="string">'voiceschanged'</span>, populateVoices)</span><br><span class="line">voicesDropdown.addEventListener(<span class="string">'change'</span>, setVoice)</span><br><span class="line">options.forEach(<span class="function"><span class="params">option</span> =&gt;</span> &#123;</span><br><span class="line">  option.addEventListener(<span class="string">'change'</span>, setOption)</span><br><span class="line">&#125;)</span><br><span class="line">speakButton.addEventListener(<span class="string">'click'</span>, toggle.bind(<span class="literal">null</span>, <span class="literal">false</span>))</span><br><span class="line">stopButton.addEventListener(<span class="string">'click'</span>, toggle(<span class="literal">false</span>))</span><br></pre></td></tr></table></figure>
-                
-
-                <hr>
-                <!-- Pager -->
-                <ul class="pager">
-                    
-                        <li class="previous">
-                            <a href="/article/2019-11-25-JS30_day24/" data-toggle="tooltip" data-placement="top" title="JS30 day24 Sticky Nav">&larr; Previous Post</a>
-                        </li>
-                    
-                    
-                        <li class="next">
-                            <a href="/article/2019-11-23-JS30_day22/" data-toggle="tooltip" data-placement="top" title="JS30 day22 Follow Along Links">Next Post &rarr;</a>
-                        </li>
-                    
-                </ul>
-
-                <br>
-
-                <!--打赏-->
-                
-                <!--打赏-->
-
-                <br>
-                <!--分享-->
-                
-                <!--分享-->
-                <br>                       
-                
-                <!-- require APlayer -->
-                
-
-                <!-- duoshuo Share start -->
-                
-                <!-- 多说 Share end-->
-
-                <!-- 多说评论框 start -->
-                
-                <!-- 多说评论框 end -->
-
-                <!-- disqus comment start -->
-                
-                <!-- disqus comment end -->
-
-                
-
-            </div>
-            
-            <!-- Tabe of Content -->
-            <!-- Table of Contents -->
-
-  
-    
-      <aside id="sidebar">
-        <div id="toc" class="toc-article">
-        <strong class="toc-title">Contents</strong>
-        
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">JS30 day23 - Speech Synthesis</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">作業內容</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">學到什麼</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">code 內容：</span></a></li></ol></li></ol>
-        
-        </div>
-      </aside>
-    
-
-                
-            <!-- Sidebar Container -->
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                sidebar-container">
-
-                <!-- Featured Tags -->
-                
-                <section>
-                    <!-- no hr -->
-                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-                    <div class="tags">
-                       
-                          <a class="tag" href="/tags/#Javascript" title="Javascript">Javascript</a>
-                        
-                    </div>
-                </section>
-                
-
-                <!-- Friends Blog -->
-                
-                <hr>
-                <h5>FRIENDS</h5>
-                <ul class="list-inline">
-
-                    
-                        <li><a href="https://riverye.com" target="_blank">小菜</a></li>
-                    
-                        <li><a href="https://chaichai.site" target="_blank">柴柴</a></li>
-                    
-                        <li><a href="https://louiswuyj.site" target="_blank">Louis</a></li>
-                    
-                </ul>
-                
-            </div>
-        </div>
-    </div>
-</article>
-
-
-
-
-
-
-
-
-<!-- async load function -->
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
-</script>
-<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
-<script>
-    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
-        anchors.options = {
-          visible: 'hover',
-          placement: 'left',
-          icon: 'ℬ'
-        };
-        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
-    })
-</script>
-<style>
-    /* place left on bigger screen */
-    @media all and (min-width: 800px) {
-        .anchorjs-link{
-            position: absolute;
-            left: -0.75em;
-            font-size: 1.1em;
-            margin-top : -0.1em;
-        }
-    }
-</style>
-
-
-<!-- chrome Firefox 中文锚点定位失效-->
-<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
-<!-- smooth scroll behavior polyfill  -->
-<script type="text/javascript" src="/js/smoothscroll.js"></script>
-<script>
-        $('#toc').on('click','a',function(a){
-            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
-            // console.log(window.navigator.userAgent,isChrome)
-                // if(isChrome) {
-                    // console.log(a.currentTarget.outerHTML);
-                    // console.log($(a.currentTarget).attr("href"));
-                    //跳转到指定锚点
-                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
-                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
-                // }
-        })  
-</script>
-
-
-    <!-- Footer -->
-    <!-- Footer -->
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <ul class="list-inline text-center">
-                
-                    <li>
-                        <a href="/atom.xml">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
-                
-                
-
-                
-
-                
-
-                
-                    <li>
-                        <a target="_blank"  href="https://github.com/qoosuperman">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
-
-                
-
-                </ul>
-                <p class="copyright text-muted">
-                    Copyright &copy; Anthony Chao 2026 
-                    <br>
-                    
-                </p>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<!-- jQuery -->
-<script src="/js/jquery.min.js"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="/js/bootstrap.min.js"></script>
-
-<!-- Custom Theme JavaScript -->
-<script src="/js/hux-blog.min.js"></script>
-
-
-<!-- async load function -->
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
-</script>
-
-<!-- 
-     Because of the native support for backtick-style fenced code blocks 
-     right within the Markdown is landed in Github Pages, 
-     From V1.6, There is no need for Highlight.js, 
-     so Huxblog drops it officially.
-
-     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
-     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
--->
-<!--
-    <script>
-        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
-            hljs.initHighlightingOnLoad();
-        })
-    </script>
-    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
--->
-
-
-<!-- jquery.tagcloud.js -->
-<script>
-    // only load tagcloud.js in tag.html
-    if($('#tag_cloud').length !== 0){
-        async("https://qoosuperman.github.io/js/jquery.tagcloud.js",function(){
-            $.fn.tagcloud.defaults = {
-                //size: {start: 1, end: 1, unit: 'em'},
-                color: {start: '#bbbbee', end: '#0085a1'},
-            };
-            $('#tag_cloud a').tagcloud();
-        })
-    }
-</script>
-
-<!--fastClick.js -->
-<script>
-    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
-        var $nav = document.querySelector("nav");
-        if($nav) FastClick.attach($nav);
-    })
-</script>
-
-
-<!-- Google Analytics -->
-
-
-<script>
-    // dynamic User by Hux
-    var _gaId = 'UA-153986590-1';
-    var _gaDomain = 'yoursite';
-
-    // Originial
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', _gaId, _gaDomain);
-    ga('send', 'pageview');
-</script>
-
-
-
-
-<!-- Baidu Tongji -->
-
-<script>
-    // dynamic User by Hux
-    var _baId = 'xxx';
-
-    // Originial
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?" + _baId;
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-</script>
-
-
-
-
-
-
-	<a id="rocket" href="#top" class=""></a>
-	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
-    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
-<!-- Image to hack wechat -->
-<img src="https://qoosuperman.github.io/img/icon_wechat.png" alt="prevent_hack" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
-
-</body>
-
-</html>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="js"><code><span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> msg</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> SpeechSynthesisUtterance</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#F97583">let</span><span style="color:#E1E4E8"> voices </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> [];</span></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> voicesDropdown</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> document.</span><span style="color:#B392F0">querySelector</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'[name="voice"]'</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> options</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> document.</span><span style="color:#B392F0">querySelectorAll</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'[type="range"], [name="text"]'</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> speakButton</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> document.</span><span style="color:#B392F0">querySelector</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'#speak'</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> stopButton</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> document.</span><span style="color:#B392F0">querySelector</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'#stop'</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">msg.text </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> document.</span><span style="color:#B392F0">querySelector</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'[name="text"]'</span><span style="color:#E1E4E8">).value</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> populateVoices</span><span style="color:#E1E4E8">(){</span></span>
+<span class="line"><span style="color:#E1E4E8">  voices </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> this</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">getVoices</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#F97583">  const</span><span style="color:#79B8FF"> voiceOptions</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> voices</span></span>
+<span class="line"><span style="color:#E1E4E8">    .</span><span style="color:#B392F0">map</span><span style="color:#E1E4E8">( </span><span style="color:#FFAB70">voice</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> { </span><span style="color:#F97583">return</span><span style="color:#9ECBFF"> `&#x3C;option value="${</span><span style="color:#E1E4E8">voice</span><span style="color:#9ECBFF">.</span><span style="color:#E1E4E8">name</span><span style="color:#9ECBFF">}">${</span><span style="color:#E1E4E8">voice</span><span style="color:#9ECBFF">.</span><span style="color:#E1E4E8">name</span><span style="color:#9ECBFF">}(${</span><span style="color:#E1E4E8">voice</span><span style="color:#9ECBFF">.</span><span style="color:#E1E4E8">lang</span><span style="color:#9ECBFF">})&#x3C;/option>`</span><span style="color:#E1E4E8">})</span></span>
+<span class="line"><span style="color:#E1E4E8">    .</span><span style="color:#B392F0">join</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">''</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">  voicesDropdown.innerHTML </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> voiceOptions</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> setVoice</span><span style="color:#E1E4E8">(){</span></span>
+<span class="line"><span style="color:#E1E4E8">  msg.voice </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> voices.</span><span style="color:#B392F0">find</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">voice</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> voice.name </span><span style="color:#F97583">===</span><span style="color:#79B8FF"> this</span><span style="color:#E1E4E8">.value)</span></span>
+<span class="line"><span style="color:#B392F0">  toggle</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> toggle</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">startOver</span><span style="color:#F97583"> =</span><span style="color:#79B8FF"> true</span><span style="color:#E1E4E8">){</span></span>
+<span class="line"><span style="color:#E1E4E8">  speechSynthesis.</span><span style="color:#B392F0">cancel</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#F97583">  if</span><span style="color:#E1E4E8"> (startOver){</span></span>
+<span class="line"><span style="color:#E1E4E8">    speechSynthesis.</span><span style="color:#B392F0">speak</span><span style="color:#E1E4E8">(msg)</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> setOption</span><span style="color:#E1E4E8">(){</span></span>
+<span class="line"><span style="color:#E1E4E8">  msg[</span><span style="color:#79B8FF">this</span><span style="color:#E1E4E8">.name] </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> this</span><span style="color:#E1E4E8">.value;</span></span>
+<span class="line"><span style="color:#B392F0">  toggle</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">speechSynthesis.</span><span style="color:#B392F0">addEventListener</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'voiceschanged'</span><span style="color:#E1E4E8">, populateVoices)</span></span>
+<span class="line"><span style="color:#E1E4E8">voicesDropdown.</span><span style="color:#B392F0">addEventListener</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'change'</span><span style="color:#E1E4E8">, setVoice)</span></span>
+<span class="line"><span style="color:#E1E4E8">options.</span><span style="color:#B392F0">forEach</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">option</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">  option.</span><span style="color:#B392F0">addEventListener</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'change'</span><span style="color:#E1E4E8">, setOption)</span></span>
+<span class="line"><span style="color:#E1E4E8">})</span></span>
+<span class="line"><span style="color:#E1E4E8">speakButton.</span><span style="color:#B392F0">addEventListener</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'click'</span><span style="color:#E1E4E8">, toggle.</span><span style="color:#B392F0">bind</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">null</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">false</span><span style="color:#E1E4E8">))</span></span>
+<span class="line"><span style="color:#E1E4E8">stopButton.</span><span style="color:#B392F0">addEventListener</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'click'</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">toggle</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">false</span><span style="color:#E1E4E8">))</span></span></code></pre>  </div> </article> <aside class="hidden lg:block"> <nav class="sticky top-10 max-h-[calc(100vh-5rem)] overflow-y-auto" aria-label="Contents"> <h2 class="text-sm font-semibold uppercase tracking-widest text-neutral-400">
+Contents
+</h2> <ul class="mt-4 space-y-2 text-sm"> <li class> <a href="#js30-day23---speech-synthesis" class="block leading-snug text-neutral-600 hover:text-neutral-900"> <span class="text-neutral-400">1. </span> JS30 day23 - Speech Synthesis </a> </li><li class="pl-4"> <a href="#作業內容" class="block leading-snug text-neutral-600 hover:text-neutral-900">  作業內容 </a> </li><li class="pl-4"> <a href="#學到什麼" class="block leading-snug text-neutral-600 hover:text-neutral-900">  學到什麼 </a> </li><li class="pl-4"> <a href="#code-內容" class="block leading-snug text-neutral-600 hover:text-neutral-900">  code 內容： </a> </li> </ul> </nav> </aside> </div>  </main> <footer class="border-t border-neutral-200 mt-20"> <div class="mx-auto max-w-3xl px-6 py-8 text-sm text-neutral-500">
+© 2026 Anthony Chao
+</div> </footer> </body></html>
