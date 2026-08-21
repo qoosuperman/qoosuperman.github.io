@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { excerpt } from '../lib/excerpt';
 
 const posts = (await getCollection('posts')).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime(),
@@ -10,16 +11,19 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
 ---
 
 <BaseLayout>
-  <h1 class="text-2xl font-bold mb-8">Posts</h1>
-  <ul class="space-y-6">
+  <h1 class="mb-10 text-sm font-semibold uppercase tracking-widest text-neutral-400">Posts</h1>
+  <ul class="space-y-12">
     {posts.map((post) => (
       <li>
         <a href={`/article/${post.id}/`} class="block group">
-          <h2 class="text-lg font-medium group-hover:underline">{post.data.title}</h2>
+          <h2 class="text-2xl font-bold group-hover:underline">{post.data.title}</h2>
           {post.data.subtitle && (
-            <p class="text-neutral-600 text-sm mt-1">{post.data.subtitle}</p>
+            <p class="mt-2 text-neutral-600">{post.data.subtitle}</p>
           )}
-          <div class="text-xs text-neutral-500 mt-1">
+          <p class="mt-3 leading-loose text-neutral-600">
+            {excerpt(post.body, 80)}
+          </p>
+          <div class="mt-3 text-sm text-neutral-500">
             <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
             {post.data.tags && post.data.tags.length > 0 && (
               <span class="ml-3">{post.data.tags.map((t) => `#${t}`).join(' ')}</span>
