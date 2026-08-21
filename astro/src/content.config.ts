@@ -4,7 +4,11 @@ import { glob } from 'astro/loaders';
 const posts = defineCollection({
   loader: glob({
     pattern: '*.md',
+    // read Hexo's post folder in place, so `hexo generate` keeps working
+    // during the transition and no post has to be moved or duplicated
     base: '../source/_posts',
+    // slug = filename minus .md, which is what Hexo used — keeps the
+    // existing /article/<slug>/ URLs alive
     generateId: ({ entry }) => entry.replace(/\.md$/, ''),
   }),
   schema: z
