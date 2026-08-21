@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
 
 const posts = (await getCollection('posts')).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime(),
@@ -21,8 +22,7 @@ const monthDay = (d: Date) =>
 ---
 
 <BaseLayout title="Archive" description="All posts by year">
-  <h1 class="text-2xl font-bold">Archive</h1>
-  <p class="mt-2 text-sm text-neutral-500">{posts.length} 篇文章</p>
+  <PageHeader title="Archive" meta={`${posts.length} 篇文章`} />
 
   {[...byYear].map(([year, yearPosts]) => (
     <section class="mt-12">

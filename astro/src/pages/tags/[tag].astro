@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
@@ -24,7 +25,7 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
 ---
 
 <BaseLayout title={`#${tag}`} description={`Posts tagged with ${tag}`}>
-  <h1 class="text-2xl font-bold mb-8">#{tag}</h1>
+  <PageHeader title={`#${tag}`} meta={`${posts.length} 篇文章`} />
   <ul class="space-y-6">
     {posts.map((post) => (
       <li>

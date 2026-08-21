@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
 
 const posts = await getCollection('posts');
 
@@ -16,8 +17,7 @@ const tags = [...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
 ---
 
 <BaseLayout title="Tags" description="All tags">
-  <h1 class="text-2xl font-bold">Tags</h1>
-  <p class="mt-2 text-sm text-neutral-500">{tags.length} 個標籤</p>
+  <PageHeader title="Tags" meta={`${tags.length} 個標籤`} />
 
   <ul class="mt-10 flex flex-wrap gap-3">
     {tags.map(([tag, count]) => (
