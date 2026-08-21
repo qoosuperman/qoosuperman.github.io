@@ -1,4 +1,5 @@
 ---
+import type { MarkdownHeading } from 'astro';
 import BaseLayout from './BaseLayout.astro';
 
 interface Props {
@@ -10,43 +11,97 @@ interface Props {
   tags?: string[];
   headerImg?: string;
   ogImage?: string;
+  headings?: MarkdownHeading[];
 }
 
-const { title, subtitle, date, updateDate, description, tags, headerImg, ogImage } = Astro.props;
+const {
+  title,
+  subtitle,
+  date,
+  updateDate,
+  description,
+  tags,
+  headerImg,
+  ogImage,
+  headings = [],
+} = Astro.props;
 
 const fmt = (d: Date) =>
   d.toISOString().slice(0, 10);
+
+// Posts are inconsistent about where their sections start — some use `#`,
+// most use `##` — so treat the shallowest level present as the top of the
+// outline and indent anything one step below it.
+const outline = headings.filter((h) => h.depth <= 3 && h.text.trim() !== '');
+const topDepth = outline.length ? Math.min(...outline.map((h) => h.depth)) : 0;
+let counter = 0;
+const toc = outline
+  .filter((h) => h.depth <= topDepth + 1)
+  .map((h) => ({ ...h, number: h.depth === topDepth ? ++counter : null }));
 ---
 
-<BaseLayout title={title} description={description ?? subtitle} ogImage={ogImage ?? headerImg}>
-  <article>
-    {headerImg && (
-      <img
-        src={headerImg}
-        alt=""
-        class="w-full h-64 object-cover rounded-lg mb-8"
-        loading="eager"
-      />
-    )}
-    <header class="mb-8">
-      <h1 class="text-3xl font-bold leading-tight">{title}</h1>
-      {subtitle && <p class="mt-2 text-neutral-600">{subtitle}</p>}
-      <div class="mt-3 text-sm text-neutral-500 flex flex-wrap gap-x-4 gap-y-1">
-        <time datetime={date.toISOString()}>{fmt(date)}</time>
-        {updateDate && updateDate.getTime() !== date.getTime() && (
-          <span>updated {fmt(updateDate)}</span>
-        )}
-        {tags && tags.length > 0 && (
-          <span class="flex flex-wrap gap-2">
-            {tags.map((t) => (
-              <a href={`/tags/${t}/`} class="hover:text-neutral-900">#{t}</a>
-            ))}
-          </span>
-        )}
+<BaseLayout
+  title={title}
+  description={description ?? subtitle}
+  ogImage={ogImage ?? headerImg}
+  wide={toc.length > 0}
+>
+  <!-- the middle track matches the 45rem text column every other page uses, so
+       the article lines up with the header while the TOC sits in the gutter -->
+  <div class={toc.length > 0 ? 'lg:grid lg:grid-cols-[1fr_minmax(0,45rem)_1fr] lg:gap-8' : ''}>
+    {toc.length > 0 && <div class="hidden lg:block"></div>}
+    <article class="mx-auto min-w-0 max-w-3xl lg:max-w-none">
+      {headerImg && (
+        <img
+          src={headerImg}
+          alt=""
+          class="w-full h-64 object-cover rounded-lg mb-8"
+          loading="eager"
+        />
+      )}
+      <header class="mb-8">
+        <h1 class="text-3xl font-bold leading-tight">{title}</h1>
+        {subtitle && <p class="mt-2 text-neutral-600">{subtitle}</p>}
+        <div class="mt-3 text-sm text-neutral-500 flex flex-wrap gap-x-4 gap-y-1">
+          <time datetime={date.toISOString()}>{fmt(date)}</time>
+          {updateDate && updateDate.getTime() !== date.getTime() && (
+            <span>updated {fmt(updateDate)}</span>
+          )}
+          {tags && tags.length > 0 && (
+            <span class="flex flex-wrap gap-2">
+              {tags.map((t) => (
+                <a href={`/tags/${t}/`} class="hover:text-neutral-900">#{t}</a>
+              ))}
+            </span>
+          )}
+        </div>
+      </header>
+      <div class="prose prose-neutral max-w-none">
+        <slot />
       </div>
-    </header>
-    <div class="prose prose-neutral max-w-none">
-      <slot />
-    </div>
-  </article>
+    </article>
+
+    {toc.length > 0 && (
+      <aside class="hidden lg:block">
+        <nav class="sticky top-10 max-h-[calc(100vh-5rem)] overflow-y-auto" aria-label="Contents">
+          <h2 class="text-sm font-semibold uppercase tracking-widest text-neutral-400">
+            Contents
+          </h2>
+          <ul class="mt-4 space-y-2 text-sm">
+            {toc.map((h) => (
+              <li class={h.number ? '' : 'pl-4'}>
+                <a
+                  href={`#${h.slug}`}
+                  class="block leading-snug text-neutral-600 hover:text-neutral-900"
+                >
+                  {h.number && <span class="text-neutral-400">{h.number}. </span>}
+                  {h.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </aside>
+    )}
+  </div>
 </BaseLayout>

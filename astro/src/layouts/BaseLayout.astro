@@ -5,13 +5,21 @@ interface Props {
   title?: string;
   description?: string;
   ogImage?: string;
+  /** let the page manage its own content width (article pages place a TOC beside the text) */
+  wide?: boolean;
 }
 
 const {
   title = 'Anthony Chao',
   description = "Anthony's Blog, about Ruby / Rails / Devops",
   ogImage,
+  wide = false,
 } = Astro.props;
+
+// header and footer keep one width on every page so they never shift between
+// routes; only <main> widens, and even then the text column stays put
+const shell = 'mx-auto max-w-3xl px-6';
+const main = wide ? 'mx-auto max-w-7xl px-6' : shell;
 
 const fullTitle = title === 'Anthony Chao' ? title : `${title} | Anthony Chao`;
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
@@ -36,7 +44,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
   </head>
   <body class="bg-white text-neutral-900 antialiased">
     <header class="border-b border-neutral-200">
-      <div class="mx-auto max-w-3xl px-6 py-6 flex items-center justify-between">
+      <div class={`${shell} py-6 flex items-center justify-between`}>
         <a href="/" class="font-semibold text-lg">Anthony Chao</a>
         <nav class="flex gap-6 text-sm text-neutral-600">
           <a href="/" class="hover:text-neutral-900">Home</a>
@@ -46,11 +54,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
         </nav>
       </div>
     </header>
-    <main class="mx-auto max-w-3xl px-6 py-10">
+    <main class={`${main} py-10`}>
       <slot />
     </main>
     <footer class="border-t border-neutral-200 mt-20">
-      <div class="mx-auto max-w-3xl px-6 py-8 text-sm text-neutral-500">
+      <div class={`${shell} py-8 text-sm text-neutral-500`}>
         © {new Date().getFullYear()} Anthony Chao
       </div>
     </footer>
