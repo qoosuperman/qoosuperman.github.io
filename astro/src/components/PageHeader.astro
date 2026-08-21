@@ -1,0 +1,23 @@
+---
+/** One heading treatment for every listing page, so section titles read the
+ *  same wherever you land. Article pages keep their own header.
+ *
+ *  `hidden` drops the header from view but keeps the <h1> in the document —
+ *  screen readers and search engines still get a page title. */
+interface Props {
+  title: string;
+  meta?: string;
+  hidden?: boolean;
+}
+
+const { title, meta, hidden = false } = Astro.props;
+---
+
+{hidden ? (
+  <h1 class="sr-only">{title}</h1>
+) : (
+  <header class="mb-10">
+    <h1 class="text-3xl font-bold">{title}</h1>
+    {meta && <p class="mt-2 text-sm text-neutral-500">{meta}</p>}
+  </header>
+)}

@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+---
+
+<BaseLayout title="About" description="About Anthony Chao">
+  <PageHeader title="About me" />
+  <article class="prose prose-neutral max-w-none">
+    <p>
+      <img src="https://i.imgur.com/XK2P4Zc.png" alt="avatar" class="w-32 h-32 rounded-full" />
+    </p>
+    <p>
+      大家好，我的名字叫做趙志偉，你也可以叫我安東尼，目前正在努力朝成為網頁設計工程師的方向前進！
+    </p>
+    <p>
+      興趣是彈吉他，下廚，旅遊，打電動，調酒等等，歡迎有共同喜好的人來當個朋友！
+    </p>
+    <h2>經歷</h2>
+    <ul>
+      <li>Bachelor of Science in Chemical Engineering, 2009 - 2013</li>
+      <li>Master of Science in Chemical Engineering, 2013 - 2015</li>
+      <li>Process Engineer of Taiwan Semiconductor Manufacture Company, 2015 - 2019</li>
+    </ul>
+  </article>
+</BaseLayout>

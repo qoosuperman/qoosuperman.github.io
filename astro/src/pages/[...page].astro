@@ -1,0 +1,72 @@
+---
+import type { GetStaticPaths, Page } from 'astro';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { excerpt } from '../lib/excerpt';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = (await getCollection('posts')).sort(
+    (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+  );
+
+  // paginate() numbers the pages as `undefined, 2, 3, ...`; prefixing the
+  // number reproduces Hexo's `/` + `/page/2/` shape so old links keep working
+  return paginate(posts, { pageSize: 10 }).map((route) => ({
+    ...route,
+    params: { page: route.params.page ? `page/${route.params.page}` : undefined },
+  }));
+}) satisfies GetStaticPaths;
+
+type Post = Awaited<ReturnType<typeof getCollection<'posts'>>>[number];
+const { page } = Astro.props as { page: Page<Post> };
+
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+const href = (n: number) => (n === 1 ? '/' : `/page/${n}/`);
+---
+
+<BaseLayout>
+  <PageHeader title="Posts" hidden />
+  <ul class="space-y-12">
+    {page.data.map((post) => (
+      <li>
+        <a href={`/article/${post.id}/`} class="block group">
+          <h2 class="text-2xl font-bold group-hover:underline">{post.data.title}</h2>
+          {post.data.subtitle && (
+            <p class="mt-2 text-neutral-600">{post.data.subtitle}</p>
+          )}
+          <p class="mt-3 leading-loose text-neutral-600">
+            {excerpt(post.body, 80)}
+          </p>
+          <div class="mt-3 text-sm text-neutral-500">
+            <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+            {post.data.tags && post.data.tags.length > 0 && (
+              <span class="ml-3">{post.data.tags.map((t) => `#${t}`).join(' ')}</span>
+            )}
+          </div>
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <nav
+    class="mt-16 flex items-center justify-between border-t border-neutral-200 pt-6 text-sm"
+    aria-label="Pagination"
+  >
+    {page.url.prev ? (
+      <a href={href(page.currentPage - 1)} class="text-neutral-600 hover:text-neutral-900">
+        ← 上一頁
+      </a>
+    ) : (
+      <span />
+    )}
+    <span class="text-neutral-400">{page.currentPage} / {page.lastPage}</span>
+    {page.url.next ? (
+      <a href={href(page.currentPage + 1)} class="text-neutral-600 hover:text-neutral-900">
+        下一頁 →
+      </a>
+    ) : (
+      <span />
+    )}
+  </nav>
+</BaseLayout>

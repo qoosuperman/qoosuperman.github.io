@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  const tags = new Set<string>();
+  for (const post of posts) {
+    for (const t of post.data.tags ?? []) tags.add(t);
+  }
+  return [...tags].map((tag) => ({
+    params: { tag },
+    props: {
+      tag,
+      posts: posts
+        .filter((p) => p.data.tags?.includes(tag))
+        .sort((a, b) => b.data.date.getTime() - a.data.date.getTime()),
+    },
+  }));
+}
+
+const { tag, posts } = Astro.props;
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+---
+
+<BaseLayout title={`#${tag}`} description={`Posts tagged with ${tag}`}>
+  <PageHeader title={`#${tag}`} meta={`${posts.length} 篇文章`} />
+  <ul class="space-y-6">
+    {posts.map((post) => (
+      <li>
+        <a href={`/article/${post.id}/`} class="block group">
+          <h2 class="text-lg font-medium group-hover:underline">{post.data.title}</h2>
+          <div class="text-xs text-neutral-500 mt-1">
+            <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+          </div>
+        </a>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

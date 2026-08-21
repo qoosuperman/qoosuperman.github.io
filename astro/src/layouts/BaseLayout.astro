@@ -1,0 +1,67 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  /** let the page manage its own content width (article pages place a TOC beside the text) */
+  wide?: boolean;
+}
+
+const {
+  title = 'Anthony Chao',
+  description = "Anthony's Blog, about Ruby / Rails / Devops",
+  ogImage,
+  wide = false,
+} = Astro.props;
+
+// header and footer keep one width on every page so they never shift between
+// routes; only <main> widens, and even then the text column stays put
+const shell = 'mx-auto max-w-3xl px-6';
+const main = wide ? 'mx-auto max-w-7xl px-6' : shell;
+
+const fullTitle = title === 'Anthony Chao' ? title : `${title} | Anthony Chao`;
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+---
+
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <link rel="alternate" type="application/rss+xml" title="Anthony Chao" href="/rss.xml" />
+  </head>
+  <body class="bg-white text-neutral-900 antialiased">
+    <header class="border-b border-neutral-200">
+      <div class={`${shell} py-6 flex items-center justify-between`}>
+        <a href="/" class="font-semibold text-lg">Anthony Chao</a>
+        <nav class="flex gap-6 text-sm text-neutral-600">
+          <a href="/" class="hover:text-neutral-900">Home</a>
+          <a href="/about" class="hover:text-neutral-900">About</a>
+          <a href="/tags" class="hover:text-neutral-900">Tags</a>
+          <a href="/archive" class="hover:text-neutral-900">Archive</a>
+          <a href="/rss.xml" class="hover:text-neutral-900">RSS</a>
+        </nav>
+      </div>
+    </header>
+    <main class={`${main} py-10`}>
+      <slot />
+    </main>
+    <footer class="border-t border-neutral-200 mt-20">
+      <div class={`${shell} py-8 text-sm text-neutral-500`}>
+        © {new Date().getFullYear()} Anthony Chao
+      </div>
+    </footer>
+  </body>
+</html>

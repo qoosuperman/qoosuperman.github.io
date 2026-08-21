@@ -1,0 +1,36 @@
+name: Astro Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: astro/package-lock.json
+
+      - name: Install dependencies
+        working-directory: astro
+        run: npm ci
+
+      - name: Build
+        working-directory: astro
+        run: npm run build
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.HEXO_DEPLOY_KEY }}
+          publish_branch: gh-pages
+          publish_dir: ./astro/dist
+          user_name: 'Anthony Chao'
+          user_email: 'qoosuperman@gmail.com'
