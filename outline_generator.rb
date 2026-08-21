@@ -1,6 +1,6 @@
 #!ruby
 
-# usage: ./outline_generator.rb source/_posts/2021-08-25-Ssh_tunnel.md
+# usage: ./outline_generator.rb astro/src/content/posts/2021-08-25-Ssh_tunnel.md
 
 require 'cgi'
 

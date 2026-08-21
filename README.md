@@ -1,127 +1,80 @@
-> Ported Theme of [Hux Blog](https://github.com/Huxpro/huxpro.github.io), Thank [Huxpro](https://github.com/Huxpro) for designing such a flawless theme.
->
-> This HuWeihuang theme created by [HuWeihuang](http://www.huweihuang.com/) modified from the original Porter [YuHsuan](https://github.com/YenYuHsuan/hexo-theme-beantech).
-> 
-> This theme has been published to the [hexo theme list](https://hexo.io/themes/).
+# qoosuperman.github.io
 
-# Live Demo
+Anthony Chao 的部落格，用 [Astro](https://astro.build/) 建置，部署在 GitHub Pages。
 
-Hu Weihuang Blog : [www.huweihuang.com](http://www.huweihuang.com/)
+線上位址：<https://qoosuperman.github.io/>
 
-![Theme_HuWeihuang](https://res.cloudinary.com/dqxtn0ick/image/upload/v1553666111/blog/blog.jpg)
+## 開發
 
-# Copyright Notice
-
-**You can free to use this theme, but you need to keep the following copyright notice on the website.**
-
-<img src="https://res.cloudinary.com/dqxtn0ick/image/upload/v1537879475/header/copyright.png" width="55%">
-
-# Install Hexo
-
-Install Node.js  and Git
-
-```shell
-#For Mac
-brew install node
-brew install git
-```
-
-Install hexo
-
-```shell
-npm install hexo-cli -g
-
-#For more:https://hexo.io/zh-cn/index.html
-```
-
-# Theme Usage
-
-## Init
+需要 Node.js 22.12 以上。
 
 ```bash
-git clone https://github.com/huweihuang/hexo-theme-huweihuang.git ./hexo-huweihuang
-cd hexo-huweihuang
+cd astro
 npm install
+npm run dev      # http://localhost:4321/
 ```
 
-## Modify
-Modify `_config.yml` file with your own info.
-Especially the section:
-### Deployment
-Replace to your own repo!
-```yml
-deploy:
-  type: git
-  repo: https://github.com/<yourAccount>/<repo>
-  branch: <your-branch>
+| 指令 | 說明 |
+|---|---|
+| `npm run dev` | 開發伺服器，改檔案會自動重載 |
+| `npm run build` | 產生靜態站台到 `astro/dist/` |
+| `npm run preview` | 預覽 build 後的結果 |
+
+## 寫文章
+
+在 `astro/src/content/posts/` 新增一個 `.md` 檔，檔名決定網址：
+
+```
+astro/src/content/posts/2026-01-13-超級嬰兒通 書摘.md
+  → /article/2026-01-13-超級嬰兒通 書摘/
 ```
 
-### Sidebar settings
-Copy your avatar image to `<root>/img/` and modify the `_config.yml`:
-```yml
-sidebar: true    # whether or not using Sidebar.
-sidebar-about-description: "<your description>"
-sidebar-avatar: img/<your avatar path>
-```
-and activate your personal widget you like
-```yml
-widgets:         # here are widget you can use, you can comment out
-- featured-tags
-- short-about
-- recent-posts
-- friends-blog
-- archive
-- category
-```
-if you want to add sidebar widget, please add at `layout/_widget`.
-### Signature Setup
-Copy your signature image to `<root>/img/signature` and modify the `_config.yml`:
-```yml
-signature: true   # show signature
-signature-img: img/signature/<your-signature-ID>
-```
-### Go to top icon Setup
-My icon is using iron man, you can change to your own icon at `css/image`.
+Front-matter：
 
-### Post tag
-You can decide to show post tags or not.
-```yml
-home_posts_tag: true
-```
- ![tag](https://raw.githubusercontent.com/huweihuang/hexo-theme-huweihuang/master/source/img/article/tag.png)
-### Markdown render
-My markdown render engine plugin is [hexo-renderer-markdown-it](https://github.com/celsomiranda/hexo-renderer-markdown-it).
-```yml
-# Markdown-it config
-## Docs: https://github.com/celsomiranda/hexo-renderer-markdown-it/wiki
-markdown:
-  render:
-    html: true
-    xhtmlOut: false
-    breaks: true
-    linkify: true
-    typographer: true
-    quotes: '“”‘’'
-```
-and if you want to change the header anchor 'ℬ', you can go to `layout/post.ejs` to change it.
-```javascript
-async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
-        anchors.options = {
-          visible: 'hover',
-          placement: 'left',
-          icon: ℬ // this is the header anchor "unicode" icon
-        };
+```yaml
+---
+title: "文章標題"          # 必填
+date: 2026-01-13 21:00:00  # 必填，決定排序
+subtitle: ""
+description: ""            # 用於 meta description
+tags:
+  - Rails
+header-img: "https://..."  # 文章頂部大圖
+updateDate: 2026-01-14 09:00:00
+---
 ```
 
-## Hexo Basics
-Some hexo command:
-```bash
-hexo new post "<post name>" # you can change post to another layout if you want
-hexo clean && hexo generate # generate the static file
-hexo server # run hexo in local environment
-hexo deploy # hexo will push the static files automatically into the specific branch(gh-pages) of your repo!
+除了 `title` 和 `date` 之外都是選填。完整的 schema 定義在 `astro/src/content.config.ts`。
+
+文章內的 `##` 標題會自動產生右側目錄。
+
+## 專案結構
+
+```
+astro/
+├── src/
+│   ├── components/PageHeader.astro   各列表頁共用的標題
+│   ├── content/posts/                文章
+│   ├── content.config.ts             collection 與 front-matter schema
+│   ├── layouts/                      BaseLayout（全站外框）、PostLayout（文章頁）
+│   ├── lib/excerpt.ts                首頁摘要：markdown 轉純文字
+│   ├── pages/                        路由
+│   └── styles/global.css
+└── public/                           原樣複製到站台根目錄的檔案
 ```
 
-# Have fun ^_^ 
-Please <a class="github-button" href="https://github.com/huweihuang/hexo-theme-huweihuang" data-icon="octicon-star" aria-label="Star huweihuang/hexo-theme-huweihuang on GitHub">Star</a> this Project if you like it! <a class="github-button" href="https://github.com/huweihuang" aria-label="Follow @huweihuang on GitHub">Follow</a> would also be appreciated!
-Peace!
+路由對應：
+
+| 檔案 | 網址 |
+|---|---|
+| `pages/[...page].astro` | `/`、`/page/2/` …（每頁 10 篇） |
+| `pages/article/[slug].astro` | `/article/<slug>/` |
+| `pages/tags/index.astro` | `/tags/` |
+| `pages/tags/[tag].astro` | `/tags/<tag>/` |
+| `pages/archive.astro` | `/archive/` |
+| `pages/about.astro` | `/about/` |
+| `pages/rss.xml.ts` | `/rss.xml` |
+
+## 部署
+
+推到 `master` 就會觸發 `.github/workflows/astro-deploy.yml`：build 之後把 `astro/dist/` 推到 `gh-pages` branch。也可以在 Actions 頁面手動觸發。
