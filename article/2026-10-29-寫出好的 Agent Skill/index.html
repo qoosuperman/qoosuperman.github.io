@@ -1,0 +1,34 @@
+<!DOCTYPE html><html lang="zh-TW"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.2.1"><link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><title>寫出好的 Agent Skill | Anthony Chao</title><meta name="description" content="整理 Matt Pocock 提出的 agent skill 四步檢查清單：Trigger、Structure、Steering、Pruning"><link rel="canonical" href="https://qoosuperman.github.io/article/2026-10-29-%E5%AF%AB%E5%87%BA%E5%A5%BD%E7%9A%84%20Agent%20Skill/"><meta property="og:title" content="寫出好的 Agent Skill | Anthony Chao"><meta property="og:description" content="整理 Matt Pocock 提出的 agent skill 四步檢查清單：Trigger、Structure、Steering、Pruning"><meta property="og:url" content="https://qoosuperman.github.io/article/2026-10-29-%E5%AF%AB%E5%87%BA%E5%A5%BD%E7%9A%84%20Agent%20Skill/"><link rel="alternate" type="application/rss+xml" title="Anthony Chao" href="/rss.xml"><link rel="stylesheet" href="/_astro/BaseLayout.Cl5ith9C.css"></head> <body class="bg-white text-neutral-900 antialiased"> <header class="border-b border-neutral-200"> <div class="mx-auto max-w-3xl px-6 py-6 flex items-center justify-between"> <a href="/" class="font-semibold text-lg">Anthony Chao</a> <nav class="flex gap-6 text-sm text-neutral-600"> <a href="/" class="hover:text-neutral-900">Home</a> <a href="/about" class="hover:text-neutral-900">About</a> <a href="/tags" class="hover:text-neutral-900">Tags</a> <a href="/archive" class="hover:text-neutral-900">Archive</a> <a href="/rss.xml" class="hover:text-neutral-900">RSS</a> </nav> </div> </header> <main class="mx-auto max-w-7xl px-6 py-10">   <div class="lg:grid lg:grid-cols-[1fr_minmax(0,45rem)_1fr] lg:gap-8"> <div class="hidden lg:block"></div> <article class="mx-auto min-w-0 max-w-3xl lg:max-w-none">  <header class="mb-8"> <h1 class="text-3xl font-bold leading-tight">寫出好的 Agent Skill</h1> <p class="mt-2 text-neutral-600">Matt Pocock〈Building Great Agent Skills〉演講筆記</p> <div class="mt-3 text-sm text-neutral-500 flex flex-wrap gap-x-4 gap-y-1"> <time datetime="2026-10-29T21:00:00.000Z">2026-10-29</time>  <span class="flex flex-wrap gap-2"> <a href="/tags/AI/" class="hover:text-neutral-900">#AI</a> </span> </div> </header> <div class="prose prose-neutral max-w-none">  <p>現在網路上到處都有 skill 可以下載，但很難分辨好壞，很多人乾脆一次全部裝上，最後卻沒得到 skill 宣稱的效果。Matt Pocock 在 AI Engineer 的演講 <a href="https://www.youtube.com/watch?v=UNzCG3lw6O0">Building Great Agent Skills: The Missing Manual</a> 中提出一份四步檢查清單，用來評估一個 skill 寫得好不好。以下是我的重點整理。</p>
+<h2 id="1-trigger決定由誰調用">1. Trigger：決定由誰調用</h2>
+<p>skill 有兩種調用方式：</p>
+<ul>
+<li><strong>Model-invoked</strong>：description 一直放在 context 裡，由 agent 自己決定要不要讀。代價是每個 description 每次請求都佔 token，而且 agent 不一定會在該用的時候調用。</li>
+<li><strong>User-invoked</strong>：設定 <code>disable-model-invocation: true</code>，只能由使用者手動呼叫。代價是使用者得自己記住有哪些 skill、什麼時候該用。</li>
+</ul>
+<p>兩者沒有絕對的好壞。Matt 偏好 user-invoked，因為這樣就不會遇到「該觸發卻沒觸發」的問題。</p>
+<h2 id="2-structure保持主檔精簡">2. Structure：保持主檔精簡</h2>
+<ul>
+<li>把 skill 拆成兩種部分：<strong>Steps</strong>（要走的流程）和 <strong>Reference</strong>（執行流程時需要的資料，例如範本、名詞定義）。</li>
+<li><code>SKILL.md</code> 越小越好，比較好維護，每次調用也比較省 token。</li>
+<li>如果某份 reference 只有其中一種使用情境會用到，就把它移到 skill 資料夾裡的獨立檔案，<code>SKILL.md</code> 只留一句指引，例如「需要建立 ADR 時，讀 <code>adr-template.md</code>」。</li>
+</ul>
+<h2 id="3-steering讓-agent-照你的意思做">3. Steering：讓 agent 照你的意思做</h2>
+<p><strong>Leading words</strong> 是他認為最重要的技巧：用一個能代表大量意義的詞，取代冗長的說明。</p>
+<p>例如 agent 習慣一層一層寫程式：先寫完整個資料庫，再寫完所有 API，最後才做前端（水平切片）。比較好的做法是先挑一個很小的功能，從資料庫、API 到前端一次打通，能動之後再擴充（垂直切片）。與其寫一大段說明，不如直接說「用 <strong>vertical slice</strong> 拆工作」，並在整個 skill 裡一致地使用這個詞。這是常見的開發術語，agent 本來就懂。如果 agent 的 reasoning 開始出現「我們先做一個 thin vertical slice」，就代表這個詞生效了。</p>
+<p>他的另一個技巧是<strong>隱藏後續步驟</strong>。比方說 Plan mode 常在「問釐清問題」這一步偷懶，因為 agent 知道最終目標是產出計畫，問兩三題就急著動手。他的解決方式是把它拆成兩個 skill：先用 <code>grill-with-docs</code> 專心問問題，問完再用 <code>to-spec</code> 產出規格。agent 看不到下一步，就會把目前這步做得更深入。</p>
+<h2 id="4-pruning最後刪減">4. Pruning：最後刪減</h2>
+<p>skill 變得很長，通常是因為下面三種問題：</p>
+<ul>
+<li><strong>重複</strong>：同一份範本或定義寫了好幾次。每項內容應該只出現在一個地方。</li>
+<li><strong>沉積（sediment）</strong>：多人一起編輯時，大家只加內容、不敢刪別人寫的。無關或過時的內容就直接刪掉。</li>
+<li><strong>無效指令（no-op）</strong>：看起來有用，其實不影響 agent 行為的內容。用 AI 幫忙寫 skill 時特別常見。可以做<strong>刪除測試</strong>：刪掉一段後，如果 agent 的行為沒有改變，那段就不需要。</li>
+</ul>
+<h2 id="小結">小結</h2>
+<p>Matt 的 skill repo 放在 <a href="https://github.com/mattpocock/skills">mattpocock/skills</a>，可以看看他用這些心法做出來的成果</p>
+<p>看完這個影片後，我還滿佩服他可以把寫 skill 文件這樣有點抽象的任務有條理的整理出一套架構</p>
+<p>除了受益良多外，我覺得有趣的是在軟體開發領域常常遇到同一種概念可以套用在不同情境上</p>
+<p>在以前我剛學寫程式的時候，我的 mentor 也跟我分享他認為 class / method 的實作應該越小越好，然後像積木一般把他們串接使用，這同事也是 Linux 指令的類似運作方式，這樣的方式竟然今日也可以套用在 skill 身上</p>  </div> </article> <aside class="hidden lg:block"> <nav class="sticky top-10 max-h-[calc(100vh-5rem)] overflow-y-auto" aria-label="Contents"> <h2 class="text-sm font-semibold uppercase tracking-widest text-neutral-400">
+Contents
+</h2> <ul class="mt-4 space-y-2 text-sm"> <li class> <a href="#1-trigger決定由誰調用" class="block leading-snug text-neutral-600 hover:text-neutral-900"> <span class="text-neutral-400">1. </span> 1. Trigger：決定由誰調用 </a> </li><li class> <a href="#2-structure保持主檔精簡" class="block leading-snug text-neutral-600 hover:text-neutral-900"> <span class="text-neutral-400">2. </span> 2. Structure：保持主檔精簡 </a> </li><li class> <a href="#3-steering讓-agent-照你的意思做" class="block leading-snug text-neutral-600 hover:text-neutral-900"> <span class="text-neutral-400">3. </span> 3. Steering：讓 agent 照你的意思做 </a> </li><li class> <a href="#4-pruning最後刪減" class="block leading-snug text-neutral-600 hover:text-neutral-900"> <span class="text-neutral-400">4. </span> 4. Pruning：最後刪減 </a> </li><li class> <a href="#小結" class="block leading-snug text-neutral-600 hover:text-neutral-900"> <span class="text-neutral-400">5. </span> 小結 </a> </li> </ul> </nav> </aside> </div>  </main> <footer class="border-t border-neutral-200 mt-20"> <div class="mx-auto max-w-3xl px-6 py-8 text-sm text-neutral-500">
+© 2026 Anthony Chao
+</div> </footer> </body></html>
